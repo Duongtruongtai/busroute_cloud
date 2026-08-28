@@ -153,15 +153,15 @@ File `secrets.toml` **không** được commit lên Git (đã có trong `.gitign
 
 ## 7. Deploy lên Cloud Hosting (Streamlit Community Cloud)
 
-### Bước 1 — Đẩy code lên GitHub
+### Bước 1 — Code đã có trên GitHub
+
+Repo: **https://github.com/Duongtruongtai/busroute_cloud** (branch `master`).
+Mỗi khi sửa code, đẩy bản mới bằng:
 
 ```bash
-git init
 git add .
-git commit -m "Smart City Bus Assistant - initial version"
-git branch -M main
-git remote add origin https://github.com/<username>/busroute-cloud.git
-git push -u origin main
+git commit -m "Mo ta thay doi"
+git push
 ```
 
 > Kiểm tra kỹ `.gitignore` đã loại `secrets.toml` trước khi push — **không** để lộ API key thật.
@@ -169,7 +169,7 @@ git push -u origin main
 ### Bước 2 — Deploy
 
 1. Vào https://share.streamlit.io → **Sign in with GitHub** → **New app**.
-2. Chọn repo vừa push, branch `main`, **Main file path** = `frontend/app.py`.
+2. Chọn repo `busroute_cloud`, branch `master`, **Main file path** = `frontend/app.py`.
 3. Mở **Advanced settings → Secrets**, dán nội dung giống `.streamlit/secrets.toml`:
    ```toml
    SUPABASE_URL = "https://xxxxx.supabase.co"
