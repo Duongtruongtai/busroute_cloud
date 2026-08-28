@@ -1,0 +1,11 @@
+route_id,route_short_name,route_long_name,fare_regular,fare_student,headway_min,first_departure,last_departure
+R01,01,Ben Thanh - Ben xe Cho Lon,6000,3000,10,05:00,20:30
+R08,08,Ben xe Quan 8 - Dai hoc Quoc Gia,6000,3000,15,05:00,20:00
+R10,10,Dai hoc Quoc Gia - Ben xe Cho Lon,6000,3000,15,05:00,20:00
+R19,19,Ben Thanh - Dai hoc Quoc Gia (qua Suoi Tien),7000,3000,12,05:00,21:00
+R30,30,Ben xe Cho Lon - San bay Tan Son Nhat,6000,3000,15,05:30,20:00
+R152,152,San bay Tan Son Nhat - Ben Thanh,6000,3000,10,05:00,21:30
+R88,88,Ben Thanh - Phu My Hung,6000,3000,15,05:30,20:00
+R93,93,Ben xe Mien Dong moi - Ben xe Mien Tay,7000,3000,15,04:30,20:30
+R45,45,Ben Thanh - Dai hoc Su Pham,6000,3000,15,05:00,19:30
+R36,36,Ben xe Mien Tay - Ben Thanh,6000,3000,12,05:00,20:00

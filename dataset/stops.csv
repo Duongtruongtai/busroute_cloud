@@ -1,0 +1,61 @@
+stop_id,stop_name,lat,lon,is_hub
+BEN_THANH,Cho Ben Thanh,10.7724,106.698,1
+R01_S2,Tran Hung Dao - Tram 1 (tuyen 01),10.766625,106.6863,0
+R01_S3,Tran Hung Dao - Tram 2 (tuyen 01),10.76085,106.6746,0
+R01_S4,Tran Hung Dao - Tram 3 (tuyen 01),10.755075,106.6629,0
+CHO_LON,Ben xe Cho Lon,10.7493,106.6512,1
+Q8,Ben xe Quan 8,10.7385,106.665,1
+R08_S2,Nguyen Thi Thap - Xa lo Ha Noi - Tram 1 (tuyen 08),10.746975,106.67325,0
+R08_S3,Nguyen Thi Thap - Xa lo Ha Noi - Tram 2 (tuyen 08),10.75545,106.6815,0
+R08_S4,Nguyen Thi Thap - Xa lo Ha Noi - Tram 3 (tuyen 08),10.763925,106.68975,0
+R08_S6,Nguyen Thi Thap - Xa lo Ha Noi - Tram 1 (tuyen 08),10.7968,106.72425,0
+R08_S7,Nguyen Thi Thap - Xa lo Ha Noi - Tram 2 (tuyen 08),10.8212,106.7505,0
+R08_S8,Nguyen Thi Thap - Xa lo Ha Noi - Tram 3 (tuyen 08),10.8456,106.77675,0
+DHQG,Dai hoc Quoc Gia TP.HCM,10.87,106.803,1
+R10_S2,Ly Thuong Kiet - Tram 1 (tuyen 10),10.845625,106.766675,0
+R10_S3,Ly Thuong Kiet - Tram 2 (tuyen 10),10.82125,106.73035,0
+R10_S4,Ly Thuong Kiet - Tram 3 (tuyen 10),10.796875,106.694025,0
+BACH_KHOA,Dai hoc Bach Khoa,10.7725,106.6577,1
+R10_S6,Ly Thuong Kiet - Tram 1 (tuyen 10),10.7667,106.656075,0
+R10_S7,Ly Thuong Kiet - Tram 2 (tuyen 10),10.7609,106.65445,0
+R10_S8,Ly Thuong Kiet - Tram 3 (tuyen 10),10.7551,106.652825,0
+R19_S2,Xa lo Ha Noi - Tram 1 (tuyen 19),10.79038,106.71884,0
+R19_S3,Xa lo Ha Noi - Tram 2 (tuyen 19),10.80836,106.73968,0
+R19_S4,Xa lo Ha Noi - Tram 3 (tuyen 19),10.82634,106.76052,0
+R19_S5,Xa lo Ha Noi - Tram 4 (tuyen 19),10.84432,106.78136,0
+SUOI_TIEN,Khu du lich Suoi Tien,10.8623,106.8022,1
+R19_S7,Xa lo Ha Noi - Tram 1 (tuyen 19),10.86384,106.80236,0
+R19_S8,Xa lo Ha Noi - Tram 2 (tuyen 19),10.86538,106.80252,0
+R19_S9,Xa lo Ha Noi - Tram 3 (tuyen 19),10.86692,106.80268,0
+R19_S10,Xa lo Ha Noi - Tram 4 (tuyen 19),10.86846,106.80284,0
+R30_S2,Ly Thuong Kiet - Truong Chinh - Tram 1 (tuyen 30),10.7667,106.6514,0
+R30_S3,Ly Thuong Kiet - Truong Chinh - Tram 2 (tuyen 30),10.7841,106.6516,0
+R30_S4,Ly Thuong Kiet - Truong Chinh - Tram 3 (tuyen 30),10.8015,106.6518,0
+TSN,San bay Tan Son Nhat,10.8189,106.652,1
+R152_S2,Truong Son - Nguyen Van Troi - Tram 1 (tuyen 152),10.807275,106.6635,0
+R152_S3,Truong Son - Nguyen Van Troi - Tram 2 (tuyen 152),10.79565,106.675,0
+R152_S4,Truong Son - Nguyen Van Troi - Tram 3 (tuyen 152),10.784025,106.6865,0
+R88_S2,Nguyen Huu Tho - Tram 1 (tuyen 88),10.761575,106.703075,0
+R88_S3,Nguyen Huu Tho - Tram 2 (tuyen 88),10.75075,106.70815,0
+R88_S4,Nguyen Huu Tho - Tram 3 (tuyen 88),10.739925,106.713225,0
+PMH,Khu do thi Phu My Hung,10.7291,106.7183,1
+MIEN_DONG,Ben xe Mien Dong moi,10.8657,106.7735,1
+R93_S2,Dien Bien Phu - Tram 1 (tuyen 93),10.84704,106.7584,0
+R93_S3,Dien Bien Phu - Tram 2 (tuyen 93),10.82838,106.7433,0
+R93_S4,Dien Bien Phu - Tram 3 (tuyen 93),10.80972,106.7282,0
+R93_S5,Dien Bien Phu - Tram 4 (tuyen 93),10.79106,106.7131,0
+R93_S7,Dien Bien Phu - Tram 1 (tuyen 93),10.76588,106.682,0
+R93_S8,Dien Bien Phu - Tram 2 (tuyen 93),10.75936,106.666,0
+R93_S9,Dien Bien Phu - Tram 3 (tuyen 93),10.75284,106.65,0
+R93_S10,Dien Bien Phu - Tram 4 (tuyen 93),10.74632,106.634,0
+MIEN_TAY,Ben xe Mien Tay,10.7398,106.618,1
+R45_S2,Cach Mang Thang 8 - Tram 1 (tuyen 45),10.768233,106.692733,0
+R45_S3,Cach Mang Thang 8 - Tram 2 (tuyen 45),10.764067,106.687467,0
+SU_PHAM,Dai hoc Su Pham TP.HCM,10.7599,106.6822,1
+R36_S2,Hung Vuong - Tram 1 (tuyen 36),10.7471,106.6367,0
+R36_S3,Hung Vuong - Tram 2 (tuyen 36),10.7544,106.6554,0
+R36_S4,Hung Vuong - Tram 3 (tuyen 36),10.7617,106.6741,0
+CV_23_9,Cong vien 23/9,10.769,106.6928,1
+R36_S6,Hung Vuong - Tram 1 (tuyen 36),10.76985,106.6941,0
+R36_S7,Hung Vuong - Tram 2 (tuyen 36),10.7707,106.6954,0
+R36_S8,Hung Vuong - Tram 3 (tuyen 36),10.77155,106.6967,0
