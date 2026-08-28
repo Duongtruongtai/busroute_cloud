@@ -19,6 +19,14 @@ Nhóm test case chia làm 2 loại:
 | TC11 | Fallback khi chưa cấu hình Cloud | Chạy ứng dụng khi chưa có `secrets.toml`/biến môi trường Supabase | Ứng dụng vẫn chạy được bằng dữ liệu CSV cục bộ, hiển thị badge cảnh báo màu vàng | Đúng như kỳ vọng | PASS |
 | TC12 | Ước tính giờ xe đến trạm | Sau khi có kết quả tìm tuyến | Mỗi chặng hiển thị giờ dự kiến xe đến trạm lên xe (hoặc thông báo hết giờ chạy nếu ngoài khung giờ hoạt động) | Đúng như kỳ vọng | PASS |
 | TC13 | Làm mới dữ liệu từ Cloud | Bấm nút "🔄 Làm mới dữ liệu từ Cloud" ở sidebar | Cache được xoá, ứng dụng tải lại dữ liệu mới nhất từ Supabase | Đúng như kỳ vọng | PASS |
+| TC14 | Tìm theo địa chỉ tự do (dấu đầy đủ) | Đi: "Trường Nguyễn Tri Phương, đường Nguyễn Ái Quốc" (gõ tự do, có dấu phẩy) → Đến: "Đại học Lạc Hồng" | So khớp cục bộ đúng 2 trạm, trả về tuyến trực tiếp BH-02, 25 phút, 3.000đ | Đúng như kỳ vọng (đã fix lỗi dấu câu làm hỏng so khớp) | PASS |
+| TC15 | Tìm theo địa chỉ (không dấu) | Nhập "Truong Nguyen Tri Phuong, duong Nguyen Ai Quoc" | So khớp không phân biệt dấu vẫn ra đúng trạm | Đúng như kỳ vọng | PASS |
+| TC16 | Chuyển ngôn ngữ VI ↔ EN | Đổi selectbox "Language" sang English | Toàn bộ nhãn, thông báo kết quả tìm kiếm chuyển sang tiếng Anh, tên trạm/tuyến hiển thị bản EN | Đúng như kỳ vọng | PASS |
+| TC17 | Chuyển giao diện tối/sáng | Bật toggle "🌙 Dark" | CSS nền/màu chữ đổi, nền bản đồ đổi sang cartodbdark_matter | Đúng như kỳ vọng | PASS |
+| TC18 | Lọc theo thành phố | Chọn "Biên Hòa - Đồng Nai" ở sidebar | Bản đồ, danh sách tuyến, metric số trạm/tuyến chỉ còn hiển thị dữ liệu Biên Hòa | Đúng như kỳ vọng | PASS |
+| TC19 | Duyệt tuyến trực tiếp trên bản đồ (không cần tìm kiếm) | Chọn 1 tuyến trong "📋 Duyệt theo tuyến" | Bản đồ vẽ đúng lộ trình tuyến đó, không cần nhập điểm đi/đến | Đúng như kỳ vọng | PASS |
+| TC20 | Mô phỏng vị trí xe realtime | Bật "🔄 Tự động cập nhật vị trí xe", chọn 1 tuyến đang trong giờ hoạt động | Bản đồ hiện icon 🚌 tại vị trí ước tính, tự làm mới mỗi 8 giây, có cảnh báo rõ đây là mô phỏng không phải GPS thật | Đúng như kỳ vọng | PASS |
+| TC21 | Trạng thái hoạt động của tuyến | Xem badge 🟢/⚪ trong danh sách tuyến và trong chi tiết hành trình | Đúng theo giờ hiện tại so với khung giờ hoạt động của từng tuyến | Đúng như kỳ vọng | PASS |
 
 ## Kiểm thử hiệu năng (Performance Result)
 

@@ -1,24 +1,25 @@
+# -*- coding: utf-8 -*-
 """
-Thuat toan tim tuyen xe buyt toi uu (truc tiep + toi da 1 lan chuyen tuyen).
+Thuật toán tìm tuyến xe buýt tối ưu (trực tiếp + tối đa 1 lần chuyển tuyến).
 
-Cach tiep can (co the giai thich truc tiep khi bao ve do an):
-1. Tim tat ca cac tuyen di qua ca diem di va diem den -> goi y TUYEN TRUC TIEP.
-2. Neu khong co tuyen truc tiep (hoac de co them lua chon), duyet qua tung tuyen
-   di qua diem di, xet cac tram ma tuyen do di qua SAU diem di lam "diem trung
-   chuyen" ung vien; tai moi diem trung chuyen, kiem tra cac tuyen khac di qua
-   diem do va co the tiep tuc den diem den -> goi y TUYEN CO 1 LAN CHUYEN.
-3. Xep hang ket qua theo: so lan chuyen tang dan, roi den tong thoi gian di chuyen.
+Cách tiếp cận (có thể giải thích trực tiếp khi bảo vệ đồ án):
+1. Tìm tất cả các tuyến đi qua cả điểm đi và điểm đến -> gợi ý TUYẾN TRỰC TIẾP.
+2. Nếu không có tuyến trực tiếp (hoặc để có thêm lựa chọn), duyệt qua từng tuyến
+   đi qua điểm đi, xét các trạm mà tuyến đó đi qua SAU điểm đi làm "điểm trung
+   chuyển" ứng viên; tại mỗi điểm trung chuyển, kiểm tra các tuyến khác đi qua
+   điểm đó và có thể tiếp tục đến điểm đến -> gợi ý TUYẾN CÓ 1 LẦN CHUYỂN.
+3. Xếp hạng kết quả theo: số lần chuyển tăng dần, rồi đến tổng thời gian di chuyển.
 
-Do phuc tap: O(so_tuyen_qua_diem_di * so_tram_moi_tuyen * so_tuyen_qua_diem_trung_chuyen),
-phu hop voi quy mo mang luoi demo (~10 tuyen, ~60 tram). Voi mang luoi lon hon trong
-thuc te, day la buoc co the nang cap len Dijkstra/A* tren do thi thoi gian (future work).
+Độ phức tạp: O(số_tuyến_qua_điểm_đi * số_trạm_mỗi_tuyến * số_tuyến_qua_điểm_trung_chuyển),
+phù hợp với quy mô mạng lưới demo (~15 tuyến, ~100 trạm). Với mạng lưới lớn hơn trong
+thực tế, đây là bước có thể nâng cấp lên Dijkstra/A* trên đồ thị thời gian (future work).
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Optional, Set
 
 import pandas as pd
 
-TRANSFER_WALK_MIN = 3.0  # thoi gian uoc tinh di bo + doi giua 2 tuyen tai cung 1 tram
+TRANSFER_WALK_MIN = 3.0  # thời gian ước tính đi bộ + đợi giữa 2 tuyến tại cùng 1 trạm
 
 
 @dataclass
@@ -26,10 +27,13 @@ class Leg:
     route_id: str
     route_short_name: str
     route_long_name: str
+    route_long_name_en: str
     board_stop_id: str
     board_stop_name: str
+    board_stop_name_en: str
     alight_stop_id: str
     alight_stop_name: str
+    alight_stop_name_en: str
     board_offset_min: float
     alight_offset_min: float
     ride_minutes: float
@@ -46,13 +50,8 @@ class Itinerary:
     total_fare: int
     transfers: int
 
-    @property
     def summary(self) -> str:
-        return " -> ".join(f"Tuyen {l.route_short_name}" for l in self.legs)
-
-    @property
-    def transfer_stop_names(self) -> List[str]:
-        return [l.board_stop_name for l in self.legs[1:]]
+        return " -> ".join(f"{l.route_short_name}" for l in self.legs)
 
 
 class RouteFinder:
@@ -67,14 +66,36 @@ class RouteFinder:
         }
         self._routes_by_stop = route_stops_df.groupby("stop_id")["route_id"].apply(set).to_dict()
 
-    def stop_name(self, stop_id: str) -> str:
+    def stop_name(self, stop_id: str, lang: str = "vi") -> str:
         try:
-            return str(self.stops_df.loc[stop_id, "stop_name"])
+            row = self.stops_df.loc[stop_id]
+            if lang == "en" and "stop_name_en" in row and pd.notna(row["stop_name_en"]):
+                return str(row["stop_name_en"])
+            return str(row["stop_name"])
         except KeyError:
             return stop_id
 
     def routes_through(self, stop_id: str) -> Set[str]:
         return self._routes_by_stop.get(stop_id, set())
+
+    def ordered_stops(self, route_id: str) -> List[dict]:
+        """Danh sach tram theo thu tu tren 1 tuyen, kem toa do - dung cho ve ban do / tracking."""
+        g = self._by_route.get(route_id)
+        if g is None:
+            return []
+        result = []
+        for _, row in g.iterrows():
+            sid = row["stop_id"]
+            srow = self.stops_df.loc[sid]
+            result.append({
+                "stop_id": sid,
+                "stop_name": str(srow["stop_name"]),
+                "stop_name_en": str(srow.get("stop_name_en", srow["stop_name"])),
+                "offset_min": float(row["offset_min"]),
+                "lat": float(srow["lat"]),
+                "lon": float(srow["lon"]),
+            })
+        return result
 
     def stops_between(self, route_id: str, board_stop_id: str, alight_stop_id: str) -> List[str]:
         """Danh sach stop_id lien tiep tren 1 tuyen tu tram len den tram xuong (dung ve polyline)."""
@@ -105,10 +126,13 @@ class RouteFinder:
             route_id=route_id,
             route_short_name=str(route["route_short_name"]),
             route_long_name=str(route["route_long_name"]),
+            route_long_name_en=str(route.get("route_long_name_en", route["route_long_name"])),
             board_stop_id=origin_id,
-            board_stop_name=self.stop_name(origin_id),
+            board_stop_name=self.stop_name(origin_id, "vi"),
+            board_stop_name_en=self.stop_name(origin_id, "en"),
             alight_stop_id=dest_id,
-            alight_stop_name=self.stop_name(dest_id),
+            alight_stop_name=self.stop_name(dest_id, "vi"),
+            alight_stop_name_en=self.stop_name(dest_id, "en"),
             board_offset_min=o_off,
             alight_offset_min=d_off,
             ride_minutes=d_off - o_off,

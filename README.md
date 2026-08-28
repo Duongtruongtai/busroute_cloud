@@ -11,6 +11,16 @@ phí vé (có ưu đãi sinh viên).
 
 **➡️ Link ứng dụng (điền sau khi deploy):** `https://<ten-app>.streamlit.app`
 
+### Tính năng chính (v2)
+
+- 🗺️ **Bản đồ trực tiếp kiểu BusMap**: toàn bộ trạm hiển thị trên 1 bản đồ, chọn tuyến/phương án để xem lộ trình.
+- 🔎 **Tìm theo địa chỉ tự do**: gõ "Trường Nguyễn Tri Phương, đường Nguyễn Ái Quốc" vẫn ra đúng trạm gần nhất (so khớp cục bộ + geocoding OpenStreetMap dự phòng).
+- 🏙️ **2 khu vực**: TP. Hồ Chí Minh (10 tuyến) và Biên Hòa - Đồng Nai (5 tuyến).
+- 🚌 **Mô phỏng xe chạy thời gian thực** trên bản đồ (tự làm mới mỗi 8s) — xem giải thích giới hạn ở mục 12.
+- 🟢/⚪ **Trạng thái hoạt động của tuyến** theo giờ hiện tại.
+- 🇻🇳/🇬🇧 **Song ngữ Việt - Anh**, đầy đủ dấu tiếng Việt.
+- 🌙/☀️ **Giao diện tối/sáng**.
+
 ---
 
 ## 1. Kiến trúc Cloud
@@ -34,8 +44,12 @@ PROJECT/
 ├── backend/
 │   ├── datastore.py           # Lớp truy xuất dữ liệu (Supabase / fallback CSV)
 │   ├── route_finder.py        # Thuật toán tìm tuyến (trực tiếp + 1 lần chuyển)
-│   ├── schedule.py             # Ước tính giờ xe đến trạm theo biểu đồ chạy
-│   └── fare.py                  # Hằng số & định dạng giá vé
+│   ├── schedule.py             # Ước tính giờ xe đến trạm + trạng thái hoạt động tuyến
+│   ├── tracking.py              # Mô phỏng vị trí xe buýt theo thời gian thực
+│   ├── search.py                 # Tìm kiếm trạm cục bộ (không phân biệt dấu)
+│   ├── geocoding.py               # Định vị địa chỉ tự do qua OpenStreetMap (dự phòng)
+│   ├── i18n.py                     # Chuỗi đa ngôn ngữ Việt/Anh
+│   └── fare.py                      # Hằng số & định dạng giá vé
 ├── database/
 │   ├── schema.sql               # Script tạo bảng + RLS cho Supabase
 │   └── seed_supabase.py         # Script nạp dataset lên Supabase
@@ -91,6 +105,11 @@ python tests/test_route_finder.py
 ```
 
 ## 5. Thiết lập Cloud Database (Supabase) — bắt buộc để đạt điểm tối đa Cloud Architecture
+
+> Nếu bạn đã có project Supabase rồi (project ref dạng `xxxxxxxxxxxxx`), Project URL của
+> bạn là `https://<project-ref>.supabase.co` — bỏ qua Bước 1, làm tiếp từ Bước 2.
+> Schema (`database/schema.sql`) an toàn khi chạy lại nhiều lần (dùng
+> `create table if not exists` + `alter table add column if not exists`).
 
 ### Bước 1 — Tạo project
 

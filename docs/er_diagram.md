@@ -43,20 +43,24 @@
 | Cột | Kiểu | Mô tả |
 |---|---|---|
 | stop_id | text (PK) | Mã trạm, duy nhất |
-| stop_name | text | Tên trạm hiển thị |
-| lat, lon | double | Toạ độ (dùng vẽ bản đồ) |
+| stop_name | text | Tên trạm hiển thị (tiếng Việt có dấu) |
+| stop_name_en | text | Tên trạm tiếng Anh (cho người dùng nước ngoài) |
+| lat, lon | double | Toạ độ (dùng vẽ bản đồ + tìm trạm gần địa chỉ) |
 | is_hub | boolean | Có phải bến/điểm trung tâm không |
+| city_id | text | `hcmc` hoặc `bienhoa` - phân vùng thành phố |
 
 ### `routes`
 | Cột | Kiểu | Mô tả |
 |---|---|---|
 | route_id | text (PK) | Mã tuyến |
 | route_short_name | text | Số hiệu tuyến (vd "19") |
-| route_long_name | text | Tên đầy đủ (điểm đầu - điểm cuối) |
+| route_long_name | text | Tên đầy đủ tiếng Việt (điểm đầu - điểm cuối) |
+| route_long_name_en | text | Tên đầy đủ tiếng Anh |
 | fare_regular | integer | Giá vé phổ thông (VND) |
 | fare_student | integer | Giá vé sinh viên (VND) |
 | headway_min | integer | Giãn cách giữa 2 chuyến (phút) |
-| first_departure, last_departure | text | Khung giờ hoạt động 'HH:MM' |
+| first_departure, last_departure | text | Khung giờ hoạt động 'HH:MM' - dùng để tính trạng thái 🟢/⚪ và mô phỏng vị trí xe |
+| city_id | text | `hcmc` hoặc `bienhoa` |
 
 ### `route_stops`
 | Cột | Kiểu | Mô tả |

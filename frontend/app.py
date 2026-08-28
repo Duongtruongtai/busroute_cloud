@@ -1,12 +1,17 @@
+# -*- coding: utf-8 -*-
 """
 Smart City Bus Assistant
-Cong tra cuu tuyen & uoc tinh thoi gian xe buyt do thi (TP.HCM) - do an hoc phan
-Ung dung Dien toan dam may.
+Cổng tra cứu tuyến & theo dõi xe buýt đô thị (TP.HCM + Biên Hòa - Đồng Nai) trên bản đồ.
+Đồ án học phần Ứng dụng Điện toán đám mây.
 
-Kien truc Cloud:
+Kiến trúc Cloud:
     USER -> Streamlit Web App (Cloud Hosting)
-         -> Supabase (Cloud Database - PostgreSQL, tu sinh Cloud API qua PostgREST)
-         -> Supabase Storage (sao luu dataset - Cloud Storage)
+         -> Supabase (Cloud Database - PostgreSQL, tự sinh Cloud API qua PostgREST)
+         -> Supabase Storage (sao lưu dataset - Cloud Storage)
+
+Ghi chú quan trọng: vị trí xe buýt hiển thị trên bản đồ là MÔ PHỎNG theo biểu đồ
+chạy chuẩn (không có API GPS thời gian thực công khai/miễn phí cho xe buýt tại
+Việt Nam) - xem `backend/tracking.py` và mục "Giới thiệu" trong ứng dụng.
 """
 import os
 import sys
@@ -22,16 +27,32 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.datastore import DataStore
 from backend.fare import FARE_TYPES, format_minutes, format_vnd
-from backend.route_finder import Itinerary, RouteFinder
-from backend.schedule import estimate_arrival_at_stop
+from backend.geocoding import geocode, nearest_stops
+from backend.i18n import t
+from backend.route_finder import RouteFinder
+from backend.schedule import estimate_arrival_at_stop, is_route_active
+from backend.search import local_search_stops
+from backend.tracking import active_buses
 
-st.set_page_config(
-    page_title="Smart City Bus Assistant",
-    page_icon="🚌",
-    layout="wide",
-)
+st.set_page_config(page_title="Smart City Bus Assistant", page_icon="🚌", layout="wide")
 
 LEG_COLORS = ["#2563eb", "#dc2626", "#16a34a", "#d97706"]
+CITY_COLORS = {"hcmc": "#2563eb", "bienhoa": "#7c3aed"}
+MANUAL_SENTINEL = "__none__"
+
+# --------------------------------------------------------------------------- #
+# Session state defaults
+# --------------------------------------------------------------------------- #
+for key, default in {
+    "lang": "vi", "dark_mode": False, "city_filter": "all",
+    "origin_query": "", "dest_query": "",
+    "origin_stop_id": None, "dest_stop_id": None,
+    "origin_candidates": None, "dest_candidates": None,
+    "origin_geo_name": None, "dest_geo_name": None,
+    "selected_itineraries": None, "chosen_itinerary_idx": 0,
+    "browse_route_id": MANUAL_SENTINEL, "live_refresh": False,
+}.items():
+    st.session_state.setdefault(key, default)
 
 
 # --------------------------------------------------------------------------- #
@@ -42,7 +63,7 @@ def get_datastore() -> DataStore:
     return DataStore()
 
 
-@st.cache_data(ttl=300, show_spinner="Dang tai du lieu tuyen xe buyt...")
+@st.cache_data(ttl=300, show_spinner=False)
 def load_data(_ds: DataStore):
     return _ds.get_stops(), _ds.get_routes(), _ds.get_route_stops()
 
@@ -56,305 +77,484 @@ ds = get_datastore()
 stops_df, routes_df, route_stops_df = load_data(ds)
 finder = build_finder(stops_df, routes_df, route_stops_df)
 
-stop_options = stops_df.sort_values("stop_name")["stop_id"].tolist()
-stop_name_map = dict(zip(stops_df["stop_id"], stops_df["stop_name"]))
 
-
-def fmt_stop(stop_id: str) -> str:
-    return stop_name_map.get(stop_id, stop_id)
+# --------------------------------------------------------------------------- #
+# Theme (CSS) injection
+# --------------------------------------------------------------------------- #
+def inject_theme_css(dark: bool):
+    if dark:
+        bg, bg2, text, card, border, accent = "#0f172a", "#1e293b", "#e2e8f0", "#1e293b", "#334155", "#38bdf8"
+        tile = "cartodbdark_matter"
+    else:
+        bg, bg2, text, card, border, accent = "#ffffff", "#f8fafc", "#0f172a", "#ffffff", "#e2e8f0", "#2563eb"
+        tile = "cartodbpositron"
+    st.session_state["_map_tile"] = tile
+    st.markdown(f"""
+    <style>
+    .stApp {{ background-color: {bg}; }}
+    [data-testid="stSidebar"] {{ background-color: {bg2}; }}
+    [data-testid="stMarkdownContainer"] {{ color: {text}; }}
+    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {{ color: {text}; }}
+    .bus-card {{
+        background-color: {card}; border: 1px solid {border}; border-radius: 10px;
+        padding: 14px; margin-bottom: 10px; color: {text};
+    }}
+    .bus-badge-active {{ color: #16a34a; font-weight: 600; }}
+    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; }}
+    .stButton>button[kind="primary"] {{ background-color: {accent}; border-color: {accent}; }}
+    </style>
+    """, unsafe_allow_html=True)
 
 
 # --------------------------------------------------------------------------- #
 # Sidebar
 # --------------------------------------------------------------------------- #
 with st.sidebar:
-    st.markdown("## 🚌 Smart City Bus Assistant")
-    st.caption("Tra cuu tuyen & uoc tinh thoi gian xe buyt do thi")
+    lang0 = st.session_state["lang"]
+    st.markdown(f"## 🚌 {t('app_title', lang0)}")
+    st.caption(t("app_subtitle", lang0))
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.selectbox(t("language", lang0), options=["vi", "en"],
+                     format_func=lambda x: "🇻🇳 Tiếng Việt" if x == "vi" else "🇬🇧 English", key="lang")
+    with c2:
+        st.toggle(t("theme_dark", lang0), key="dark_mode")
+
+    lang = st.session_state["lang"]
+    dark = st.session_state["dark_mode"]
+    inject_theme_css(dark)
 
     if ds.mode == "cloud":
-        st.success("🟢 " + ds.status_label())
+        st.success("🟢 " + t("cloud_connected", lang))
     else:
-        st.warning("🟡 " + ds.status_label())
-        with st.expander("Vi sao chua ket noi Cloud Database?"):
-            st.write(
-                "Ung dung se tu dong chuyen sang Supabase (Cloud Database) khi bien "
-                "`SUPABASE_URL` va `SUPABASE_KEY` duoc cau hinh trong `.streamlit/secrets.toml` "
-                "(local) hoac muc Secrets cua Streamlit Cloud (khi trien khai). "
-                "Xem huong dan trong README.md."
-            )
+        st.warning("🟡 " + t("cloud_local", lang))
+        with st.expander(t("why_no_cloud", lang)):
+            st.write(t("why_no_cloud_body", lang))
             if ds.connect_error:
                 st.code(ds.connect_error, language="text")
 
     st.divider()
-    fare_type = st.radio(
-        "Loai ve",
-        options=list(FARE_TYPES.keys()),
-        format_func=lambda k: FARE_TYPES[k],
-        index=0,
-    )
+    st.selectbox(t("city", lang), options=["all", "hcmc", "bienhoa"],
+                 format_func=lambda x: {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
+                                         "bienhoa": t("city_bienhoa", lang)}[x],
+                 key="city_filter")
+    fare_type = st.radio(t("fare_type", lang), options=list(FARE_TYPES.keys()),
+                          format_func=lambda k: t(f"fare_{k}", lang), key="fare_type_radio")
 
     st.divider()
-    st.metric("So tuyen dang khai thac (demo)", len(routes_df))
-    st.metric("So tram dung", len(stops_df))
+    city_filter = st.session_state["city_filter"]
+    routes_view = routes_df if city_filter == "all" else routes_df[routes_df.city_id == city_filter]
+    stops_view = stops_df if city_filter == "all" else stops_df[stops_df.city_id == city_filter]
+    m1, m2 = st.columns(2)
+    m1.metric(t("n_routes", lang), len(routes_view))
+    m2.metric(t("n_stops", lang), len(stops_view))
 
-    if st.button("🔄 Lam moi du lieu tu Cloud"):
+    st.toggle(t("auto_refresh_on", lang), key="live_refresh")
+
+    if st.button(t("refresh_cloud", lang)):
         get_datastore.clear()
         load_data.clear()
         build_finder.clear()
         st.rerun()
 
+if st.session_state["live_refresh"]:
+    from streamlit_autorefresh import st_autorefresh
+    st_autorefresh(interval=8000, key="live_map_autorefresh")
+
+
+def fmt_stop(stop_id: str, lang: str) -> str:
+    return finder.stop_name(stop_id, lang) if stop_id and stop_id != MANUAL_SENTINEL else stop_id
+
+
+def resolve_place(query: str, manual_choice: str, stops_scope: pd.DataFrame):
+    """Tra ve (stop_id, candidates_df, geo_display_name)."""
+    if manual_choice and manual_choice != MANUAL_SENTINEL:
+        return manual_choice, None, None
+    query = (query or "").strip()
+    if not query:
+        return None, None, None
+    local = local_search_stops(query, stops_scope, limit=5)
+    if not local.empty:
+        return str(local.iloc[0]["stop_id"]), local, None
+    geo = geocode(query, limit=1)
+    if geo:
+        lat, lon = geo[0]["lat"], geo[0]["lon"]
+        nearby = nearest_stops(lat, lon, stops_scope, radius_km=1.0, limit=5)
+        if not nearby.empty:
+            return str(nearby.iloc[0]["stop_id"]), nearby, geo[0]["display_name"]
+        return None, None, geo[0]["display_name"]
+    return None, None, None
+
+
+def render_candidates(candidates: pd.DataFrame, geo_name: str, lang: str):
+    if geo_name and (candidates is None or candidates.empty):
+        st.error(t("no_nearby_stop", lang, radius=1000))
+        st.caption(f"({geo_name})")
+    elif geo_name and candidates is not None and not candidates.empty:
+        st.caption(t("geocode_found_stops", lang) + f" _{geo_name}_")
+        for _, row in candidates.iterrows():
+            name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
+            st.caption(f"• {name} ({t('distance_away', lang, d=int(row['distance_km'] * 1000))})")
+    elif candidates is not None and not candidates.empty:
+        st.caption(t("resolved_as", lang) + f": **{fmt_stop(str(candidates.iloc[0]['stop_id']), lang)}**")
+
 
 # --------------------------------------------------------------------------- #
-# Main tabs
+# Top-level tabs
 # --------------------------------------------------------------------------- #
-tab_search, tab_stats, tab_about = st.tabs(["🔍 Tra cuu tuyen", "📊 Thong ke", "ℹ️ Gioi thieu"])
+tab_map, tab_stats, tab_about = st.tabs([
+    t("tab_map_search", lang), t("tab_stats", lang), t("tab_about", lang),
+])
 
 # --------------------------------------------------------------------------- #
-# TAB 1: Tra cuu tuyen
+# TAB: Bản đồ & Tra cứu
 # --------------------------------------------------------------------------- #
-with tab_search:
-    st.subheader("Nhap diem di - diem den")
+with tab_map:
+    col_left, col_right = st.columns([1, 1.5])
 
-    col1, col_swap, col2 = st.columns([5, 1, 5])
-    if "origin" not in st.session_state:
-        st.session_state.origin = stop_options[0]
-    if "dest" not in st.session_state:
-        st.session_state.dest = stop_options[1] if len(stop_options) > 1 else stop_options[0]
+    map_focus = None  # ("itinerary", Itinerary) hoac ("route", route_id) hoac None
 
-    with col1:
-        origin = st.selectbox("📍 Diem di", options=stop_options, format_func=fmt_stop,
-                               key="origin")
-    with col_swap:
-        st.write("")
-        st.write("")
-        if st.button("🔁", help="Doi chieu diem di / diem den"):
-            st.session_state.origin, st.session_state.dest = st.session_state.dest, st.session_state.origin
-            st.rerun()
-    with col2:
-        dest = st.selectbox("🏁 Diem den", options=stop_options, format_func=fmt_stop,
-                             key="dest")
+    with col_left:
+        st.subheader(t("search_by_address", lang))
 
-    search_clicked = st.button("🔍 Tim tuyen xe buyt", type="primary", width='stretch')
+        oc1, oc2 = st.columns([5, 1])
+        with oc1:
+            st.text_input(t("origin", lang), key="origin_query", placeholder=t("search_address_placeholder", lang))
+        with oc2:
+            st.write("")
+            st.write("")
+            if st.button("🔁", help=t("swap", lang)):
+                st.session_state.origin_query, st.session_state.dest_query = (
+                    st.session_state.dest_query, st.session_state.origin_query)
+                st.rerun()
+        st.text_input(t("destination", lang), key="dest_query", placeholder=t("search_address_placeholder", lang))
 
-    if search_clicked:
-        if origin == dest:
-            st.error("Diem di va diem den dang trung nhau. Vui long chon 2 tram khac nhau.")
-        else:
-            itineraries = finder.find(origin, dest, fare_type=fare_type, max_results=3)
-            ds.log_search(origin, fmt_stop(origin), dest, fmt_stop(dest), fare_type, len(itineraries))
-            st.session_state["last_itineraries"] = itineraries
-            st.session_state["last_origin"] = origin
-            st.session_state["last_dest"] = dest
+        stop_options_all = ["__none__"] + stops_view.sort_values("stop_name")["stop_id"].tolist()
+        with st.expander(t("manual_pick_expander", lang)):
+            st.selectbox(t("origin", lang), options=stop_options_all,
+                         format_func=lambda x: "—" if x == MANUAL_SENTINEL else fmt_stop(x, lang),
+                         key="origin_manual")
+            st.selectbox(t("destination", lang), options=stop_options_all,
+                         format_func=lambda x: "—" if x == MANUAL_SENTINEL else fmt_stop(x, lang),
+                         key="dest_manual")
 
-    itineraries = st.session_state.get("last_itineraries")
+        search_clicked = st.button(t("find_route_btn", lang), type="primary", width="stretch")
 
-    if itineraries is not None:
-        if len(itineraries) == 0:
-            st.warning(
-                "Khong tim thay tuyen phu hop (truc tiep hoac 1 lan chuyen tuyen) giua 2 diem da chon "
-                "trong du lieu demo hien tai. Hay thu 2 tram khac, vi du cac ben trung tam nhu "
-                "'Cho Ben Thanh' hoac 'Ben xe Cho Lon'."
-            )
-        else:
-            st.success(f"Tim thay {len(itineraries)} phuong an di chuyen.")
-            labels = [
-                f"Phuong an {i + 1}: {it.summary}  •  {format_minutes(it.total_minutes)}  •  "
-                f"{format_vnd(it.total_fare)}  •  {it.transfers} lan chuyen"
-                for i, it in enumerate(itineraries)
-            ]
-            chosen_idx = st.radio("Chon phuong an de xem chi tiet / ban do:", options=range(len(itineraries)),
-                                   format_func=lambda i: labels[i])
-            chosen: Itinerary = itineraries[chosen_idx]
+        if search_clicked:
+            o_id, o_cand, o_geo = resolve_place(st.session_state.origin_query,
+                                                 st.session_state.get("origin_manual"), stops_view)
+            d_id, d_cand, d_geo = resolve_place(st.session_state.dest_query,
+                                                 st.session_state.get("dest_manual"), stops_view)
+            st.session_state.origin_stop_id = o_id
+            st.session_state.dest_stop_id = d_id
+            st.session_state.origin_candidates = o_cand
+            st.session_state.dest_candidates = d_cand
+            st.session_state.origin_geo_name = o_geo
+            st.session_state.dest_geo_name = d_geo
 
-            m1, m2, m3 = st.columns(3)
-            m1.metric("Tong thoi gian uoc tinh", format_minutes(chosen.total_minutes))
-            m2.metric("Tong tien ve", format_vnd(chosen.total_fare))
-            m3.metric("So lan chuyen tuyen", chosen.transfers)
+            if o_id and d_id and o_id == d_id:
+                st.error(t("same_point_error", lang))
+                st.session_state.selected_itineraries = None
+            elif not o_id or not d_id:
+                st.session_state.selected_itineraries = None
+            else:
+                results = finder.find(o_id, d_id, fare_type=fare_type, max_results=3)
+                ds.log_search(o_id, fmt_stop(o_id, "vi"), d_id, fmt_stop(d_id, "vi"), fare_type, len(results))
+                st.session_state.selected_itineraries = results
+                st.session_state.chosen_itinerary_idx = 0
 
-            st.markdown("#### Chi tiet hanh trinh")
-            now = datetime.now()
-            for i, leg in enumerate(chosen.legs):
-                arrival, msg = estimate_arrival_at_stop(
-                    leg.first_departure, leg.last_departure, leg.headway_min,
-                    leg.board_offset_min, now=now,
-                )
-                with st.container(border=True):
-                    st.markdown(
-                        f"**Chang {i + 1}: Tuyen {leg.route_short_name}** — {leg.route_long_name}"
-                    )
-                    c1, c2, c3 = st.columns(3)
-                    c1.write(f"🚏 Len xe: **{leg.board_stop_name}**")
-                    c2.write(f"🏁 Xuong xe: **{leg.alight_stop_name}**")
-                    c3.write(f"⏱ Thoi gian tren xe: **{format_minutes(leg.ride_minutes)}**")
-                    c4, c5 = st.columns(2)
-                    c4.write(f"💵 Gia ve: **{format_vnd(leg.fare)}**")
-                    if arrival:
-                        c5.write(f"🕒 Xe du kien den tram luc: **{arrival.strftime('%H:%M')}**")
-                    else:
-                        c5.write(f"🕒 {msg}")
-                if i < len(chosen.legs) - 1:
-                    st.markdown(
-                        f"<div style='text-align:center;color:#999;'>⇩ Chuyen tuyen tai "
-                        f"<b>{leg.alight_stop_name}</b> (uoc tinh cho + di bo ~"
-                        f"{format_minutes(3 + chosen.legs[i + 1].headway_min / 2)}) ⇩</div>",
-                        unsafe_allow_html=True,
-                    )
+        if st.session_state.origin_candidates is not None or st.session_state.origin_geo_name:
+            render_candidates(st.session_state.origin_candidates, st.session_state.origin_geo_name, lang)
+        if st.session_state.dest_candidates is not None or st.session_state.dest_geo_name:
+            render_candidates(st.session_state.dest_candidates, st.session_state.dest_geo_name, lang)
 
-            st.markdown("#### Ban do hanh trinh")
-            try:
-                import folium
-                from streamlit_folium import st_folium
+        itineraries = st.session_state.selected_itineraries
+        if itineraries is not None:
+            if len(itineraries) == 0:
+                st.warning(t("no_route_found", lang))
+            else:
+                st.success(t("found_n_options", lang, n=len(itineraries)))
+                labels = [
+                    f"{t('option_label', lang, i=i + 1)}: {it.summary()} • {format_minutes(it.total_minutes)} • "
+                    f"{format_vnd(it.total_fare)} • {it.transfers} {t('n_transfers', lang).lower()}"
+                    for i, it in enumerate(itineraries)
+                ]
+                idx = st.radio(t("choose_option", lang), options=range(len(itineraries)),
+                                format_func=lambda i: labels[i], key="chosen_itinerary_idx")
+                chosen = itineraries[idx]
+                map_focus = ("itinerary", chosen)
 
-                stops_idx = stops_df.set_index("stop_id")
-                all_latlon = []
-                fmap = folium.Map(location=[10.78, 106.70], zoom_start=12, tiles="cartodbpositron")
+                m1, m2, m3 = st.columns(3)
+                m1.metric(t("total_time", lang), format_minutes(chosen.total_minutes))
+                m2.metric(t("total_fare", lang), format_vnd(chosen.total_fare))
+                m3.metric(t("n_transfers", lang), chosen.transfers)
 
+                st.markdown(f"#### {t('itinerary_detail', lang)}")
+                now = datetime.now()
                 for i, leg in enumerate(chosen.legs):
-                    seq = finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
-                    latlons = [(float(stops_idx.loc[sid, "lat"]), float(stops_idx.loc[sid, "lon"])) for sid in seq]
-                    all_latlon.extend(latlons)
-                    color = LEG_COLORS[i % len(LEG_COLORS)]
-                    folium.PolyLine(latlons, color=color, weight=5, opacity=0.85,
-                                     tooltip=f"Tuyen {leg.route_short_name}").add_to(fmap)
-                    for j, sid in enumerate(seq):
-                        row = stops_idx.loc[sid]
-                        is_endpoint = j == 0 or j == len(seq) - 1
-                        folium.CircleMarker(
-                            location=(float(row["lat"]), float(row["lon"])),
-                            radius=6 if is_endpoint else 3,
-                            color=color, fill=True, fill_opacity=0.9,
-                            popup=str(row["stop_name"]),
-                        ).add_to(fmap)
+                    arrival, msg = estimate_arrival_at_stop(
+                        leg.first_departure, leg.last_departure, leg.headway_min,
+                        leg.board_offset_min, now=now)
+                    active = is_route_active(leg.first_departure, leg.last_departure, now=now)
+                    status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
+                                    else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
+                    route_name = leg.route_long_name if lang == "vi" else leg.route_long_name_en
+                    board_name = leg.board_stop_name if lang == "vi" else leg.board_stop_name_en
+                    alight_name = leg.alight_stop_name if lang == "vi" else leg.alight_stop_name_en
+                    with st.container(border=True):
+                        st.markdown(f"**{t('leg', lang)} {i + 1}: {leg.route_short_name}** — {route_name}  "
+                                    f"&nbsp;&nbsp;{status_html}", unsafe_allow_html=True)
+                        cc1, cc2, cc3 = st.columns(3)
+                        cc1.write(f"{t('board_at', lang)}: **{board_name}**")
+                        cc2.write(f"{t('alight_at', lang)}: **{alight_name}**")
+                        cc3.write(f"{t('ride_time', lang)}: **{format_minutes(leg.ride_minutes)}**")
+                        cc4, cc5 = st.columns(2)
+                        cc4.write(f"{t('fare_label', lang)}: **{format_vnd(leg.fare)}**")
+                        if arrival:
+                            cc5.write(f"{t('expected_arrival', lang)}: **{arrival.strftime('%H:%M')}**")
+                        else:
+                            cc5.write(msg)
+                    if i < len(chosen.legs) - 1:
+                        st.caption(f"⇩ {t('transfer_at', lang)} **{alight_name}** ⇩")
 
-                o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
-                d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
-                folium.Marker((float(o_row["lat"]), float(o_row["lon"])), popup="Diem di",
-                               icon=folium.Icon(color="green", icon="play", prefix="fa")).add_to(fmap)
-                folium.Marker((float(d_row["lat"]), float(d_row["lon"])), popup="Diem den",
-                               icon=folium.Icon(color="red", icon="flag", prefix="fa")).add_to(fmap)
+        st.divider()
+        st.markdown(f"#### {t('browse_by_route', lang)}")
+        route_opts = [MANUAL_SENTINEL] + routes_view["route_id"].tolist()
 
-                if all_latlon:
-                    fmap.fit_bounds(all_latlon)
+        def _route_label(rid):
+            if rid == MANUAL_SENTINEL:
+                return "—"
+            row = routes_view[routes_view.route_id == rid].iloc[0]
+            active = is_route_active(row["first_departure"], row["last_departure"])
+            dot = "🟢" if active else "⚪"
+            name = row["route_long_name"] if lang == "vi" else row["route_long_name_en"]
+            return f"{dot} {row['route_short_name']} — {name}"
 
-                st_folium(fmap, width=None, height=480, key="route_map")
-            except ImportError:
-                st.info("Cai dat `folium` va `streamlit-folium` (xem requirements.txt) de hien thi ban do.")
+        st.selectbox(t("preview_on_map", lang), options=route_opts, format_func=_route_label, key="browse_route_id")
+        if map_focus is None and st.session_state.browse_route_id != MANUAL_SENTINEL:
+            map_focus = ("route", st.session_state.browse_route_id)
+
+    # ----------------------------------------------------------------- #
+    # Bản đồ (cột phải)
+    # ----------------------------------------------------------------- #
+    with col_right:
+        import folium
+        from streamlit_folium import st_folium
+
+        tile = st.session_state.get("_map_tile", "cartodbpositron")
+        centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83), "all": (10.86, 106.76)}
+        zoom = 12 if city_filter != "all" else 10
+        fmap = folium.Map(location=centers[city_filter], zoom_start=zoom, tiles=tile)
+
+        # Tat ca tram tren ban do (BusMap-style)
+        for _, row in stops_view.iterrows():
+            color = CITY_COLORS.get(row["city_id"], "#2563eb")
+            is_hub = bool(row["is_hub"]) if not isinstance(row["is_hub"], str) else row["is_hub"] == "1"
+            name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
+            folium.CircleMarker(
+                location=(float(row["lat"]), float(row["lon"])),
+                radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
+                weight=2 if is_hub else 1, tooltip=name,
+            ).add_to(fmap)
+
+        tracked_route_ids = []
+        all_bounds = []
+
+        if map_focus and map_focus[0] == "itinerary":
+            chosen = map_focus[1]
+            for i, leg in enumerate(chosen.legs):
+                seq = finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
+                latlons = [(float(stops_df.set_index("stop_id").loc[sid, "lat"]),
+                            float(stops_df.set_index("stop_id").loc[sid, "lon"])) for sid in seq]
+                all_bounds.extend(latlons)
+                color = LEG_COLORS[i % len(LEG_COLORS)]
+                folium.PolyLine(latlons, color=color, weight=6, opacity=0.9,
+                                 tooltip=f"{leg.route_short_name}").add_to(fmap)
+                tracked_route_ids.append(leg.route_id)
+            stops_idx = stops_df.set_index("stop_id")
+            o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
+            d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
+            folium.Marker((float(o_row["lat"]), float(o_row["lon"])),
+                          icon=folium.Icon(color="green", icon="play", prefix="fa"),
+                          tooltip=t("origin", lang)).add_to(fmap)
+            folium.Marker((float(d_row["lat"]), float(d_row["lon"])),
+                          icon=folium.Icon(color="red", icon="flag", prefix="fa"),
+                          tooltip=t("destination", lang)).add_to(fmap)
+
+        elif map_focus and map_focus[0] == "route":
+            rid = map_focus[1]
+            ordered = finder.ordered_stops(rid)
+            latlons = [(s["lat"], s["lon"]) for s in ordered]
+            all_bounds.extend(latlons)
+            row = routes_view[routes_view.route_id == rid].iloc[0]
+            folium.PolyLine(latlons, color=LEG_COLORS[0], weight=6, opacity=0.9,
+                             tooltip=str(row["route_short_name"])).add_to(fmap)
+            tracked_route_ids.append(rid)
+
+        # Xe buyt mo phong (chi ve khi bat auto-refresh, tranh hieu lam la GPS luon-bat)
+        n_buses_shown = 0
+        if st.session_state.live_refresh:
+            for rid in tracked_route_ids:
+                row = routes_df[routes_df.route_id == rid].iloc[0]
+                ordered = finder.ordered_stops(rid)
+                buses = active_buses(rid, str(row["route_short_name"]), str(row["first_departure"]),
+                                      str(row["last_departure"]), int(row["headway_min"]), ordered)
+                for bus in buses:
+                    folium.map.Marker(
+                        location=(bus.lat, bus.lon),
+                        icon=folium.DivIcon(html='<div style="font-size:22px;line-height:22px;">🚌</div>'),
+                        tooltip=f"{bus.trip_label} • {bus.progress_pct:.0f}% • → {bus.next_stop_name}",
+                    ).add_to(fmap)
+                    n_buses_shown += 1
+
+        if all_bounds:
+            fmap.fit_bounds(all_bounds)
+
+        st_folium(fmap, width=None, height=620, key="main_map", returned_objects=[])
+
+        if tracked_route_ids:
+            st.caption(t("live_positions_note", lang))
+            if st.session_state.live_refresh:
+                st.caption(f"{t('buses_in_service', lang)}: {n_buses_shown}")
+                if n_buses_shown == 0:
+                    st.caption(t("no_bus_running", lang))
 
 # --------------------------------------------------------------------------- #
-# TAB 2: Thong ke
+# TAB: Thống kê
 # --------------------------------------------------------------------------- #
 with tab_stats:
-    st.subheader("Thong ke mang luoi")
+    st.subheader(t("stats_title", lang))
     hub_stats = (
-        route_stops_df.groupby("stop_id")["route_id"].nunique().rename("so_tuyen_di_qua")
-        .reset_index().merge(stops_df[["stop_id", "stop_name"]], on="stop_id")
-        .sort_values("so_tuyen_di_qua", ascending=False).head(10)
+        route_stops_df.groupby("stop_id")["route_id"].nunique().rename("n").reset_index()
+        .merge(stops_df[["stop_id", "stop_name", "stop_name_en"]], on="stop_id")
+        .sort_values("n", ascending=False).head(10)
     )
+    name_col = "stop_name" if lang == "vi" else "stop_name_en"
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("**Top 10 tram trung chuyen nhieu tuyen nhat**")
+        st.markdown(f"**{t('top_hubs', lang)}**")
         st.dataframe(
-            hub_stats.rename(columns={"stop_name": "Ten tram", "so_tuyen_di_qua": "So tuyen"})
-            [["Ten tram", "So tuyen"]],
-            hide_index=True, width='stretch',
+            hub_stats.rename(columns={name_col: t("stop_name_col", lang), "n": t("route_count_col", lang)})
+            [[t("stop_name_col", lang), t("route_count_col", lang)]],
+            hide_index=True, width="stretch",
         )
     with c2:
-        st.markdown("**Danh sach tuyen dang khai thac**")
+        st.markdown(f"**{t('route_list', lang)}**")
+        long_col = "route_long_name" if lang == "vi" else "route_long_name_en"
+        show = routes_df.copy()
+        show["🟢"] = show.apply(lambda r: "🟢" if is_route_active(r["first_departure"], r["last_departure"]) else "⚪", axis=1)
         st.dataframe(
-            routes_df.rename(columns={
-                "route_short_name": "So hieu", "route_long_name": "Lo trinh",
-                "fare_regular": "Gia pho thong", "fare_student": "Gia sinh vien",
-                "headway_min": "Gian cach (phut)",
-            })[["So hieu", "Lo trinh", "Gia pho thong", "Gia sinh vien", "Gian cach (phut)"]],
-            hide_index=True, width='stretch',
+            show.rename(columns={"route_short_name": "#", long_col: t("route_list", lang).split(" ")[0],
+                                  "fare_regular": t("fare_regular", lang), "fare_student": t("fare_student", lang)})
+            [["🟢", "#", t("route_list", lang).split(" ")[0], t("fare_regular", lang), t("fare_student", lang)]],
+            hide_index=True, width="stretch",
         )
 
     st.divider()
-    st.subheader("Lich su tim kiem tu Cloud Database (search_logs)")
+    st.subheader(t("search_log_title", lang))
     if ds.mode != "cloud":
-        st.info(
-            "Tinh nang nay doc du lieu that tu bang `search_logs` tren Supabase. "
-            "Hay cau hinh Cloud Database (xem README) de xem thong ke tim kiem thuc te "
-            "cua nguoi dung."
-        )
+        st.info(t("search_log_need_cloud", lang))
     else:
         logs = ds.get_search_stats()
         if logs.empty:
-            st.info("Chua co luot tim kiem nao duoc ghi nhan. Hay thu tra cuu 1 tuyen o tab dau tien.")
+            st.info(t("no_logs_yet", lang))
         else:
             l1, l2 = st.columns(2)
-            l1.metric("Tong so luot tim kiem", len(logs))
-            top_od = (
-                logs.groupby(["origin_stop_name", "dest_stop_name"]).size()
-                .rename("so_lan").reset_index().sort_values("so_lan", ascending=False).head(5)
-            )
-            l2.metric("So cap diem di-den khac nhau", logs.groupby(["origin_stop_name", "dest_stop_name"]).ngroups)
-
-            st.markdown("**Top 5 tuyen duong duoc tim kiem nhieu nhat**")
+            l1.metric(t("total_searches", lang), len(logs))
+            l2.metric(t("n_od_pairs", lang), logs.groupby(["origin_stop_name", "dest_stop_name"]).ngroups)
+            top_od = (logs.groupby(["origin_stop_name", "dest_stop_name"]).size()
+                      .rename("n").reset_index().sort_values("n", ascending=False).head(5))
+            st.markdown(f"**{t('top5_searched', lang)}**")
             st.dataframe(
-                top_od.rename(columns={"origin_stop_name": "Diem di", "dest_stop_name": "Diem den",
-                                        "so_lan": "So lan tim"}),
-                hide_index=True, width='stretch',
+                top_od.rename(columns={"origin_stop_name": t("origin_col", lang),
+                                        "dest_stop_name": t("dest_col", lang), "n": t("search_count_col", lang)}),
+                hide_index=True, width="stretch",
             )
-            st.markdown("**20 luot tim kiem gan nhat**")
+            st.markdown(f"**{t('recent_searches', lang)}**")
             st.dataframe(
                 logs[["searched_at", "origin_stop_name", "dest_stop_name", "fare_type", "n_results"]].head(20),
-                hide_index=True, width='stretch',
+                hide_index=True, width="stretch",
             )
 
 # --------------------------------------------------------------------------- #
-# TAB 3: Gioi thieu
+# TAB: Giới thiệu
 # --------------------------------------------------------------------------- #
 with tab_about:
-    st.markdown(
-        """
-### Van de thuc te
-Sinh vien va nguoi khong co xe ca nhan phu thuoc vao xe buyt nhung gap kho khan
-khi tra cuu thoi gian xe den tram, cac diem trung chuyen, hoac tinh toan chi phi
-di chuyen tiet kiem nhat giua nhieu tuyen.
+    if lang == "vi":
+        st.markdown("""
+### Vấn đề thực tế
+Sinh viên và người không có xe cá nhân phụ thuộc vào xe buýt nhưng gặp khó khăn khi
+tra cứu thời gian xe đến trạm, các điểm trung chuyển, hoặc tính toán chi phí di chuyển
+tiết kiệm nhất giữa nhiều tuyến — đặc biệt khi không nhớ chính xác tên trạm mà chỉ biết
+địa chỉ/địa danh gần đó.
 
-**Doi tuong:** sinh vien, nguoi cao tuoi, nguoi di lam bang phuong tien cong cong.
+**Đối tượng:** sinh viên, người cao tuổi, người đi làm bằng phương tiện công cộng tại
+TP. Hồ Chí Minh và Biên Hòa - Đồng Nai.
 
-### Giai phap
-Cong tra cuu tuyen xe buyt cho phep nguoi dung nhap diem di / diem den, he thong
-tu dong goi y tuyen toi uu (truc tiep hoac co 1 lan chuyen tuyen), uoc tinh thoi
-gian xe den va chi phi ve (uu dai sinh vien), hien thi truc quan tren ban do.
+### Giải pháp
+Nhập địa chỉ/địa danh (hoặc chọn trạm trực tiếp) cho điểm đi - điểm đến, hệ thống tự
+động gợi ý tuyến tối ưu (trực tiếp hoặc 1 lần chuyển tuyến), hiển thị trực quan trên
+bản đồ kèm mô phỏng vị trí xe đang chạy, ước tính giờ đến và chi phí vé.
 
-### Kien truc Cloud
+### Kiến trúc Cloud
 ```
-USER
-  |
-  v
-Streamlit Web App  ---------------->  Cloud Hosting (Streamlit Community Cloud)
-  |
-  v
-supabase-py client
-  |
-  v
-Supabase (PostgreSQL) --------------> Cloud Database
-  |  \\
-  |   \\--> PostgREST (Cloud API tu sinh, goi qua supabase-py)
-  v
-Supabase Storage  ------------------> Cloud Storage (sao luu dataset CSV)
+USER -> Streamlit Web App (Cloud Hosting) -> Supabase PostgreSQL (Cloud Database)
+                                            -> Supabase PostgREST (Cloud API)
+                                            -> Supabase Storage (Cloud Storage - backup dataset)
 ```
 
-### Cong nghe su dung
-| Thanh phan | Cong nghe |
-|---|---|
-| Frontend + Backend | Streamlit (Python) |
-| Cloud Database | Supabase (PostgreSQL) |
-| Cloud API | Supabase auto REST API (PostgREST) qua `supabase-py` |
-| Cloud Storage | Supabase Storage (sao luu dataset) |
-| Cloud Hosting | Streamlit Community Cloud |
-| Ban do | Folium + streamlit-folium |
-| Version control | GitHub |
+### Vì sao vị trí xe là "mô phỏng" chứ không phải GPS thật?
+Hiện **không có API GPS thời gian thực công khai/miễn phí** cho xe buýt tại Việt Nam —
+BusMap và Buýt Đồng Nai là hệ thống nội bộ, không mở dữ liệu vị trí xe cho bên thứ ba,
+và việc trích xuất dữ liệu riêng của họ vi phạm điều khoản dịch vụ nên nhóm không thực
+hiện. Thay vào đó, ứng dụng **tính toán vị trí ước tính** của từng chuyến xe dựa trên
+giờ khởi hành chuẩn + giãn cách chạy + thời gian đã trôi qua, nội suy theo lộ trình —
+minh hoạ trực quan tương tự Grab/Be nhưng luôn được ghi rõ là ước tính, không phải GPS
+thật (xem `backend/tracking.py`).
 
-### Nguon du lieu & gioi han
-Bo du lieu demo (`dataset/`) duoc bien soan thu cong theo cau truc chuan GTFS
-(stops / routes / route_stops), dua tren so hieu tuyen va cac diem dau-cuoi
-(ben xe, truong hoc, san bay) co that tai TP.HCM; toa do cac tram trung gian
-duoc **noi suy tuyen tinh** giua cac diem neo de phuc vu minh hoa, khong phai
-du lieu GTFS chinh thuc. Gio xe la **uoc tinh theo bieu do chay chuan** (chua
-tich hop GPS thoi gian thuc) - day la huong phat trien tiep theo cua du an.
-        """
-    )
+### Nguồn dữ liệu & giới hạn
+Bộ dữ liệu (`dataset/`) biên soạn thủ công theo cấu trúc chuẩn GTFS, dựa trên địa danh
+có thật tại TP.HCM và Biên Hòa; toạ độ trạm trung gian được nội suy tuyến tính để minh
+hoạ, không phải dữ liệu GTFS chính thức. Tìm kiếm theo địa chỉ tự do dùng OpenStreetMap
+Nominatim (miễn phí, không cần API key) làm phương án bổ sung khi tên không khớp trực
+tiếp dữ liệu tuyến.
+        """)
+    else:
+        st.markdown("""
+### The problem
+Students and people without a personal vehicle rely on buses but struggle to check
+arrival times, find transfer points, or work out the cheapest route across multiple
+lines — especially when they only know a nearby address, not the exact stop name.
+
+**Target users:** students, elderly people, and commuters using public transport in
+Ho Chi Minh City and Bien Hoa - Dong Nai.
+
+### The solution
+Enter an address/place name (or pick a stop directly) for origin and destination; the
+system suggests the optimal route (direct or 1 transfer), visualizes it on a map with
+simulated live bus positions, and estimates arrival time and fare.
+
+### Cloud architecture
+```
+USER -> Streamlit Web App (Cloud Hosting) -> Supabase PostgreSQL (Cloud Database)
+                                            -> Supabase PostgREST (Cloud API)
+                                            -> Supabase Storage (Cloud Storage - dataset backup)
+```
+
+### Why are bus positions "simulated" instead of real GPS?
+There is currently **no free public real-time GPS API** for buses in Vietnam — BusMap
+and Buyt Dong Nai are closed internal systems that do not expose vehicle-position data
+to third parties, and scraping their private data would violate their terms of service,
+so the team did not do that. Instead, the app **computes an estimated position** for
+each trip from the standard departure time + headway + elapsed time, interpolated along
+the route — a Grab/Be-style visualization that is always clearly labeled as an estimate,
+not real GPS (see `backend/tracking.py`).
+
+### Data source & limitations
+The dataset (`dataset/`) is manually authored following the GTFS structure, based on
+real places in Ho Chi Minh City and Bien Hoa; intermediate stop coordinates are linearly
+interpolated for illustration, not an official GTFS feed. Free-text address search uses
+OpenStreetMap Nominatim (free, no API key) as a fallback when the query doesn't match a
+stop name directly.
+        """)

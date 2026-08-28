@@ -1,11 +1,16 @@
-route_id,route_short_name,route_long_name,fare_regular,fare_student,headway_min,first_departure,last_departure
-R01,01,Ben Thanh - Ben xe Cho Lon,6000,3000,10,05:00,20:30
-R08,08,Ben xe Quan 8 - Dai hoc Quoc Gia,6000,3000,15,05:00,20:00
-R10,10,Dai hoc Quoc Gia - Ben xe Cho Lon,6000,3000,15,05:00,20:00
-R19,19,Ben Thanh - Dai hoc Quoc Gia (qua Suoi Tien),7000,3000,12,05:00,21:00
-R30,30,Ben xe Cho Lon - San bay Tan Son Nhat,6000,3000,15,05:30,20:00
-R152,152,San bay Tan Son Nhat - Ben Thanh,6000,3000,10,05:00,21:30
-R88,88,Ben Thanh - Phu My Hung,6000,3000,15,05:30,20:00
-R93,93,Ben xe Mien Dong moi - Ben xe Mien Tay,7000,3000,15,04:30,20:30
-R45,45,Ben Thanh - Dai hoc Su Pham,6000,3000,15,05:00,19:30
-R36,36,Ben xe Mien Tay - Ben Thanh,6000,3000,12,05:00,20:00
+route_id,route_short_name,route_long_name,route_long_name_en,city_id,fare_regular,fare_student,headway_min,first_departure,last_departure
+R01,01,Bến Thành - Bến xe Chợ Lớn,Ben Thanh - Cho Lon Bus Station,hcmc,6000,3000,10,05:00,20:30
+R08,08,Bến xe Quận 8 - Đại học Quốc Gia,District 8 - Vietnam National University,hcmc,6000,3000,15,05:00,20:00
+R10,10,Đại học Quốc Gia - Bến xe Chợ Lớn,Vietnam National University - Cho Lon,hcmc,6000,3000,15,05:00,20:00
+R19,19,Bến Thành - Đại học Quốc Gia (qua Suối Tiên),Ben Thanh - VNU-HCM (via Suoi Tien),hcmc,7000,3000,12,05:00,21:00
+R30,30,Bến xe Chợ Lớn - Sân bay Tân Sơn Nhất,Cho Lon - Tan Son Nhat Airport,hcmc,6000,3000,15,05:30,20:00
+R152,152,Sân bay Tân Sơn Nhất - Bến Thành,Tan Son Nhat Airport - Ben Thanh,hcmc,6000,3000,10,05:00,21:30
+R88,88,Bến Thành - Phú Mỹ Hưng,Ben Thanh - Phu My Hung,hcmc,6000,3000,15,05:30,20:00
+R93,93,Bến xe Miền Đông mới - Bến xe Miền Tây,New Mien Dong - Mien Tay Bus Station,hcmc,7000,3000,15,04:30,20:30
+R45,45,Bến Thành - Đại học Sư Phạm,Ben Thanh - HCMC University of Education,hcmc,6000,3000,15,05:00,19:30
+R36,36,Bến xe Miền Tây - Bến Thành,Mien Tay Bus Station - Ben Thanh,hcmc,6000,3000,12,05:00,20:00
+BH01,BH-01,Bến xe Biên Hòa - Chợ Biên Hòa,Bien Hoa Bus Station - Bien Hoa Market,bienhoa,6000,3000,15,05:00,19:30
+BH02,BH-02,Ga Biên Hòa - Đại học Lạc Hồng (qua Nguyễn Ái Quốc),Bien Hoa Railway Station - Lac Hong University (via Nguyen Ai Quoc),bienhoa,8000,3000,20,05:00,19:30
+BH03,BH-03,Ngã tư Vũng Tàu - Ga Biên Hòa (qua KCN Biên Hòa 2),Vung Tau Junction - Bien Hoa Railway Station (via Industrial Park 2),bienhoa,7000,3000,20,05:00,19:00
+BH04,BH-04,Chợ Biên Hòa - Bệnh viện Đa khoa Đồng Nai,Bien Hoa Market - Dong Nai General Hospital,bienhoa,6000,3000,20,05:00,19:30
+BH05,BH-05,Khu công nghiệp Biên Hòa 1 - Vincom Plaza,Industrial Park 1 - Vincom Plaza Bien Hoa,bienhoa,6000,3000,20,05:00,19:00

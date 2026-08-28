@@ -110,7 +110,35 @@ Xem chi tiết bảng/khoá tại [`er_diagram.md`](er_diagram.md) và schema th
 3. Thuật toán tìm tuyến giới hạn **tối đa 1 lần chuyển tuyến** để giữ đơn giản và dễ giải thích; mạng lưới thực tế lớn hơn có thể cần thuật toán Dijkstra/A* trên đồ thị thời gian đầy đủ.
 4. Chưa có xác thực người dùng (authentication) vì bài toán không yêu cầu tài khoản cá nhân.
 
-## 8. Hướng phát triển tiếp theo (Future Development)
+## 8b. Tính năng mở rộng (v2): bản đồ trực tiếp, đa thành phố, đa ngôn ngữ
+
+- **Phạm vi 2 thành phố**: dữ liệu bao phủ cả TP.HCM (10 tuyến) và Biên Hòa - Đồng Nai
+  (5 tuyến), phân biệt qua cột `city_id` trên `stops`/`routes`, người dùng lọc theo
+  thành phố ở sidebar.
+- **Tìm kiếm theo địa chỉ 2 lớp**: lớp 1 (chính, luôn hoạt động kể cả offline) là so
+  khớp cục bộ không phân biệt dấu/hoa-thường với tên trạm (`backend/search.py`); lớp 2
+  (bổ sung) là geocoding qua OpenStreetMap Nominatim miễn phí, không cần API key
+  (`backend/geocoding.py`), dùng khi địa chỉ không khớp trực tiếp tên trạm nào.
+- **Bản đồ trực tiếp kiểu BusMap**: toàn bộ trạm hiển thị dạng marker trên 1 bản đồ
+  Folium lớn, tô màu theo thành phố; khi chọn 1 phương án di chuyển hoặc duyệt 1 tuyến,
+  bản đồ vẽ polyline lộ trình + marker điểm đi/đến.
+- **Mô phỏng xe chạy thời gian thực**: bật công tắc "Tự động cập nhật vị trí xe" để
+  bản đồ tự làm mới mỗi 8 giây (`streamlit-autorefresh`), tính lại vị trí các "chuyến
+  xe" đang chạy dựa trên biểu đồ chạy chuẩn (`backend/tracking.py`) và vẽ icon 🚌 di
+  chuyển dọc lộ trình - **luôn ghi rõ đây là ước tính mô phỏng, không phải GPS thật**,
+  vì hiện chưa có API GPS công khai miễn phí cho xe buýt tại Việt Nam.
+- **Trạng thái hoạt động của tuyến**: mỗi tuyến hiển thị 🟢 (đang trong giờ chạy) hoặc
+  ⚪ (ngoài giờ) dựa trên so sánh giờ hiện tại với `first_departure`/`last_departure`
+  (`backend/schedule.is_route_active`).
+- **Song ngữ Việt/Anh**: toàn bộ nhãn giao diện qua `backend/i18n.py`; tên trạm/tuyến có
+  cả bản tiếng Việt có dấu và bản tiếng Anh (cột `*_name_en`) để phục vụ người dùng nước
+  ngoài.
+- **Giao diện tối/sáng**: chuyển đổi qua CSS tuỳ biến (`inject_theme_css` trong
+  `frontend/app.py`) kèm đổi nền bản đồ (`cartodbpositron` / `cartodbdark_matter`); đây
+  là giải pháp CSS override ở mức tốt nhất có thể trong giới hạn của Streamlit (không
+  phải toàn bộ widget gốc của Streamlit đều đổi màu 100%, đã ghi nhận là giới hạn).
+
+## 9. Hướng phát triển tiếp theo (Future Development)
 
 - Tích hợp API GPS thời gian thực (nếu đơn vị vận hành xe buýt công khai) để thay thế ước tính theo biểu đồ chạy.
 - Mở rộng thuật toán tìm tuyến cho phép nhiều hơn 1 lần chuyển tuyến, tối ưu theo cả thời gian lẫn số lần đi bộ.

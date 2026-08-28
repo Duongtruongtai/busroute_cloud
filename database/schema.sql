@@ -1,28 +1,37 @@
 -- =========================================================================
 -- Smart City Bus Assistant - Schema cho Supabase (PostgreSQL)
 -- Chay toan bo file nay trong Supabase Dashboard > SQL Editor > New query
+-- An toan chay lai nhieu lan (idempotent): dung "if not exists" / ALTER ... ADD COLUMN IF NOT EXISTS.
 -- =========================================================================
 
 -- Bang tram dung
 create table if not exists stops (
-    stop_id    text primary key,
-    stop_name  text not null,
-    lat        double precision not null,
-    lon        double precision not null,
-    is_hub     boolean not null default false
+    stop_id      text primary key,
+    stop_name    text not null,
+    stop_name_en text,
+    lat          double precision not null,
+    lon          double precision not null,
+    is_hub       boolean not null default false,
+    city_id      text not null default 'hcmc'
 );
+alter table stops add column if not exists stop_name_en text;
+alter table stops add column if not exists city_id text not null default 'hcmc';
 
 -- Bang tuyen xe buyt
 create table if not exists routes (
-    route_id         text primary key,
-    route_short_name text not null,
-    route_long_name  text not null,
-    fare_regular     integer not null,
-    fare_student     integer not null,
-    headway_min      integer not null,
-    first_departure  text not null,   -- 'HH:MM'
-    last_departure   text not null    -- 'HH:MM'
+    route_id           text primary key,
+    route_short_name   text not null,
+    route_long_name    text not null,
+    route_long_name_en text,
+    fare_regular       integer not null,
+    fare_student       integer not null,
+    headway_min        integer not null,
+    first_departure    text not null,   -- 'HH:MM'
+    last_departure     text not null,   -- 'HH:MM'
+    city_id             text not null default 'hcmc'
 );
+alter table routes add column if not exists route_long_name_en text;
+alter table routes add column if not exists city_id text not null default 'hcmc';
 
 -- Bang quan he tuyen - tram (thu tu tram tren moi tuyen + thoi gian tich luy)
 create table if not exists route_stops (
@@ -36,6 +45,8 @@ create table if not exists route_stops (
 
 create index if not exists idx_route_stops_route on route_stops (route_id);
 create index if not exists idx_route_stops_stop on route_stops (stop_id);
+create index if not exists idx_stops_city on stops (city_id);
+create index if not exists idx_routes_city on routes (city_id);
 
 -- Bang nhat ky tim kiem (chung minh ung dung GHI du lieu that len Cloud Database,
 -- dong thoi phuc vu dashboard thong ke "tuyen duoc tim nhieu nhat")

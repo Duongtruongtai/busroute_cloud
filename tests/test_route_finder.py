@@ -5,6 +5,9 @@ Chay: python tests/test_route_finder.py
 import os
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import pandas as pd
@@ -54,6 +57,16 @@ def main():
     check("TC04 stops_between bat dau tai diem di", seq[0] == "BEN_THANH")
     check("TC04 stops_between ket thuc tai diem den", seq[-1] == "CHO_LON")
     check("TC04 stops_between co it nhat 2 tram", len(seq) >= 2)
+
+    # TC05: kich ban demo chinh - Truong Nguyen Tri Phuong (Nguyen Ai Quoc) -> DH Lac Hong
+    res5 = finder.find("TRUONG_NGUYEN_TRI_PHUONG", "DH_LAC_HONG", fare_type="student")
+    check("TC05 tim duoc duong di Nguyen Tri Phuong -> Lac Hong", len(res5) >= 1)
+    check("TC05 la tuyen truc tiep (BH02 di thang qua ca 2 diem)", res5[0].transfers == 0)
+    check("TC05 dung tuyen BH02", res5[0].legs[0].route_id == "BH02")
+
+    # TC06: mang Bien Hoa co the chuyen tuyen qua hub GA_BIEN_HOA
+    res6 = finder.find("NGA_TU_VUNG_TAU", "TRUONG_NGUYEN_TRI_PHUONG", fare_type="regular")
+    check("TC06 tim duoc duong tu Nga tu Vung Tau den truong (co chuyen tuyen)", len(res6) >= 1)
 
     print("\nTat ca test PASS.")
 

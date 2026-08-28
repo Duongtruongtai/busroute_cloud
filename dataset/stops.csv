@@ -1,61 +1,107 @@
-stop_id,stop_name,lat,lon,is_hub
-BEN_THANH,Cho Ben Thanh,10.7724,106.698,1
-R01_S2,Tran Hung Dao - Tram 1 (tuyen 01),10.766625,106.6863,0
-R01_S3,Tran Hung Dao - Tram 2 (tuyen 01),10.76085,106.6746,0
-R01_S4,Tran Hung Dao - Tram 3 (tuyen 01),10.755075,106.6629,0
-CHO_LON,Ben xe Cho Lon,10.7493,106.6512,1
-Q8,Ben xe Quan 8,10.7385,106.665,1
-R08_S2,Nguyen Thi Thap - Xa lo Ha Noi - Tram 1 (tuyen 08),10.746975,106.67325,0
-R08_S3,Nguyen Thi Thap - Xa lo Ha Noi - Tram 2 (tuyen 08),10.75545,106.6815,0
-R08_S4,Nguyen Thi Thap - Xa lo Ha Noi - Tram 3 (tuyen 08),10.763925,106.68975,0
-R08_S6,Nguyen Thi Thap - Xa lo Ha Noi - Tram 1 (tuyen 08),10.7968,106.72425,0
-R08_S7,Nguyen Thi Thap - Xa lo Ha Noi - Tram 2 (tuyen 08),10.8212,106.7505,0
-R08_S8,Nguyen Thi Thap - Xa lo Ha Noi - Tram 3 (tuyen 08),10.8456,106.77675,0
-DHQG,Dai hoc Quoc Gia TP.HCM,10.87,106.803,1
-R10_S2,Ly Thuong Kiet - Tram 1 (tuyen 10),10.845625,106.766675,0
-R10_S3,Ly Thuong Kiet - Tram 2 (tuyen 10),10.82125,106.73035,0
-R10_S4,Ly Thuong Kiet - Tram 3 (tuyen 10),10.796875,106.694025,0
-BACH_KHOA,Dai hoc Bach Khoa,10.7725,106.6577,1
-R10_S6,Ly Thuong Kiet - Tram 1 (tuyen 10),10.7667,106.656075,0
-R10_S7,Ly Thuong Kiet - Tram 2 (tuyen 10),10.7609,106.65445,0
-R10_S8,Ly Thuong Kiet - Tram 3 (tuyen 10),10.7551,106.652825,0
-R19_S2,Xa lo Ha Noi - Tram 1 (tuyen 19),10.79038,106.71884,0
-R19_S3,Xa lo Ha Noi - Tram 2 (tuyen 19),10.80836,106.73968,0
-R19_S4,Xa lo Ha Noi - Tram 3 (tuyen 19),10.82634,106.76052,0
-R19_S5,Xa lo Ha Noi - Tram 4 (tuyen 19),10.84432,106.78136,0
-SUOI_TIEN,Khu du lich Suoi Tien,10.8623,106.8022,1
-R19_S7,Xa lo Ha Noi - Tram 1 (tuyen 19),10.86384,106.80236,0
-R19_S8,Xa lo Ha Noi - Tram 2 (tuyen 19),10.86538,106.80252,0
-R19_S9,Xa lo Ha Noi - Tram 3 (tuyen 19),10.86692,106.80268,0
-R19_S10,Xa lo Ha Noi - Tram 4 (tuyen 19),10.86846,106.80284,0
-R30_S2,Ly Thuong Kiet - Truong Chinh - Tram 1 (tuyen 30),10.7667,106.6514,0
-R30_S3,Ly Thuong Kiet - Truong Chinh - Tram 2 (tuyen 30),10.7841,106.6516,0
-R30_S4,Ly Thuong Kiet - Truong Chinh - Tram 3 (tuyen 30),10.8015,106.6518,0
-TSN,San bay Tan Son Nhat,10.8189,106.652,1
-R152_S2,Truong Son - Nguyen Van Troi - Tram 1 (tuyen 152),10.807275,106.6635,0
-R152_S3,Truong Son - Nguyen Van Troi - Tram 2 (tuyen 152),10.79565,106.675,0
-R152_S4,Truong Son - Nguyen Van Troi - Tram 3 (tuyen 152),10.784025,106.6865,0
-R88_S2,Nguyen Huu Tho - Tram 1 (tuyen 88),10.761575,106.703075,0
-R88_S3,Nguyen Huu Tho - Tram 2 (tuyen 88),10.75075,106.70815,0
-R88_S4,Nguyen Huu Tho - Tram 3 (tuyen 88),10.739925,106.713225,0
-PMH,Khu do thi Phu My Hung,10.7291,106.7183,1
-MIEN_DONG,Ben xe Mien Dong moi,10.8657,106.7735,1
-R93_S2,Dien Bien Phu - Tram 1 (tuyen 93),10.84704,106.7584,0
-R93_S3,Dien Bien Phu - Tram 2 (tuyen 93),10.82838,106.7433,0
-R93_S4,Dien Bien Phu - Tram 3 (tuyen 93),10.80972,106.7282,0
-R93_S5,Dien Bien Phu - Tram 4 (tuyen 93),10.79106,106.7131,0
-R93_S7,Dien Bien Phu - Tram 1 (tuyen 93),10.76588,106.682,0
-R93_S8,Dien Bien Phu - Tram 2 (tuyen 93),10.75936,106.666,0
-R93_S9,Dien Bien Phu - Tram 3 (tuyen 93),10.75284,106.65,0
-R93_S10,Dien Bien Phu - Tram 4 (tuyen 93),10.74632,106.634,0
-MIEN_TAY,Ben xe Mien Tay,10.7398,106.618,1
-R45_S2,Cach Mang Thang 8 - Tram 1 (tuyen 45),10.768233,106.692733,0
-R45_S3,Cach Mang Thang 8 - Tram 2 (tuyen 45),10.764067,106.687467,0
-SU_PHAM,Dai hoc Su Pham TP.HCM,10.7599,106.6822,1
-R36_S2,Hung Vuong - Tram 1 (tuyen 36),10.7471,106.6367,0
-R36_S3,Hung Vuong - Tram 2 (tuyen 36),10.7544,106.6554,0
-R36_S4,Hung Vuong - Tram 3 (tuyen 36),10.7617,106.6741,0
-CV_23_9,Cong vien 23/9,10.769,106.6928,1
-R36_S6,Hung Vuong - Tram 1 (tuyen 36),10.76985,106.6941,0
-R36_S7,Hung Vuong - Tram 2 (tuyen 36),10.7707,106.6954,0
-R36_S8,Hung Vuong - Tram 3 (tuyen 36),10.77155,106.6967,0
+stop_id,stop_name,stop_name_en,lat,lon,is_hub,city_id
+BEN_THANH,Chợ Bến Thành,Ben Thanh Market,10.7724,106.698,1,hcmc
+R01_S2,Trần Hưng Đạo - Trạm 1 (tuyến 01),Tran Hung Dao St. - Stop 1 (Route 01),10.766625,106.6863,0,hcmc
+R01_S3,Trần Hưng Đạo - Trạm 2 (tuyến 01),Tran Hung Dao St. - Stop 2 (Route 01),10.76085,106.6746,0,hcmc
+R01_S4,Trần Hưng Đạo - Trạm 3 (tuyến 01),Tran Hung Dao St. - Stop 3 (Route 01),10.755075,106.6629,0,hcmc
+CHO_LON,Bến xe Chợ Lớn,Cho Lon Bus Station,10.7493,106.6512,1,hcmc
+Q8,Bến xe Quận 8,District 8 Bus Station,10.7385,106.665,1,hcmc
+R08_S2,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 1 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 1 (Route 08),10.746975,106.67325,0,hcmc
+R08_S3,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 2 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 2 (Route 08),10.75545,106.6815,0,hcmc
+R08_S4,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 3 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 3 (Route 08),10.763925,106.68975,0,hcmc
+R08_S6,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 1 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 1 (Route 08),10.7968,106.72425,0,hcmc
+R08_S7,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 2 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 2 (Route 08),10.8212,106.7505,0,hcmc
+R08_S8,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 3 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 3 (Route 08),10.8456,106.77675,0,hcmc
+DHQG,Đại học Quốc Gia TP.HCM,Vietnam National University HCMC,10.87,106.803,1,hcmc
+R10_S2,Lý Thường Kiệt - Trạm 1 (tuyến 10),Ly Thuong Kiet St. - Stop 1 (Route 10),10.845625,106.766675,0,hcmc
+R10_S3,Lý Thường Kiệt - Trạm 2 (tuyến 10),Ly Thuong Kiet St. - Stop 2 (Route 10),10.82125,106.73035,0,hcmc
+R10_S4,Lý Thường Kiệt - Trạm 3 (tuyến 10),Ly Thuong Kiet St. - Stop 3 (Route 10),10.796875,106.694025,0,hcmc
+BACH_KHOA,Đại học Bách Khoa,HCMC University of Technology,10.7725,106.6577,1,hcmc
+R10_S6,Lý Thường Kiệt - Trạm 1 (tuyến 10),Ly Thuong Kiet St. - Stop 1 (Route 10),10.7667,106.656075,0,hcmc
+R10_S7,Lý Thường Kiệt - Trạm 2 (tuyến 10),Ly Thuong Kiet St. - Stop 2 (Route 10),10.7609,106.65445,0,hcmc
+R10_S8,Lý Thường Kiệt - Trạm 3 (tuyến 10),Ly Thuong Kiet St. - Stop 3 (Route 10),10.7551,106.652825,0,hcmc
+R19_S2,Xa lộ Hà Nội - Trạm 1 (tuyến 19),Ha Noi Highway - Stop 1 (Route 19),10.79038,106.71884,0,hcmc
+R19_S3,Xa lộ Hà Nội - Trạm 2 (tuyến 19),Ha Noi Highway - Stop 2 (Route 19),10.80836,106.73968,0,hcmc
+R19_S4,Xa lộ Hà Nội - Trạm 3 (tuyến 19),Ha Noi Highway - Stop 3 (Route 19),10.82634,106.76052,0,hcmc
+R19_S5,Xa lộ Hà Nội - Trạm 4 (tuyến 19),Ha Noi Highway - Stop 4 (Route 19),10.84432,106.78136,0,hcmc
+SUOI_TIEN,Khu du lịch Suối Tiên,Suoi Tien Tourist Park,10.8623,106.8022,1,hcmc
+R19_S7,Xa lộ Hà Nội - Trạm 1 (tuyến 19),Ha Noi Highway - Stop 1 (Route 19),10.86384,106.80236,0,hcmc
+R19_S8,Xa lộ Hà Nội - Trạm 2 (tuyến 19),Ha Noi Highway - Stop 2 (Route 19),10.86538,106.80252,0,hcmc
+R19_S9,Xa lộ Hà Nội - Trạm 3 (tuyến 19),Ha Noi Highway - Stop 3 (Route 19),10.86692,106.80268,0,hcmc
+R19_S10,Xa lộ Hà Nội - Trạm 4 (tuyến 19),Ha Noi Highway - Stop 4 (Route 19),10.86846,106.80284,0,hcmc
+R30_S2,Lý Thường Kiệt - Trường Chinh - Trạm 1 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 1 (Route 30),10.7667,106.6514,0,hcmc
+R30_S3,Lý Thường Kiệt - Trường Chinh - Trạm 2 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 2 (Route 30),10.7841,106.6516,0,hcmc
+R30_S4,Lý Thường Kiệt - Trường Chinh - Trạm 3 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 3 (Route 30),10.8015,106.6518,0,hcmc
+TSN,Sân bay Tân Sơn Nhất,Tan Son Nhat Airport,10.8189,106.652,1,hcmc
+R152_S2,Trường Sơn - Nguyễn Văn Trỗi - Trạm 1 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 1 (Route 152),10.807275,106.6635,0,hcmc
+R152_S3,Trường Sơn - Nguyễn Văn Trỗi - Trạm 2 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 2 (Route 152),10.79565,106.675,0,hcmc
+R152_S4,Trường Sơn - Nguyễn Văn Trỗi - Trạm 3 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 3 (Route 152),10.784025,106.6865,0,hcmc
+R88_S2,Nguyễn Hữu Thọ - Trạm 1 (tuyến 88),Nguyen Huu Tho St. - Stop 1 (Route 88),10.761575,106.703075,0,hcmc
+R88_S3,Nguyễn Hữu Thọ - Trạm 2 (tuyến 88),Nguyen Huu Tho St. - Stop 2 (Route 88),10.75075,106.70815,0,hcmc
+R88_S4,Nguyễn Hữu Thọ - Trạm 3 (tuyến 88),Nguyen Huu Tho St. - Stop 3 (Route 88),10.739925,106.713225,0,hcmc
+PMH,Khu đô thị Phú Mỹ Hưng,Phu My Hung Urban Area,10.7291,106.7183,1,hcmc
+MIEN_DONG,Bến xe Miền Đông mới,New Mien Dong Bus Station,10.8657,106.7735,1,hcmc
+R93_S2,Điện Biên Phủ - Trạm 1 (tuyến 93),Dien Bien Phu St. - Stop 1 (Route 93),10.84704,106.7584,0,hcmc
+R93_S3,Điện Biên Phủ - Trạm 2 (tuyến 93),Dien Bien Phu St. - Stop 2 (Route 93),10.82838,106.7433,0,hcmc
+R93_S4,Điện Biên Phủ - Trạm 3 (tuyến 93),Dien Bien Phu St. - Stop 3 (Route 93),10.80972,106.7282,0,hcmc
+R93_S5,Điện Biên Phủ - Trạm 4 (tuyến 93),Dien Bien Phu St. - Stop 4 (Route 93),10.79106,106.7131,0,hcmc
+R93_S7,Điện Biên Phủ - Trạm 1 (tuyến 93),Dien Bien Phu St. - Stop 1 (Route 93),10.76588,106.682,0,hcmc
+R93_S8,Điện Biên Phủ - Trạm 2 (tuyến 93),Dien Bien Phu St. - Stop 2 (Route 93),10.75936,106.666,0,hcmc
+R93_S9,Điện Biên Phủ - Trạm 3 (tuyến 93),Dien Bien Phu St. - Stop 3 (Route 93),10.75284,106.65,0,hcmc
+R93_S10,Điện Biên Phủ - Trạm 4 (tuyến 93),Dien Bien Phu St. - Stop 4 (Route 93),10.74632,106.634,0,hcmc
+MIEN_TAY,Bến xe Miền Tây,Mien Tay Bus Station,10.7398,106.618,1,hcmc
+R45_S2,Cách Mạng Tháng 8 - Trạm 1 (tuyến 45),Cach Mang Thang 8 St. - Stop 1 (Route 45),10.768233,106.692733,0,hcmc
+R45_S3,Cách Mạng Tháng 8 - Trạm 2 (tuyến 45),Cach Mang Thang 8 St. - Stop 2 (Route 45),10.764067,106.687467,0,hcmc
+SU_PHAM,Đại học Sư Phạm TP.HCM,HCMC University of Education,10.7599,106.6822,1,hcmc
+R36_S2,Hùng Vương - Trạm 1 (tuyến 36),Hung Vuong St. - Stop 1 (Route 36),10.7471,106.6367,0,hcmc
+R36_S3,Hùng Vương - Trạm 2 (tuyến 36),Hung Vuong St. - Stop 2 (Route 36),10.7544,106.6554,0,hcmc
+R36_S4,Hùng Vương - Trạm 3 (tuyến 36),Hung Vuong St. - Stop 3 (Route 36),10.7617,106.6741,0,hcmc
+CV_23_9,Công viên 23/9,23/9 Park,10.769,106.6928,1,hcmc
+R36_S6,Hùng Vương - Trạm 1 (tuyến 36),Hung Vuong St. - Stop 1 (Route 36),10.76985,106.6941,0,hcmc
+R36_S7,Hùng Vương - Trạm 2 (tuyến 36),Hung Vuong St. - Stop 2 (Route 36),10.7707,106.6954,0,hcmc
+R36_S8,Hùng Vương - Trạm 3 (tuyến 36),Hung Vuong St. - Stop 3 (Route 36),10.77155,106.6967,0,hcmc
+BX_BIEN_HOA,Bến xe Biên Hòa,Bien Hoa Bus Station,10.942,106.846,1,bienhoa
+BH01_S2,Cách Mạng Tháng Tám - Trạm 1 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 1 (Route BH-01),10.9407,106.8469,0,bienhoa
+BH01_S3,Cách Mạng Tháng Tám - Trạm 2 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 2 (Route BH-01),10.9394,106.8478,0,bienhoa
+BH01_S4,Cách Mạng Tháng Tám - Trạm 3 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 3 (Route BH-01),10.9381,106.8487,0,bienhoa
+GA_BIEN_HOA,Ga Biên Hòa,Bien Hoa Railway Station,10.9368,106.8496,1,bienhoa
+BH01_S6,Cách Mạng Tháng Tám - Trạm 1 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 1 (Route BH-01),10.938775,106.843075,0,bienhoa
+BH01_S7,Cách Mạng Tháng Tám - Trạm 2 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 2 (Route BH-01),10.94075,106.83655,0,bienhoa
+BH01_S8,Cách Mạng Tháng Tám - Trạm 3 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 3 (Route BH-01),10.942725,106.830025,0,bienhoa
+CHO_BIEN_HOA,Chợ Biên Hòa,Bien Hoa Market,10.9447,106.8235,1,bienhoa
+BH02_S2,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.949533,106.852733,0,bienhoa
+BH02_S3,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.962267,106.855867,0,bienhoa
+TRUONG_NGUYEN_TRI_PHUONG,Trường Nguyễn Tri Phương (đường Nguyễn Ái Quốc),Nguyen Tri Phuong School (Nguyen Ai Quoc St.),10.975,106.859,1,bienhoa
+BH02_S5,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.964,106.854667,0,bienhoa
+BH02_S6,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.953,106.850333,0,bienhoa
+BH02_S8,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.944333,106.840333,0,bienhoa
+BH02_S9,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.946667,106.834667,0,bienhoa
+CV_BIEN_HUNG,Công viên Biên Hùng,Bien Hung Park,10.949,106.829,1,bienhoa
+BH02_S11,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.949,106.830333,0,bienhoa
+BH02_S12,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.949,106.831667,0,bienhoa
+DH_DONG_NAI,Đại học Đồng Nai,Dong Nai University,10.949,106.833,1,bienhoa
+BH02_S14,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.9511,106.8247,0,bienhoa
+BH02_S15,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.9532,106.8164,0,bienhoa
+DH_LAC_HONG,Đại học Lạc Hồng,Lac Hong University,10.9553,106.8081,1,bienhoa
+NGA_TU_VUNG_TAU,Ngã tư Vũng Tàu,Vung Tau Junction,10.9633,106.8636,1,bienhoa
+BH03_S2,Đồng Khởi - Trạm 1 (tuyến BH-03),Dong Khoi St. - Stop 1 (Route BH-03),10.96185,106.861575,0,bienhoa
+BH03_S3,Đồng Khởi - Trạm 2 (tuyến BH-03),Dong Khoi St. - Stop 2 (Route BH-03),10.9604,106.85955,0,bienhoa
+BH03_S4,Đồng Khởi - Trạm 3 (tuyến BH-03),Dong Khoi St. - Stop 3 (Route BH-03),10.95895,106.857525,0,bienhoa
+KCN_BIEN_HOA_2,Khu công nghiệp Biên Hòa 2,Bien Hoa Industrial Park 2,10.9575,106.8555,1,bienhoa
+BH03_S6,Đồng Khởi - Trạm 1 (tuyến BH-03),Dong Khoi St. - Stop 1 (Route BH-03),10.952325,106.854025,0,bienhoa
+BH03_S7,Đồng Khởi - Trạm 2 (tuyến BH-03),Dong Khoi St. - Stop 2 (Route BH-03),10.94715,106.85255,0,bienhoa
+BH03_S8,Đồng Khởi - Trạm 3 (tuyến BH-03),Dong Khoi St. - Stop 3 (Route BH-03),10.941975,106.851075,0,bienhoa
+BH04_S2,Đồng Khởi - Trạm 1 (tuyến BH-04),Dong Khoi St. - Stop 1 (Route BH-04),10.945775,106.825875,0,bienhoa
+BH04_S3,Đồng Khởi - Trạm 2 (tuyến BH-04),Dong Khoi St. - Stop 2 (Route BH-04),10.94685,106.82825,0,bienhoa
+BH04_S4,Đồng Khởi - Trạm 3 (tuyến BH-04),Dong Khoi St. - Stop 3 (Route BH-04),10.947925,106.830625,0,bienhoa
+BH04_S6,Đồng Khởi - Trạm 1 (tuyến BH-04),Dong Khoi St. - Stop 1 (Route BH-04),10.948325,106.8344,0,bienhoa
+BH04_S7,Đồng Khởi - Trạm 2 (tuyến BH-04),Dong Khoi St. - Stop 2 (Route BH-04),10.94765,106.8358,0,bienhoa
+BH04_S8,Đồng Khởi - Trạm 3 (tuyến BH-04),Dong Khoi St. - Stop 3 (Route BH-04),10.946975,106.8372,0,bienhoa
+BV_DONG_NAI,Bệnh viện Đa khoa Đồng Nai,Dong Nai General Hospital,10.9463,106.8386,1,bienhoa
+KCN_BIEN_HOA_1,Khu công nghiệp Biên Hòa 1,Bien Hoa Industrial Park 1,10.931,106.833,1,bienhoa
+BH05_S2,Bùi Văn Hòa - Đồng Khởi - Trạm 1 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 1 (Route BH-05),10.9355,106.832,0,bienhoa
+BH05_S3,Bùi Văn Hòa - Đồng Khởi - Trạm 2 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 2 (Route BH-05),10.94,106.831,0,bienhoa
+BH05_S4,Bùi Văn Hòa - Đồng Khởi - Trạm 3 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 3 (Route BH-05),10.9445,106.83,0,bienhoa
+BH05_S6,Bùi Văn Hòa - Đồng Khởi - Trạm 1 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 1 (Route BH-05),10.949,106.832375,0,bienhoa
+BH05_S7,Bùi Văn Hòa - Đồng Khởi - Trạm 2 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 2 (Route BH-05),10.949,106.83575,0,bienhoa
+BH05_S8,Bùi Văn Hòa - Đồng Khởi - Trạm 3 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 3 (Route BH-05),10.949,106.839125,0,bienhoa
+VINCOM_BIEN_HOA,Vincom Plaza Biên Hòa,Vincom Plaza Bien Hoa,10.949,106.8425,1,bienhoa
