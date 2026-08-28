@@ -98,18 +98,25 @@ class RouteFinder:
         return result
 
     def stops_between(self, route_id: str, board_stop_id: str, alight_stop_id: str) -> List[str]:
-        """Danh sach stop_id lien tiep tren 1 tuyen tu tram len den tram xuong (dung ve polyline)."""
+        """Danh sach stop_id lien tiep tren 1 tuyen tu tram len den tram xuong (dung ve polyline).
+        Ho tro ca chieu nguoc (tuyen chay khu hoi) - tra ve theo dung thu tu di chuyen thuc te."""
         g = self._by_route[route_id]
         o_seq = int(g[g.stop_id == board_stop_id].iloc[0]["stop_sequence"])
         d_seq = int(g[g.stop_id == alight_stop_id].iloc[0]["stop_sequence"])
-        seg = g[(g.stop_sequence >= o_seq) & (g.stop_sequence <= d_seq)].sort_values("stop_sequence")
-        return list(seg["stop_id"])
+        lo, hi = min(o_seq, d_seq), max(o_seq, d_seq)
+        seg = g[(g.stop_sequence >= lo) & (g.stop_sequence <= hi)].sort_values("stop_sequence")
+        stop_ids = list(seg["stop_id"])
+        return list(reversed(stop_ids)) if o_seq > d_seq else stop_ids
 
     def _fare(self, route_id: str, fare_type: str) -> int:
         row = self.routes_df.loc[route_id]
         return int(row["fare_student"] if fare_type == "student" else row["fare_regular"])
 
     def _direct_leg(self, route_id: str, origin_id: str, dest_id: str, fare_type: str) -> Optional[Leg]:
+        # Tuyen xe buyt that su luon chay khu hoi (2 chieu), nen 1 tuyen co the dung de
+        # di theo CA HAI chieu doc theo hanh lang cua no - khong chi theo dung thu tu
+        # offset_min tang dan (offset_min chi la mo ta 1 SHAPE vat ly, khong phai huong
+        # di cu the cua 1 chuyen xe). Thoi gian di chuyen = tri tuyet doi cua chenh lech offset.
         g = self._by_route.get(route_id)
         if g is None:
             return None
@@ -119,8 +126,8 @@ class RouteFinder:
             return None
         o_off = float(o.iloc[0]["offset_min"])
         d_off = float(d.iloc[0]["offset_min"])
-        if d_off <= o_off:
-            return None  # du lieu mo phong xe chay 1 chieu trong danh sach nay
+        if d_off == o_off:
+            return None
         route = self.routes_df.loc[route_id]
         return Leg(
             route_id=route_id,
@@ -135,7 +142,7 @@ class RouteFinder:
             alight_stop_name_en=self.stop_name(dest_id, "en"),
             board_offset_min=o_off,
             alight_offset_min=d_off,
-            ride_minutes=d_off - o_off,
+            ride_minutes=abs(d_off - o_off),
             fare=self._fare(route_id, fare_type),
             headway_min=int(route["headway_min"]),
             first_departure=str(route["first_departure"]),
@@ -158,14 +165,10 @@ class RouteFinder:
                 itineraries.append(Itinerary(legs=[leg], total_minutes=leg.ride_minutes,
                                               total_fare=leg.fare, transfers=0))
 
-        # 2) Toi da 1 lan chuyen tuyen
+        # 2) Toi da 1 lan chuyen tuyen (tuyen chay khu hoi nen xet ca 2 huong tu diem di)
         for r1 in origin_routes:
             g1 = self._by_route[r1]
-            o1_rows = g1[g1.stop_id == origin_id]
-            if o1_rows.empty:
-                continue
-            o1_off = float(o1_rows.iloc[0]["offset_min"])
-            candidates = g1[g1.offset_min > o1_off]
+            candidates = g1[g1.stop_id != origin_id]
 
             for _, cand in candidates.iterrows():
                 transfer_stop = cand["stop_id"]

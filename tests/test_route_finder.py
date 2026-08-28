@@ -68,6 +68,17 @@ def main():
     res6 = finder.find("NGA_TU_VUNG_TAU", "TRUONG_NGUYEN_TRI_PHUONG", fare_type="regular")
     check("TC06 tim duoc duong tu Nga tu Vung Tau den truong (co chuyen tuyen)", len(res6) >= 1)
 
+    # TC07: tuyen phai hoat dong 2 chieu (xe buyt that luon chay khu hoi) - kich ban
+    # nguoi dung tu nhien de goi y: DH Bach Khoa -> Ben Thanh, di nguoc chieu "shape"
+    # cua tuyen R01 (Ben Thanh -> Cho Lon) qua tram trung chuyen Cho Lon.
+    res7 = finder.find("BACH_KHOA", "BEN_THANH", fare_type="student")
+    check("TC07 tim duoc duong DH Bach Khoa -> Ben Thanh (tuyen chay 2 chieu)", len(res7) >= 1)
+
+    # TC08: stops_between tra ve dung thu tu khi di NGUOC chieu "shape" cua tuyen
+    seq8 = finder.stops_between("R01", "CHO_LON", "BEN_THANH")
+    check("TC08 stops_between chieu nguoc bat dau tai diem di", seq8[0] == "CHO_LON")
+    check("TC08 stops_between chieu nguoc ket thuc tai diem den", seq8[-1] == "BEN_THANH")
+
     print("\nTat ca test PASS.")
 
 

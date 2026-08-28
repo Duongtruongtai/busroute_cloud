@@ -83,25 +83,65 @@ finder = build_finder(stops_df, routes_df, route_stops_df)
 # --------------------------------------------------------------------------- #
 def inject_theme_css(dark: bool):
     if dark:
-        bg, bg2, text, card, border, accent = "#0f172a", "#1e293b", "#e2e8f0", "#1e293b", "#334155", "#38bdf8"
+        bg, bg2, text, subtext, card, border, accent = (
+            "#0f172a", "#1e293b", "#f1f5f9", "#94a3b8", "#1e293b", "#334155", "#38bdf8")
         tile = "cartodbdark_matter"
     else:
-        bg, bg2, text, card, border, accent = "#ffffff", "#f8fafc", "#0f172a", "#ffffff", "#e2e8f0", "#2563eb"
+        bg, bg2, text, subtext, card, border, accent = (
+            "#ffffff", "#f8fafc", "#0f172a", "#64748b", "#ffffff", "#e2e8f0", "#2563eb")
         tile = "cartodbpositron"
     st.session_state["_map_tile"] = tile
     st.markdown(f"""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; }}
+
     .stApp {{ background-color: {bg}; }}
     [data-testid="stSidebar"] {{ background-color: {bg2}; }}
     [data-testid="stMarkdownContainer"] {{ color: {text}; }}
     [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {{ color: {text}; }}
-    .bus-card {{
-        background-color: {card}; border: 1px solid {border}; border-radius: 10px;
-        padding: 14px; margin-bottom: 10px; color: {text};
+    [data-testid="stCaptionContainer"] {{ color: {subtext}; }}
+
+    /* ---- Hero / search card ---- */
+    .hero-title {{ font-size: 28px; font-weight: 700; color: {text}; margin-bottom: 2px; }}
+    .hero-subtitle {{ font-size: 15px; color: {subtext}; margin-bottom: 20px; }}
+    .search-card {{
+        background-color: {card}; border: 1px solid {border}; border-radius: 16px;
+        padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }}
-    .bus-badge-active {{ color: #16a34a; font-weight: 600; }}
-    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; }}
-    .stButton>button[kind="primary"] {{ background-color: {accent}; border-color: {accent}; }}
+
+    /* ---- Route / itinerary cards ---- */
+    .bus-card {{
+        background-color: {card}; border: 1px solid {border}; border-radius: 12px;
+        padding: 16px; margin-bottom: 10px; color: {text};
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }}
+    .route-number {{
+        display: inline-block; background: {accent}; color: white; font-weight: 700;
+        font-size: 14px; padding: 4px 10px; border-radius: 8px; letter-spacing: 0.3px;
+    }}
+    .route-name {{ font-size: 15px; font-weight: 500; color: {text}; margin-top: 6px; }}
+    .metric-row {{ display: flex; gap: 18px; margin-top: 10px; font-size: 13.5px; color: {subtext}; flex-wrap: wrap; }}
+    .metric-row b {{ color: {text}; }}
+    .tag-pill {{
+        display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 9px;
+        border-radius: 999px; margin-right: 6px; margin-bottom: 6px;
+    }}
+    .tag-best {{ background: #dbeafe; color: #1d4ed8; }}
+    .tag-fast {{ background: #dcfce7; color: #15803d; }}
+    .tag-cheap {{ background: #fef9c3; color: #a16207; }}
+    .tag-fewtransfer {{ background: #f3e8ff; color: #7e22ce; }}
+
+    .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 12.5px; }}
+    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 12.5px; }}
+
+    .cloud-status-mini {{ font-size: 12px; color: {subtext}; }}
+
+    .stButton>button[kind="primary"] {{
+        background-color: {accent}; border-color: {accent}; border-radius: 10px;
+        height: 48px; font-weight: 600; font-size: 14.5px;
+    }}
+    div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 44px; }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -125,25 +165,21 @@ with st.sidebar:
     dark = st.session_state["dark_mode"]
     inject_theme_css(dark)
 
-    if ds.mode == "cloud":
-        st.success("🟢 " + t("cloud_connected", lang))
-    else:
-        st.warning("🟡 " + t("cloud_local", lang))
-        with st.expander(t("why_no_cloud", lang)):
-            st.write(t("why_no_cloud_body", lang))
-            if ds.connect_error:
-                st.code(ds.connect_error, language="text")
-
     st.divider()
     st.selectbox(t("city", lang), options=["all", "hcmc", "bienhoa"],
                  format_func=lambda x: {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
-                                         "bienhoa": t("city_bienhoa", lang)}[x],
+                                         "bienhoa": t("city_bienhoa", lang)}.get(x, x),
                  key="city_filter")
+    # Phong thu: bat ke nguyen nhan gi khien gia tri luu khong hop le, luon fallback ve "all"
+    # thay vi de KeyError lam sap ung dung (khong bao gio hien traceback cho nguoi dung cuoi).
+    if st.session_state.get("city_filter") not in ("all", "hcmc", "bienhoa"):
+        st.session_state["city_filter"] = "all"
+    city_filter = st.session_state["city_filter"]
+
     fare_type = st.radio(t("fare_type", lang), options=list(FARE_TYPES.keys()),
                           format_func=lambda k: t(f"fare_{k}", lang), key="fare_type_radio")
 
     st.divider()
-    city_filter = st.session_state["city_filter"]
     routes_view = routes_df if city_filter == "all" else routes_df[routes_df.city_id == city_filter]
     stops_view = stops_df if city_filter == "all" else stops_df[stops_df.city_id == city_filter]
     m1, m2 = st.columns(2)
@@ -152,11 +188,21 @@ with st.sidebar:
 
     st.toggle(t("auto_refresh_on", lang), key="live_refresh")
 
-    if st.button(t("refresh_cloud", lang)):
-        get_datastore.clear()
-        load_data.clear()
-        build_finder.clear()
-        st.rerun()
+    st.divider()
+    st.caption(t("cloud_status_footer", lang))
+    if ds.mode == "cloud":
+        st.markdown(f'<span class="cloud-status-mini">🟢 {t("cloud_connected", lang)}</span>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<span class="cloud-status-mini">🟡 {t("cloud_local", lang)}</span>', unsafe_allow_html=True)
+    with st.expander(t("why_no_cloud", lang) if ds.mode != "cloud" else t("cloud_status_footer", lang)):
+        st.write(t("why_no_cloud_body", lang))
+        if ds.connect_error:
+            st.code(ds.connect_error, language="text")
+        if st.button(t("refresh_cloud", lang)):
+            get_datastore.clear()
+            load_data.clear()
+            build_finder.clear()
+            st.rerun()
 
 if st.session_state["live_refresh"]:
     from streamlit_autorefresh import st_autorefresh
@@ -165,6 +211,33 @@ if st.session_state["live_refresh"]:
 
 def fmt_stop(stop_id: str, lang: str) -> str:
     return finder.stop_name(stop_id, lang) if stop_id and stop_id != MANUAL_SENTINEL else stop_id
+
+
+def route_distance_km(route_id: str) -> float:
+    """Tong khoang cach uoc tinh cua 1 tuyen (tong haversine giua cac tram lien tiep)."""
+    from backend.geocoding import haversine_km
+    ordered = finder.ordered_stops(route_id)
+    total = 0.0
+    for a, b in zip(ordered, ordered[1:]):
+        total += haversine_km(a["lat"], a["lon"], b["lat"], b["lon"])
+    return total
+
+
+def itinerary_tags(itineraries, idx: int, lang: str) -> str:
+    """Gan nhan Phu hop nhat / Nhanh nhat / Re nhat / It chuyen tuyen nhat cho 1 phuong an."""
+    if len(itineraries) <= 1:
+        return ""
+    it = itineraries[idx]
+    tags = []
+    if idx == 0:
+        tags.append(("tag-best", t("tag_best", lang)))
+    if it.total_minutes == min(x.total_minutes for x in itineraries):
+        tags.append(("tag-fast", t("tag_fastest", lang)))
+    if it.total_fare == min(x.total_fare for x in itineraries):
+        tags.append(("tag-cheap", t("tag_cheapest", lang)))
+    if it.transfers == min(x.transfers for x in itineraries):
+        tags.append(("tag-fewtransfer", t("tag_fewest_transfers", lang)))
+    return "".join(f'<span class="tag-pill {cls}">{label}</span>' for cls, label in tags)
 
 
 def resolve_place(query: str, manual_choice: str, stops_scope: pd.DataFrame):
@@ -216,8 +289,10 @@ with tab_map:
     map_focus = None  # ("itinerary", Itinerary) hoac ("route", route_id) hoac None
 
     with col_left:
-        st.subheader(t("search_by_address", lang))
+        st.markdown(f'<div class="hero-title">🚌 {t("hero_title", lang)}</div>'
+                    f'<div class="hero-subtitle">{t("hero_subtitle", lang)}</div>', unsafe_allow_html=True)
 
+        st.markdown('<div class="search-card">', unsafe_allow_html=True)
         oc1, oc2 = st.columns([5, 1])
         with oc1:
             st.text_input(t("origin", lang), key="origin_query", placeholder=t("search_address_placeholder", lang))
@@ -229,6 +304,7 @@ with tab_map:
                     st.session_state.dest_query, st.session_state.origin_query)
                 st.rerun()
         st.text_input(t("destination", lang), key="dest_query", placeholder=t("search_address_placeholder", lang))
+        st.markdown('</div>', unsafe_allow_html=True)
 
         stop_options_all = ["__none__"] + stops_view.sort_values("stop_name")["stop_id"].tolist()
         with st.expander(t("manual_pick_expander", lang)):
@@ -285,6 +361,10 @@ with tab_map:
                 chosen = itineraries[idx]
                 map_focus = ("itinerary", chosen)
 
+                tags_html = itinerary_tags(itineraries, idx, lang)
+                if tags_html:
+                    st.markdown(tags_html, unsafe_allow_html=True)
+
                 m1, m2, m3 = st.columns(3)
                 m1.metric(t("total_time", lang), format_minutes(chosen.total_minutes))
                 m2.metric(t("total_fare", lang), format_vnd(chosen.total_fare))
@@ -302,19 +382,23 @@ with tab_map:
                     route_name = leg.route_long_name if lang == "vi" else leg.route_long_name_en
                     board_name = leg.board_stop_name if lang == "vi" else leg.board_stop_name_en
                     alight_name = leg.alight_stop_name if lang == "vi" else leg.alight_stop_name_en
-                    with st.container(border=True):
-                        st.markdown(f"**{t('leg', lang)} {i + 1}: {leg.route_short_name}** — {route_name}  "
-                                    f"&nbsp;&nbsp;{status_html}", unsafe_allow_html=True)
-                        cc1, cc2, cc3 = st.columns(3)
-                        cc1.write(f"{t('board_at', lang)}: **{board_name}**")
-                        cc2.write(f"{t('alight_at', lang)}: **{alight_name}**")
-                        cc3.write(f"{t('ride_time', lang)}: **{format_minutes(leg.ride_minutes)}**")
-                        cc4, cc5 = st.columns(2)
-                        cc4.write(f"{t('fare_label', lang)}: **{format_vnd(leg.fare)}**")
-                        if arrival:
-                            cc5.write(f"{t('expected_arrival', lang)}: **{arrival.strftime('%H:%M')}**")
-                        else:
-                            cc5.write(msg)
+                    arrival_txt = (f"{t('expected_arrival', lang)}: <b>{arrival.strftime('%H:%M')}</b>"
+                                   if arrival else msg)
+                    st.markdown(f"""
+                    <div class="bus-card">
+                        <span class="route-number">{leg.route_short_name}</span> {status_html}
+                        <div class="route-name">{route_name}</div>
+                        <div class="metric-row">
+                            <span>{t('board_at', lang)}: <b>{board_name}</b></span>
+                            <span>{t('alight_at', lang)}: <b>{alight_name}</b></span>
+                        </div>
+                        <div class="metric-row">
+                            <span>{t('ride_time', lang)}: <b>{format_minutes(leg.ride_minutes)}</b></span>
+                            <span>{t('fare_label', lang)}: <b>{format_vnd(leg.fare)}</b></span>
+                            <span>{arrival_txt}</span>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
                     if i < len(chosen.legs) - 1:
                         st.caption(f"⇩ {t('transfer_at', lang)} **{alight_name}** ⇩")
 
@@ -332,93 +416,126 @@ with tab_map:
             return f"{dot} {row['route_short_name']} — {name}"
 
         st.selectbox(t("preview_on_map", lang), options=route_opts, format_func=_route_label, key="browse_route_id")
-        if map_focus is None and st.session_state.browse_route_id != MANUAL_SENTINEL:
-            map_focus = ("route", st.session_state.browse_route_id)
+        browsed_rid = st.session_state.browse_route_id
+        if browsed_rid != MANUAL_SENTINEL:
+            if map_focus is None:
+                map_focus = ("route", browsed_rid)
+            r = routes_view[routes_view.route_id == browsed_rid].iloc[0]
+            r_name = r["route_long_name"] if lang == "vi" else r["route_long_name_en"]
+            n_stops = int((route_stops_df.route_id == browsed_rid).sum())
+            dist_km = route_distance_km(browsed_rid)
+            active = is_route_active(r["first_departure"], r["last_departure"])
+            status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
+                           else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
+            st.markdown(f"""
+            <div class="bus-card">
+                <span class="route-number">{r['route_short_name']}</span> {status_html}
+                <div class="route-name">{r_name}</div>
+                <div class="metric-row">
+                    <span>🚏 {n_stops} {t('n_stops_on_route', lang)}</span>
+                    <span>📏 {dist_km:.1f} km</span>
+                    <span>🕐 {r['first_departure']}–{r['last_departure']}</span>
+                </div>
+                <div class="metric-row">
+                    <span>{t('fare_regular', lang)}: <b>{format_vnd(int(r['fare_regular']))}</b></span>
+                    <span>{t('fare_student', lang)}: <b>{format_vnd(int(r['fare_student']))}</b></span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            with st.expander(t("stop_list", lang)):
+                ordered = finder.ordered_stops(browsed_rid)
+                for s in ordered:
+                    nm = s["stop_name"] if lang == "vi" else s["stop_name_en"]
+                    st.caption(f"→ {nm}")
 
     # ----------------------------------------------------------------- #
     # Bản đồ (cột phải)
     # ----------------------------------------------------------------- #
     with col_right:
-        import folium
-        from streamlit_folium import st_folium
+        try:
+            import folium
+            from streamlit_folium import st_folium
 
-        tile = st.session_state.get("_map_tile", "cartodbpositron")
-        centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83), "all": (10.86, 106.76)}
-        zoom = 12 if city_filter != "all" else 10
-        fmap = folium.Map(location=centers[city_filter], zoom_start=zoom, tiles=tile)
+            tile = st.session_state.get("_map_tile", "cartodbpositron")
+            centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83), "all": (10.86, 106.76)}
+            zoom = 12 if city_filter != "all" else 10
+            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom, tiles=tile)
 
-        # Tat ca tram tren ban do (BusMap-style)
-        for _, row in stops_view.iterrows():
-            color = CITY_COLORS.get(row["city_id"], "#2563eb")
-            is_hub = bool(row["is_hub"]) if not isinstance(row["is_hub"], str) else row["is_hub"] == "1"
-            name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
-            folium.CircleMarker(
-                location=(float(row["lat"]), float(row["lon"])),
-                radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
-                weight=2 if is_hub else 1, tooltip=name,
-            ).add_to(fmap)
+            # Tat ca tram tren ban do (BusMap-style)
+            for _, row in stops_view.iterrows():
+                color = CITY_COLORS.get(row["city_id"], "#2563eb")
+                is_hub = bool(row["is_hub"]) if not isinstance(row["is_hub"], str) else row["is_hub"] == "1"
+                name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
+                folium.CircleMarker(
+                    location=(float(row["lat"]), float(row["lon"])),
+                    radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
+                    weight=2 if is_hub else 1, tooltip=name,
+                ).add_to(fmap)
 
-        tracked_route_ids = []
-        all_bounds = []
+            tracked_route_ids = []
+            all_bounds = []
 
-        if map_focus and map_focus[0] == "itinerary":
-            chosen = map_focus[1]
-            for i, leg in enumerate(chosen.legs):
-                seq = finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
-                latlons = [(float(stops_df.set_index("stop_id").loc[sid, "lat"]),
-                            float(stops_df.set_index("stop_id").loc[sid, "lon"])) for sid in seq]
-                all_bounds.extend(latlons)
-                color = LEG_COLORS[i % len(LEG_COLORS)]
-                folium.PolyLine(latlons, color=color, weight=6, opacity=0.9,
-                                 tooltip=f"{leg.route_short_name}").add_to(fmap)
-                tracked_route_ids.append(leg.route_id)
-            stops_idx = stops_df.set_index("stop_id")
-            o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
-            d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
-            folium.Marker((float(o_row["lat"]), float(o_row["lon"])),
-                          icon=folium.Icon(color="green", icon="play", prefix="fa"),
-                          tooltip=t("origin", lang)).add_to(fmap)
-            folium.Marker((float(d_row["lat"]), float(d_row["lon"])),
-                          icon=folium.Icon(color="red", icon="flag", prefix="fa"),
-                          tooltip=t("destination", lang)).add_to(fmap)
+            if map_focus and map_focus[0] == "itinerary":
+                chosen = map_focus[1]
+                for i, leg in enumerate(chosen.legs):
+                    seq = finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
+                    latlons = [(float(stops_df.set_index("stop_id").loc[sid, "lat"]),
+                                float(stops_df.set_index("stop_id").loc[sid, "lon"])) for sid in seq]
+                    all_bounds.extend(latlons)
+                    color = LEG_COLORS[i % len(LEG_COLORS)]
+                    folium.PolyLine(latlons, color=color, weight=6, opacity=0.9,
+                                     tooltip=f"{leg.route_short_name}").add_to(fmap)
+                    tracked_route_ids.append(leg.route_id)
+                stops_idx = stops_df.set_index("stop_id")
+                o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
+                d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
+                folium.Marker((float(o_row["lat"]), float(o_row["lon"])),
+                              icon=folium.Icon(color="green", icon="play", prefix="fa"),
+                              tooltip=t("origin", lang)).add_to(fmap)
+                folium.Marker((float(d_row["lat"]), float(d_row["lon"])),
+                              icon=folium.Icon(color="red", icon="flag", prefix="fa"),
+                              tooltip=t("destination", lang)).add_to(fmap)
 
-        elif map_focus and map_focus[0] == "route":
-            rid = map_focus[1]
-            ordered = finder.ordered_stops(rid)
-            latlons = [(s["lat"], s["lon"]) for s in ordered]
-            all_bounds.extend(latlons)
-            row = routes_view[routes_view.route_id == rid].iloc[0]
-            folium.PolyLine(latlons, color=LEG_COLORS[0], weight=6, opacity=0.9,
-                             tooltip=str(row["route_short_name"])).add_to(fmap)
-            tracked_route_ids.append(rid)
-
-        # Xe buyt mo phong (chi ve khi bat auto-refresh, tranh hieu lam la GPS luon-bat)
-        n_buses_shown = 0
-        if st.session_state.live_refresh:
-            for rid in tracked_route_ids:
-                row = routes_df[routes_df.route_id == rid].iloc[0]
+            elif map_focus and map_focus[0] == "route":
+                rid = map_focus[1]
                 ordered = finder.ordered_stops(rid)
-                buses = active_buses(rid, str(row["route_short_name"]), str(row["first_departure"]),
-                                      str(row["last_departure"]), int(row["headway_min"]), ordered)
-                for bus in buses:
-                    folium.map.Marker(
-                        location=(bus.lat, bus.lon),
-                        icon=folium.DivIcon(html='<div style="font-size:22px;line-height:22px;">🚌</div>'),
-                        tooltip=f"{bus.trip_label} • {bus.progress_pct:.0f}% • → {bus.next_stop_name}",
-                    ).add_to(fmap)
-                    n_buses_shown += 1
+                latlons = [(s["lat"], s["lon"]) for s in ordered]
+                all_bounds.extend(latlons)
+                row = routes_view[routes_view.route_id == rid].iloc[0]
+                folium.PolyLine(latlons, color=LEG_COLORS[0], weight=6, opacity=0.9,
+                                 tooltip=str(row["route_short_name"])).add_to(fmap)
+                tracked_route_ids.append(rid)
 
-        if all_bounds:
-            fmap.fit_bounds(all_bounds)
-
-        st_folium(fmap, width=None, height=620, key="main_map", returned_objects=[])
-
-        if tracked_route_ids:
-            st.caption(t("live_positions_note", lang))
+            # Xe buyt mo phong (chi ve khi bat auto-refresh, tranh hieu lam la GPS luon-bat)
+            n_buses_shown = 0
             if st.session_state.live_refresh:
-                st.caption(f"{t('buses_in_service', lang)}: {n_buses_shown}")
-                if n_buses_shown == 0:
-                    st.caption(t("no_bus_running", lang))
+                for rid in tracked_route_ids:
+                    row = routes_df[routes_df.route_id == rid].iloc[0]
+                    ordered = finder.ordered_stops(rid)
+                    buses = active_buses(rid, str(row["route_short_name"]), str(row["first_departure"]),
+                                          str(row["last_departure"]), int(row["headway_min"]), ordered)
+                    for bus in buses:
+                        folium.map.Marker(
+                            location=(bus.lat, bus.lon),
+                            icon=folium.DivIcon(html='<div style="font-size:22px;line-height:22px;">🚌</div>'),
+                            tooltip=f"{bus.trip_label} • {bus.progress_pct:.0f}% • → {bus.next_stop_name}",
+                        ).add_to(fmap)
+                        n_buses_shown += 1
+
+            if all_bounds:
+                fmap.fit_bounds(all_bounds)
+
+            st_folium(fmap, width=None, height=620, key="main_map", returned_objects=[])
+
+            if tracked_route_ids:
+                st.caption(t("live_positions_note", lang))
+                if st.session_state.live_refresh:
+                    st.caption(f"{t('buses_in_service', lang)}: {n_buses_shown}")
+                    if n_buses_shown == 0:
+                        st.caption(t("no_bus_running", lang))
+        except Exception as map_err:  # khong bao gio hien traceback tho cho nguoi dung cuoi
+            st.error(t("map_load_error", lang))
+            print(f"[map render error] {map_err}", file=sys.stderr)
 
 # --------------------------------------------------------------------------- #
 # TAB: Thống kê
