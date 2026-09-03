@@ -82,15 +82,21 @@ finder = build_finder(stops_df, routes_df, route_stops_df)
 # Theme (CSS) injection
 # --------------------------------------------------------------------------- #
 def inject_theme_css(dark: bool):
+    # Luu y: CartoDB (cartodbpositron/dark_matter) da chuyen sang yeu cau API key ke ca
+    # cho luu luong thap, nen doi sang Esri World Gray Canvas - mien phi vinh vien,
+    # khong can dang ky API key, van co ban dark/light rieng biet.
     if dark:
         bg, bg2, text, subtext, card, border, accent = (
             "#0f172a", "#1e293b", "#f1f5f9", "#94a3b8", "#1e293b", "#334155", "#38bdf8")
-        tile = "cartodbdark_matter"
+        tile = ("https://server.arcgisonline.com/ArcGIS/rest/services/"
+                "Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}")
     else:
         bg, bg2, text, subtext, card, border, accent = (
             "#ffffff", "#f8fafc", "#0f172a", "#64748b", "#ffffff", "#e2e8f0", "#2563eb")
-        tile = "cartodbpositron"
+        tile = ("https://server.arcgisonline.com/ArcGIS/rest/services/"
+                "Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}")
     st.session_state["_map_tile"] = tile
+    st.session_state["_map_tile_attr"] = "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -456,10 +462,12 @@ with tab_map:
             import folium
             from streamlit_folium import st_folium
 
-            tile = st.session_state.get("_map_tile", "cartodbpositron")
+            tile = st.session_state.get("_map_tile")
+            tile_attr = st.session_state.get("_map_tile_attr")
             centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83), "all": (10.86, 106.76)}
             zoom = 12 if city_filter != "all" else 10
-            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom, tiles=tile)
+            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom,
+                               tiles=tile, attr=tile_attr)
 
             # Tat ca tram tren ban do (BusMap-style)
             for _, row in stops_view.iterrows():
