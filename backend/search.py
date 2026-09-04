@@ -28,22 +28,28 @@ def normalize_vi(text: str) -> str:
 
 
 def local_search_stops(query: str, stops_df: pd.DataFrame, limit: int = 8) -> pd.DataFrame:
-    """Tim cac tram co ten (VI hoac EN) chua tat ca cac tu trong query (khong phan biet dau/hoa-thuong)."""
+    """Tim cac tram co ten (VI hoac EN) khop voi query (khong phan biet dau/hoa-thuong).
+
+    Uu tien tram khop TAT CA cac tu trong query (chinh xac nhat); neu khong co tram
+    nao khop het (vd nguoi dung go them tu thua nhu "trạm", "bến" khong co trong ten
+    that), rot xuong khop CANG NHIEU TU CANG TOT - tranh tra ve rong khien nguoi dung
+    tuong lam la khong co goi y nao ca."""
     if not query or not query.strip():
         return stops_df.iloc[0:0]
 
-    tokens = [t for t in normalize_vi(query).split() if t]
+    tokens = [tk for tk in normalize_vi(query).split() if tk]
     if not tokens:
         return stops_df.iloc[0:0]
 
-    def score(row) -> int:
-        haystack = normalize_vi(f"{row['stop_name']} {row.get('stop_name_en', '')}")
-        if all(tok in haystack for tok in tokens):
-            # uu tien tram co ten khop gan dung tu dau (vd go dung ten truong/tuyen)
-            return len(haystack) - haystack.find(tokens[0])
-        return -1
-
     df = stops_df.copy()
-    df["_score"] = df.apply(score, axis=1)
-    matched = df[df["_score"] >= 0].sort_values("_score", ascending=False)
-    return matched.head(limit).drop(columns="_score")
+    df["_haystack"] = df.apply(
+        lambda row: normalize_vi(f"{row['stop_name']} {row.get('stop_name_en', '')}"), axis=1)
+    df["_n_match"] = df["_haystack"].apply(lambda h: sum(1 for tok in tokens if tok in h))
+    df["_first_pos"] = df["_haystack"].apply(lambda h: h.find(tokens[0]))
+
+    matched = df[df["_n_match"] > 0].copy()
+    if matched.empty:
+        return stops_df.iloc[0:0]
+    # uu tien: khop nhieu tu nhat, roi den khop gan dau ten hon (vd go dung ten truong/tuyen)
+    matched = matched.sort_values(["_n_match", "_first_pos"], ascending=[False, True])
+    return matched.head(limit).drop(columns=["_haystack", "_n_match", "_first_pos"])

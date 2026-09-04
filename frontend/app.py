@@ -40,6 +40,7 @@ st.set_page_config(page_title="Smart City Bus Assistant", page_icon="🚌", layo
 LEG_COLORS = ["#2563eb", "#dc2626", "#16a34a", "#d97706"]
 CITY_COLORS = {"hcmc": "#2563eb", "bienhoa": "#7c3aed", "kiengiang": "#16a34a"}
 CITY_IDS = ("all", "hcmc", "bienhoa", "kiengiang")
+CITY_ICON = {"all": "🌐", "hcmc": "🏙️", "bienhoa": "🏘️", "kiengiang": "🌾"}
 MANUAL_SENTINEL = "__none__"
 
 # --------------------------------------------------------------------------- #
@@ -81,21 +82,19 @@ finder = build_finder(stops_df, routes_df, route_stops_df)
 # Theme (CSS) injection
 # --------------------------------------------------------------------------- #
 def inject_theme_css(dark: bool):
-    # Luu y: CartoDB (cartodbpositron/dark_matter) da chuyen sang yeu cau API key ke ca
-    # cho luu luong thap, nen doi sang Esri World Gray Canvas - mien phi vinh vien,
-    # khong can dang ky API key, van co ban dark/light rieng biet.
+    # Ban do dung tile OpenStreetMap chuan (mau sac day du: song ngoi, duong, nhan dia
+    # danh...) thay vi tile xam don dieu - mien phi, khong can API key. Voi giao dien
+    # toi, KHONG doi nguon tile (CartoDB dark can key) ma inject CSS filter dao mau
+    # ngay trong HTML cua ban do (xem render_dark_map_css) - giu nguyen chi tiet ban do.
+    tile = "OpenStreetMap"
+    st.session_state["_map_tile"] = tile
+    st.session_state["_map_tile_attr"] = None
     if dark:
         bg, bg2, text, subtext, card, border, accent = (
             "#0f172a", "#1e293b", "#f1f5f9", "#94a3b8", "#1e293b", "#334155", "#38bdf8")
-        tile = ("https://server.arcgisonline.com/ArcGIS/rest/services/"
-                "Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}")
     else:
         bg, bg2, text, subtext, card, border, accent = (
             "#ffffff", "#f8fafc", "#0f172a", "#64748b", "#ffffff", "#e2e8f0", "#2563eb")
-        tile = ("https://server.arcgisonline.com/ArcGIS/rest/services/"
-                "Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}")
-    st.session_state["_map_tile"] = tile
-    st.session_state["_map_tile_attr"] = "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -147,6 +146,14 @@ def inject_theme_css(dark: bool):
         height: 48px; font-weight: 600; font-size: 14.5px;
     }}
     div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 44px; }}
+
+    /* ---- Bo chon khu vuc (segmented control) - dang pill be tron, gan gui hon ---- */
+    div[data-testid="stSegmentedControl"] label {{
+        border-radius: 999px !important; font-weight: 500;
+    }}
+    div[data-testid="stSegmentedControl"] label[data-checked="true"] {{
+        background-color: {accent} !important; border-color: {accent} !important;
+    }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -171,13 +178,10 @@ with st.sidebar:
     inject_theme_css(dark)
 
     st.divider()
-    st.selectbox(t("city", lang), options=list(CITY_IDS),
-                 format_func=lambda x: {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
-                                         "bienhoa": t("city_bienhoa", lang),
-                                         "kiengiang": t("city_kiengiang", lang)}.get(x, x),
-                 key="city_filter")
     # Phong thu: bat ke nguyen nhan gi khien gia tri luu khong hop le, luon fallback ve "all"
     # thay vi de KeyError lam sap ung dung (khong bao gio hien traceback cho nguoi dung cuoi).
+    # (Widget chon khu vuc THAT nam o dau trang chinh - gan phan tim kiem - de de thay hon,
+    # xem CITY_LABEL/CITY_ICON o duoi; muc nay chi dam bao gia tri luon hop le.)
     if st.session_state.get("city_filter") not in CITY_IDS:
         st.session_state["city_filter"] = "all"
     city_filter = st.session_state["city_filter"]
@@ -310,6 +314,19 @@ with tab_map:
         st.markdown(f'<div class="hero-title">🚌 {t("hero_title", lang)}</div>'
                     f'<div class="hero-subtitle">{t("hero_subtitle", lang)}</div>', unsafe_allow_html=True)
 
+        city_labels = {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
+                       "bienhoa": t("city_bienhoa", lang), "kiengiang": t("city_kiengiang", lang)}
+        st.segmented_control(
+            t("city", lang), options=list(CITY_IDS), required=True,
+            format_func=lambda x: f"{CITY_ICON.get(x, '')} {city_labels.get(x, x)}",
+            key="city_filter", label_visibility="collapsed",
+        )
+        if st.session_state.get("city_filter") not in CITY_IDS:
+            st.session_state["city_filter"] = "all"
+        city_filter = st.session_state["city_filter"]
+        routes_view = routes_df if city_filter == "all" else routes_df[routes_df.city_id == city_filter]
+        stops_view = stops_df if city_filter == "all" else stops_df[stops_df.city_id == city_filter]
+
         st.markdown('<div class="search-card">', unsafe_allow_html=True)
 
         # key doi moi moi khi bam nut doi chieu -> "remount" searchbox voi default moi
@@ -321,12 +338,26 @@ with tab_map:
         origin_default_term = fmt_stop(origin_default_id, lang) if origin_default_id else ""
         dest_default_term = fmt_stop(dest_default_id, lang) if dest_default_id else ""
 
+        # Style rieng cho o tim kiem (component ben ngoai, khong tu doi theo dark mode cua
+        # trang) - giu luon sang/de doc, be tron, mau xanh dong bo voi thuong hieu app.
+        SEARCHBOX_STYLE = {
+            "searchbox": {
+                "control": {"borderRadius": "10px", "minHeight": "44px", "borderColor": "#e2e8f0"},
+                "input": {"color": "#0f172a"},
+                "placeholder": {"color": "#94a3b8"},
+                "singleValue": {"color": "#0f172a"},
+                "option": {"color": "#0f172a", "backgroundColor": "#ffffff", "highlightColor": "#dbeafe"},
+                "menuList": {"backgroundColor": "#ffffff", "borderRadius": "10px"},
+            },
+        }
+
         oc1, oc2 = st.columns([5, 1])
         with oc1:
             picked_origin = st_searchbox(
                 make_stop_search_fn(stops_view, lang), key=f"origin_sb_{nonce}",
                 placeholder=t("search_address_placeholder", lang), label=t("origin", lang),
                 default=origin_default_id, default_searchterm=origin_default_term,
+                style_overrides=SEARCHBOX_STYLE,
             )
         with oc2:
             st.write("")
@@ -339,6 +370,7 @@ with tab_map:
             make_stop_search_fn(stops_view, lang), key=f"dest_sb_{nonce}",
             placeholder=t("search_address_placeholder", lang), label=t("destination", lang),
             default=dest_default_id, default_searchterm=dest_default_term,
+            style_overrides=SEARCHBOX_STYLE,
         )
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -475,13 +507,21 @@ with tab_map:
             import folium
             from streamlit_folium import st_folium
 
-            tile = st.session_state.get("_map_tile")
-            tile_attr = st.session_state.get("_map_tile_attr")
+            tile = st.session_state.get("_map_tile", "OpenStreetMap")
             centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83),
                        "kiengiang": (10.02, 105.08), "all": (10.2, 105.5)}
             zoom = 12 if city_filter != "all" else 8
-            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom,
-                               tiles=tile, attr=tile_attr)
+            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom, tiles=tile)
+
+            if dark:
+                # Dao mau CHỈ lop tile (khong dao marker/duong ve cua minh) bang CSS filter
+                # ngay trong tai lieu HTML cua ban do - tranh phai dung nguon tile toi rieng
+                # (nhu CartoDB dark_matter) vi nguon do hien yeu cau API key.
+                fmap.get_root().html.add_child(folium.Element("""
+                <style>
+                .leaflet-tile-pane { filter: invert(1) hue-rotate(200deg) brightness(0.92) contrast(0.9) saturate(0.85); }
+                </style>
+                """))
 
             # Tat ca tram tren ban do (BusMap-style)
             # (luon dua vao all_bounds de fit_bounds tu dong can chinh khung hinh phu hop -
