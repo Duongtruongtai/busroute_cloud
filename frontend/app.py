@@ -246,6 +246,13 @@ def itinerary_tags(itineraries, idx: int, lang: str) -> str:
     return "".join(f'<span class="tag-pill {cls}">{label}</span>' for cls, label in tags)
 
 
+def _swap_origin_dest():
+    """Callback cho nut doi chieu - phai dung on_click (chay truoc khi widget duoc tao lai),
+    khong duoc gan truc tiep session_state[key] sau khi widget key do da instantiate."""
+    st.session_state.origin_query, st.session_state.dest_query = (
+        st.session_state.dest_query, st.session_state.origin_query)
+
+
 def resolve_place(query: str, manual_choice: str, stops_scope: pd.DataFrame):
     """Tra ve (stop_id, candidates_df, geo_display_name)."""
     if manual_choice and manual_choice != MANUAL_SENTINEL:
@@ -305,10 +312,10 @@ with tab_map:
         with oc2:
             st.write("")
             st.write("")
-            if st.button("🔁", help=t("swap", lang)):
-                st.session_state.origin_query, st.session_state.dest_query = (
-                    st.session_state.dest_query, st.session_state.origin_query)
-                st.rerun()
+            # Dung on_click callback (chay truoc khi cac widget o duoi duoc tao lai) thay vi
+            # gan truc tiep session_state sau khi widget da instantiate trong cung 1 lan chay -
+            # gan truc tiep se bao loi "cannot be modified after widget instantiated".
+            st.button("🔁", help=t("swap", lang), on_click=_swap_origin_dest)
         st.text_input(t("destination", lang), key="dest_query", placeholder=t("search_address_placeholder", lang))
         st.markdown('</div>', unsafe_allow_html=True)
 
