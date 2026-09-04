@@ -513,6 +513,17 @@ with tab_map:
             zoom = 12 if city_filter != "all" else 8
             fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom, tiles=tile)
 
+            # CSS hieu ung "pulse" (to nho lien tuc) cho marker diem di/den - ve ngay trong
+            # tai lieu HTML cua ban do (giong cach lam voi filter dark mode o duoi).
+            pulse_css = """
+            <style>
+            @keyframes pulse-anim { 0% { transform: scale(1); opacity: 0.7; }
+                70% { transform: scale(2.8); opacity: 0; } 100% { transform: scale(2.8); opacity: 0; } }
+            .pulse-ring { animation: pulse-anim 1.6s ease-out infinite; }
+            </style>
+            """
+            fmap.get_root().html.add_child(folium.Element(pulse_css))
+
             if dark:
                 # Dao mau CHỈ lop tile (khong dao marker/duong ve cua minh) bang CSS filter
                 # ngay trong tai lieu HTML cua ban do - tranh phai dung nguon tile toi rieng
@@ -523,42 +534,39 @@ with tab_map:
                 </style>
                 """))
 
-            # Tat ca tram tren ban do (BusMap-style)
-            # (luon dua vao all_bounds de fit_bounds tu dong can chinh khung hinh phu hop -
-            # quan trong khi city_filter="all" gom nhieu tinh/thanh cach xa nhau).
+            def _pulse_marker(latlon, color, emoji, tooltip):
+                html = f"""
+                <div style="position:relative;width:34px;height:34px;">
+                  <div class="pulse-ring" style="position:absolute;top:9px;left:9px;width:16px;height:16px;
+                       border-radius:50%;background:{color};"></div>
+                  <div style="position:absolute;top:9px;left:9px;width:16px;height:16px;border-radius:50%;
+                       background:{color};box-shadow:0 0 0 2px #fff, 0 1px 4px rgba(0,0,0,0.45);"></div>
+                  <div style="position:absolute;top:-8px;left:8px;font-size:20px;">{emoji}</div>
+                </div>
+                """
+                folium.Marker(latlon, icon=folium.DivIcon(html=html, icon_size=(34, 34), icon_anchor=(17, 26)),
+                              tooltip=tooltip).add_to(fmap)
+
+            # KHONG hien tat ca tram cua thanh pho tren ban do nua (qua roi mat khi chua
+            # tim gi ca) - ban do chi ve noi dung lien quan truc tiep den thao tac hien
+            # tai cua nguoi dung: ket qua tim tuyen, hoac tuyen dang duyet.
             tracked_route_ids = []
             all_bounds = []
-            for _, row in stops_view.iterrows():
-                color = CITY_COLORS.get(row["city_id"], "#2563eb")
-                is_hub = bool(row["is_hub"]) if not isinstance(row["is_hub"], str) else row["is_hub"] == "1"
-                name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
-                latlon = (float(row["lat"]), float(row["lon"]))
-                all_bounds.append(latlon)
-                folium.CircleMarker(
-                    location=latlon, radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
-                    weight=2 if is_hub else 1, tooltip=name,
-                ).add_to(fmap)
 
             if map_focus and map_focus[0] == "itinerary":
+                # Chi hien 2 diem di/den (hieu ung nhap nhay), KHONG ve duong noi/mui ten -
+                # thong tin hanh trinh chi tiet da co o cac the ben trai roi.
                 chosen = map_focus[1]
-                for i, leg in enumerate(chosen.legs):
-                    seq = finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
-                    latlons = [(float(stops_df.set_index("stop_id").loc[sid, "lat"]),
-                                float(stops_df.set_index("stop_id").loc[sid, "lon"])) for sid in seq]
-                    all_bounds.extend(latlons)
-                    color = LEG_COLORS[i % len(LEG_COLORS)]
-                    folium.PolyLine(latlons, color=color, weight=6, opacity=0.9,
-                                     tooltip=f"{leg.route_short_name}").add_to(fmap)
+                for leg in chosen.legs:
                     tracked_route_ids.append(leg.route_id)
                 stops_idx = stops_df.set_index("stop_id")
                 o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
                 d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
-                folium.Marker((float(o_row["lat"]), float(o_row["lon"])),
-                              icon=folium.Icon(color="green", icon="play", prefix="fa"),
-                              tooltip=t("origin", lang)).add_to(fmap)
-                folium.Marker((float(d_row["lat"]), float(d_row["lon"])),
-                              icon=folium.Icon(color="red", icon="flag", prefix="fa"),
-                              tooltip=t("destination", lang)).add_to(fmap)
+                o_latlon = (float(o_row["lat"]), float(o_row["lon"]))
+                d_latlon = (float(d_row["lat"]), float(d_row["lon"]))
+                all_bounds.extend([o_latlon, d_latlon])
+                _pulse_marker(o_latlon, "#16a34a", "🚏", t("origin", lang))
+                _pulse_marker(d_latlon, "#dc2626", "🏁", t("destination", lang))
 
             elif map_focus and map_focus[0] == "route":
                 rid = map_focus[1]
@@ -587,7 +595,7 @@ with tab_map:
                         n_buses_shown += 1
 
             if all_bounds:
-                fmap.fit_bounds(all_bounds)
+                fmap.fit_bounds(all_bounds, padding=(40, 40))
 
             st_folium(fmap, width=None, height=620, key="main_map", returned_objects=[])
 
