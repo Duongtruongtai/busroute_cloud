@@ -98,37 +98,43 @@ def inject_theme_css(dark: bool):
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; }}
+    html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; font-size: 14px; }}
 
     .stApp {{ background-color: {bg}; }}
     [data-testid="stSidebar"] {{ background-color: {bg2}; }}
     [data-testid="stMarkdownContainer"] {{ color: {text}; }}
-    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {{ color: {text}; }}
     [data-testid="stCaptionContainer"] {{ color: {subtext}; }}
 
+    /* Metric mac dinh cua Streamlit khá to, tren sidebar hep de bi tran/cat chu -
+       thu nho + cho xuong dong thay vi cat chu (...). */
+    [data-testid="stMetricValue"] {{ color: {text}; font-size: 20px; }}
+    [data-testid="stMetricLabel"] {{
+        color: {text}; font-size: 11.5px; white-space: normal; overflow-wrap: break-word;
+    }}
+
     /* ---- Hero / search card ---- */
-    .hero-title {{ font-size: 28px; font-weight: 700; color: {text}; margin-bottom: 2px; }}
-    .hero-subtitle {{ font-size: 15px; color: {subtext}; margin-bottom: 20px; }}
+    .hero-title {{ font-size: 21px; font-weight: 700; color: {text}; margin-bottom: 2px; }}
+    .hero-subtitle {{ font-size: 13px; color: {subtext}; margin-bottom: 16px; }}
     .search-card {{
         background-color: {card}; border: 1px solid {border}; border-radius: 16px;
-        padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        padding: 18px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }}
 
     /* ---- Route / itinerary cards ---- */
     .bus-card {{
         background-color: {card}; border: 1px solid {border}; border-radius: 12px;
-        padding: 16px; margin-bottom: 10px; color: {text};
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        padding: 14px; margin-bottom: 10px; color: {text};
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow-wrap: break-word;
     }}
     .route-number {{
         display: inline-block; background: {accent}; color: white; font-weight: 700;
-        font-size: 14px; padding: 4px 10px; border-radius: 8px; letter-spacing: 0.3px;
+        font-size: 12px; padding: 3px 9px; border-radius: 8px; letter-spacing: 0.3px;
     }}
-    .route-name {{ font-size: 15px; font-weight: 500; color: {text}; margin-top: 6px; }}
-    .metric-row {{ display: flex; gap: 18px; margin-top: 10px; font-size: 13.5px; color: {subtext}; flex-wrap: wrap; }}
+    .route-name {{ font-size: 13px; font-weight: 500; color: {text}; margin-top: 6px; }}
+    .metric-row {{ display: flex; gap: 14px; margin-top: 8px; font-size: 12px; color: {subtext}; flex-wrap: wrap; }}
     .metric-row b {{ color: {text}; }}
     .tag-pill {{
-        display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 9px;
+        display: inline-block; font-size: 10.5px; font-weight: 600; padding: 3px 8px;
         border-radius: 999px; margin-right: 6px; margin-bottom: 6px;
     }}
     .tag-best {{ background: #dbeafe; color: #1d4ed8; }}
@@ -136,16 +142,16 @@ def inject_theme_css(dark: bool):
     .tag-cheap {{ background: #fef9c3; color: #a16207; }}
     .tag-fewtransfer {{ background: #f3e8ff; color: #7e22ce; }}
 
-    .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 12.5px; }}
-    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 12.5px; }}
+    .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 11px; }}
+    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 11px; }}
 
-    .cloud-status-mini {{ font-size: 12px; color: {subtext}; }}
+    .cloud-status-mini {{ font-size: 11px; color: {subtext}; }}
 
     .stButton>button[kind="primary"] {{
         background-color: {accent}; border-color: {accent}; border-radius: 10px;
-        height: 48px; font-weight: 600; font-size: 14.5px;
+        height: 44px; font-weight: 600; font-size: 13.5px;
     }}
-    div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 44px; }}
+    div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 40px; font-size: 13.5px; }}
 
     /* ---- Bo chon khu vuc (segmented control) - dang pill be tron, gan gui hon ---- */
     div[data-testid="stSegmentedControl"] label {{
@@ -197,22 +203,6 @@ with st.sidebar:
     m2.metric(t("n_stops", lang), len(stops_view))
 
     st.toggle(t("auto_refresh_on", lang), key="live_refresh")
-
-    st.divider()
-    st.caption(t("cloud_status_footer", lang))
-    if ds.mode == "cloud":
-        st.markdown(f'<span class="cloud-status-mini">🟢 {t("cloud_connected", lang)}</span>', unsafe_allow_html=True)
-    else:
-        st.markdown(f'<span class="cloud-status-mini">🟡 {t("cloud_local", lang)}</span>', unsafe_allow_html=True)
-    with st.expander(t("why_no_cloud", lang) if ds.mode != "cloud" else t("cloud_status_footer", lang)):
-        st.write(t("why_no_cloud_body", lang))
-        if ds.connect_error:
-            st.code(ds.connect_error, language="text")
-        if st.button(t("refresh_cloud", lang)):
-            get_datastore.clear()
-            load_data.clear()
-            build_finder.clear()
-            st.rerun()
 
 if st.session_state["live_refresh"]:
     from streamlit_autorefresh import st_autorefresh
@@ -298,8 +288,8 @@ def make_stop_search_fn(stops_scope: pd.DataFrame, lang: str):
 # --------------------------------------------------------------------------- #
 # Top-level tabs
 # --------------------------------------------------------------------------- #
-tab_map, tab_stats, tab_about = st.tabs([
-    t("tab_map_search", lang), t("tab_stats", lang), t("tab_about", lang),
+tab_map, tab_stats = st.tabs([
+    t("tab_map_search", lang), t("tab_stats", lang),
 ])
 
 # --------------------------------------------------------------------------- #
@@ -666,84 +656,3 @@ with tab_stats:
                 hide_index=True, width="stretch",
             )
 
-# --------------------------------------------------------------------------- #
-# TAB: Giới thiệu
-# --------------------------------------------------------------------------- #
-with tab_about:
-    if lang == "vi":
-        st.markdown("""
-### Vấn đề thực tế
-Sinh viên và người không có xe cá nhân phụ thuộc vào xe buýt nhưng gặp khó khăn khi
-tra cứu thời gian xe đến trạm, các điểm trung chuyển, hoặc tính toán chi phí di chuyển
-tiết kiệm nhất giữa nhiều tuyến — đặc biệt khi không nhớ chính xác tên trạm mà chỉ biết
-địa chỉ/địa danh gần đó.
-
-**Đối tượng:** sinh viên, người cao tuổi, người đi làm bằng phương tiện công cộng tại
-TP. Hồ Chí Minh và Biên Hòa - Đồng Nai.
-
-### Giải pháp
-Nhập địa chỉ/địa danh (hoặc chọn trạm trực tiếp) cho điểm đi - điểm đến, hệ thống tự
-động gợi ý tuyến tối ưu (trực tiếp hoặc 1 lần chuyển tuyến), hiển thị trực quan trên
-bản đồ kèm mô phỏng vị trí xe đang chạy, ước tính giờ đến và chi phí vé.
-
-### Kiến trúc Cloud
-```
-USER -> Streamlit Web App (Cloud Hosting) -> Supabase PostgreSQL (Cloud Database)
-                                            -> Supabase PostgREST (Cloud API)
-                                            -> Supabase Storage (Cloud Storage - backup dataset)
-```
-
-### Vì sao vị trí xe là "mô phỏng" chứ không phải GPS thật?
-Hiện **không có API GPS thời gian thực công khai/miễn phí** cho xe buýt tại Việt Nam —
-BusMap và Buýt Đồng Nai là hệ thống nội bộ, không mở dữ liệu vị trí xe cho bên thứ ba,
-và việc trích xuất dữ liệu riêng của họ vi phạm điều khoản dịch vụ nên nhóm không thực
-hiện. Thay vào đó, ứng dụng **tính toán vị trí ước tính** của từng chuyến xe dựa trên
-giờ khởi hành chuẩn + giãn cách chạy + thời gian đã trôi qua, nội suy theo lộ trình —
-minh hoạ trực quan tương tự Grab/Be nhưng luôn được ghi rõ là ước tính, không phải GPS
-thật (xem `backend/tracking.py`).
-
-### Nguồn dữ liệu & giới hạn
-Bộ dữ liệu (`dataset/`) biên soạn thủ công theo cấu trúc chuẩn GTFS, dựa trên địa danh
-có thật tại TP.HCM và Biên Hòa; toạ độ trạm trung gian được nội suy tuyến tính để minh
-hoạ, không phải dữ liệu GTFS chính thức. Tìm kiếm theo địa chỉ tự do dùng OpenStreetMap
-Nominatim (miễn phí, không cần API key) làm phương án bổ sung khi tên không khớp trực
-tiếp dữ liệu tuyến.
-        """)
-    else:
-        st.markdown("""
-### The problem
-Students and people without a personal vehicle rely on buses but struggle to check
-arrival times, find transfer points, or work out the cheapest route across multiple
-lines — especially when they only know a nearby address, not the exact stop name.
-
-**Target users:** students, elderly people, and commuters using public transport in
-Ho Chi Minh City and Bien Hoa - Dong Nai.
-
-### The solution
-Enter an address/place name (or pick a stop directly) for origin and destination; the
-system suggests the optimal route (direct or 1 transfer), visualizes it on a map with
-simulated live bus positions, and estimates arrival time and fare.
-
-### Cloud architecture
-```
-USER -> Streamlit Web App (Cloud Hosting) -> Supabase PostgreSQL (Cloud Database)
-                                            -> Supabase PostgREST (Cloud API)
-                                            -> Supabase Storage (Cloud Storage - dataset backup)
-```
-
-### Why are bus positions "simulated" instead of real GPS?
-There is currently **no free public real-time GPS API** for buses in Vietnam — BusMap
-and Buyt Dong Nai are closed internal systems that do not expose vehicle-position data
-to third parties, and scraping their private data would violate their terms of service,
-so the team did not do that. Instead, the app **computes an estimated position** for
-each trip from the standard departure time + headway + elapsed time, interpolated along
-the route — a Grab/Be-style visualization that is always clearly labeled as an estimate,
-not real GPS (see `backend/tracking.py`).
-
-### Data source & limitations
-The dataset (`dataset/`) is manually authored following the GTFS structure, based on
-real places in Ho Chi Minh City and Bien Hoa; intermediate stop coordinates are linearly
-interpolated for illustration, not an official GTFS feed. Free-text address search uses
-OpenStreetMap Nominatim (free, no API key) as a fallback when the query doesn't match a
-stop name directly.
-        """)
