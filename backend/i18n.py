@@ -27,6 +27,7 @@ STRINGS = {
     "city_all": {"vi": "Tất cả", "en": "All"},
     "city_hcmc": {"vi": "TP. Hồ Chí Minh", "en": "Ho Chi Minh City"},
     "city_bienhoa": {"vi": "Biên Hòa - Đồng Nai", "en": "Bien Hoa - Dong Nai"},
+    "city_kiengiang": {"vi": "Kiên Giang", "en": "Kien Giang"},
     "n_routes": {"vi": "Số tuyến đang khai thác", "en": "Active routes"},
     "n_stops": {"vi": "Số trạm dừng", "en": "Bus stops"},
     "refresh_cloud": {"vi": "🔄 Làm mới dữ liệu từ Cloud", "en": "🔄 Refresh data from Cloud"},

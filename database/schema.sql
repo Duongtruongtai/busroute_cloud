@@ -39,9 +39,12 @@ create table if not exists route_stops (
     route_id       text not null references routes (route_id) on delete cascade,
     stop_id        text not null references stops (stop_id) on delete cascade,
     stop_sequence  integer not null,
-    offset_min     integer not null,
+    offset_min     numeric not null,
     unique (route_id, stop_sequence)
 );
+-- offset_min doi tu integer sang numeric: tuyen thuc te (vd Kien Giang, 70+ tram)
+-- can do phan giai theo phut le, khong the lam tron nguyen ma khong bi trung gia tri.
+alter table route_stops alter column offset_min type numeric using offset_min::numeric;
 
 create index if not exists idx_route_stops_route on route_stops (route_id);
 create index if not exists idx_route_stops_stop on route_stops (stop_id);

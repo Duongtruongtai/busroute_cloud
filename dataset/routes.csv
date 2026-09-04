@@ -14,3 +14,12 @@ BH02,BH-02,Ga Biên Hòa - Đại học Lạc Hồng (qua Nguyễn Ái Quốc),B
 BH03,BH-03,Ngã tư Vũng Tàu - Ga Biên Hòa (qua KCN Biên Hòa 2),Vung Tau Junction - Bien Hoa Railway Station (via Industrial Park 2),bienhoa,7000,3000,20,05:00,19:00
 BH04,BH-04,Chợ Biên Hòa - Bệnh viện Đa khoa Đồng Nai,Bien Hoa Market - Dong Nai General Hospital,bienhoa,6000,3000,20,05:00,19:30
 BH05,BH-05,Khu công nghiệp Biên Hòa 1 - Vincom Plaza,Industrial Park 1 - Vincom Plaza Bien Hoa,bienhoa,6000,3000,20,05:00,19:00
+KG02,KG-02,Bến xe Rạch Giá - Nguyễn Bỉnh Khiêm - Quốc lộ 80 - Bến xe Tri Tôn,Ben xe Rach Gia - Nguyen Binh Khiem - Quoc lo 80 - Ben xe Tri Ton,kiengiang,30000,15000,60,05:00,18:00
+KG07,KG-07,Dương Đông - Suối Tranh - Dương Tơ,Duong Dong - Suoi Tranh - Duong To,kiengiang,10000,5000,30,05:30,18:30
+KG01,KG-01,Bến xe Kiên Lương - Quốc lộ 80 - Bến xe Tri Tôn,Ben xe Kien Luong - Quoc lo 80 - Ben xe Tri Ton,kiengiang,25000,12000,60,05:00,18:00
+KG06,KG-06,Dương Tơ - Suối Tranh - Dương Đông,Duong To - Suoi Tranh - Duong Dong,kiengiang,10000,5000,30,05:30,18:30
+KG09,KG-09,Ngã 3 Minh Lương - Quốc lộ 61 - Ngã 3 Bến Nhứt - Giồng Riềng,Nga 3 Minh Luong - Quoc lo 61 - Nga 3 Ben Nhut - Giong Rieng,kiengiang,15000,7000,45,05:00,18:00
+KG08,KG-08,Giồng Riềng - Ngã 3 Bến Nhứt - Quốc lộ 61 - Ngã 3 Minh Lương,Giong Rieng - Nga 3 Ben Nhut - Quoc lo 61 - Nga 3 Minh Luong,kiengiang,15000,7000,45,05:00,18:00
+KG05,KG-05,Bến xe Tri Tôn - Quốc lộ 80 - Nguyễn Bỉnh Khiêm - Bến xe Rạch Giá,Ben xe Tri Ton - Quoc lo 80 - Nguyen Binh Khiem - Ben xe Rach Gia,kiengiang,30000,15000,60,05:00,18:00
+KG04,KG-04,Bến xe Tri Tôn - Quốc lộ 80 - Bến xe Kiên Lương,Ben xe Tri Ton - Quoc lo 80 - Ben xe Kien Luong,kiengiang,25000,12000,60,05:00,18:00
+KG03,KG-03,Bến xe Tri Tôn - Bến xe Rạch Giá - Nguyễn Bỉnh Khiêm - Quốc lộ 80,Ben xe Tri Ton - Ben xe Rach Gia - Nguyen Binh Khiem - Quoc lo 80,kiengiang,30000,15000,60,05:00,18:00

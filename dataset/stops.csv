@@ -105,3 +105,323 @@ BH05_S6,Bùi Văn Hòa - Đồng Khởi - Trạm 1 (tuyến BH-05),Bui Van Hoa -
 BH05_S7,Bùi Văn Hòa - Đồng Khởi - Trạm 2 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 2 (Route BH-05),10.949,106.83575,0,bienhoa
 BH05_S8,Bùi Văn Hòa - Đồng Khởi - Trạm 3 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 3 (Route BH-05),10.949,106.839125,0,bienhoa
 VINCOM_BIEN_HOA,Vincom Plaza Biên Hòa,Vincom Plaza Bien Hoa,10.949,106.8425,1,bienhoa
+KG_HUB_RACHGIA,Bến xe Rạch Giá,Ben xe Rach Gia,10.018717,105.083044,1,kiengiang
+KG02_ID39,Km0+250 Nguyễn Bỉnh Khiêm,Km0+250 Nguyen Binh Khiem,10.022064,105.07999,0,kiengiang
+KG02_ID40,Km0+500 Nguyễn Bỉnh Khiêm,Km0+500 Nguyen Binh Khiem,10.022338,105.07974,0,kiengiang
+KG02_ID46,Km12+550 số 782,Km12+550 so 782,10.035547,105.067689,0,kiengiang
+KG02_ID47,Km12+850,Km12+850,10.035876,105.067389,0,kiengiang
+KG02_ID151,Trạm trước Honda Diệp Bình Km45+500,Tram truoc Honda Diep Binh Km45+500,10.071666,105.034734,0,kiengiang
+KG02_ID41,Nhà chờ gần Cây xăng số 2,Nha cho gan Cay xang so 2,10.088547,105.019332,0,kiengiang
+KG02_ID42,"Km121+300, số 426","Km121+300, so 426",10.154757,104.958924,0,kiengiang
+KG02_ID43,"Km121+300, số 426","Km121+300, so 426",10.154757,104.958924,0,kiengiang
+KG02_ID44,Km122,Km122,10.155524,104.958224,0,kiengiang
+KG02_ID45,Km122+200,Km122+200,10.155743,104.958024,0,kiengiang
+KG02_ID48,Gần km123+100,Gan km123+100,10.15673,104.957124,0,kiengiang
+KG02_ID49,Số 1044 gần Km123+450,So 1044 gan Km123+450,10.157114,104.956774,0,kiengiang
+KG02_ID50,Trạm trước Phế liệu Phát Đạt số 1164,Tram truoc Phe lieu Phat Dat so 1164,10.157278,104.956624,0,kiengiang
+KG02_ID51,Km123+750,Km123+750,10.157442,104.956474,0,kiengiang
+KG02_ID52,Km124+500,Km124+500,10.158265,104.955724,0,kiengiang
+KG02_ID53,Trạm trước Uốn tóc Như Thảo số 38,Tram truoc Uon toc Nhu Thao so 38,10.158621,104.955398,0,kiengiang
+KG02_ID54,Trạm gần Km125+150,Tram gan Km125+150,10.158977,104.955073,0,kiengiang
+KG02_ID55,Km125+900,Km125+900,10.159799,104.954323,0,kiengiang
+KG02_ID56,Trạm trước Honda Thành Tâm gần Km126+400,Tram truoc Honda Thanh Tam gan Km126+400,10.160347,104.953823,0,kiengiang
+KG02_ID57,Nhà chờ Km126+900,Nha cho Km126+900,10.160895,104.953323,0,kiengiang
+KG02_ID58,Trạm gần Km127+400,Tram gan Km127+400,10.161444,104.952823,0,kiengiang
+KG02_ID59,Trạm gần Km128,Tram gan Km128,10.162101,104.952223,0,kiengiang
+KG02_ID60,Km128+300,Km128+300,10.16243,104.951923,0,kiengiang
+KG02_ID61,Km128+950,Km128+950,10.163143,104.951273,0,kiengiang
+KG02_ID62,Trạm đối diện doanh trại quân đội gần Km129+500,Tram doi dien doanh trai quan doi gan Km129+500,10.163746,104.950723,0,kiengiang
+KG02_ID63,Km130,Km130,10.164294,104.950223,0,kiengiang
+KG02_ID64,Trạm đối diện Trường Trung học Mỹ Hưng,Tram doi dien Truong Trung hoc My Hung,10.164732,104.949823,0,kiengiang
+KG02_ID65,Km130+800,Km130+800,10.165171,104.949423,0,kiengiang
+KG02_ID66,Km131+500,Km131+500,10.165938,104.948723,0,kiengiang
+KG02_ID67,Km131+900,Km131+900,10.166376,104.948323,0,kiengiang
+KG02_ID68,Trạm đối diện gần Km132+500,Tram doi dien gan Km132+500,10.167034,104.947722,0,kiengiang
+KG02_ID69,Trạm gần Km133,Tram gan Km133,10.167582,104.947222,0,kiengiang
+KG02_ID72,Trạm gần Km133+500,Tram gan Km133+500,10.16813,104.946722,0,kiengiang
+KG02_ID70,Trạm gần Km133+600 Kho Hải Sơn,Tram gan Km133+600 Kho Hai Son,10.16824,104.946622,0,kiengiang
+KG02_ID71,Km134,Km134,10.168678,104.946222,0,kiengiang
+KG02_ID73,Nhà chờ trước Bưu điện Sóc Xoài,Nha cho truoc Buu dien Soc Xoai,10.169309,104.945647,0,kiengiang
+KG02_ID74,Trạm gần Km135+650 Honda Bảy Xem,Tram gan Km135+650 Honda Bay Xem,10.170487,104.944572,0,kiengiang
+KG02_ID75,Trạm gần Km135+850,Tram gan Km135+850,10.170706,104.944372,0,kiengiang
+KG02_ID131,Trạm đối diện Km136+200 tạp hóa Minh Trí,Tram doi dien Km136+200 tap hoa Minh Tri,10.17109,104.944022,0,kiengiang
+KG02_ID132,Trạm đối diện Km136+400,Tram doi dien Km136+400,10.171309,104.943822,0,kiengiang
+KG02_ID133,Trạm gần Km136+900,Tram gan Km136+900,10.171857,104.943322,0,kiengiang
+KG02_ID134,Trạm đối diện Km137+500,Tram doi dien Km137+500,10.172515,104.942722,0,kiengiang
+KG02_ID135,Trạm đối diện Trường TH Sơn Kiên,Tram doi dien Truong TH Son Kien,10.173173,104.942122,0,kiengiang
+KG02_ID136,Trạm gần Km138+700,Tram gan Km138+700,10.17383,104.941522,0,kiengiang
+KG02_ID137,Trạm trước Cà phê Quỳnh Nga Km139,Tram truoc Ca phe Quynh Nga Km139,10.174159,104.941222,0,kiengiang
+KG02_ID138,Trạm gần Km139+400,Tram gan Km139+400,10.174598,104.940821,0,kiengiang
+KG02_ID139,Km140,Km140,10.175255,104.940221,0,kiengiang
+KG02_ID140,Km140+350,Km140+350,10.175639,104.939871,0,kiengiang
+KG02_ID141,Km141,Km141,10.176352,104.939221,0,kiengiang
+KG02_ID142,Trạm gần Km141+500 Phân bón Vạn Lợi,Tram gan Km141+500 Phan bon Van Loi,10.1769,104.938721,0,kiengiang
+KG02_ID143,Trạm gần Km142,Tram gan Km142,10.177448,104.938221,0,kiengiang
+KG02_ID144,Trạm gần Km142+500,Tram gan Km142+500,10.177996,104.937721,0,kiengiang
+KG02_ID145,Km143,Km143,10.178544,104.937221,0,kiengiang
+KG02_ID146,Trạm đối diện gần Km143+500,Tram doi dien gan Km143+500,10.179092,104.936721,0,kiengiang
+KG02_ID147,Trạm đối diện Km143+700,Tram doi dien Km143+700,10.179311,104.936521,0,kiengiang
+KG02_ID148,Trạm gần đối diện Km144+200,Tram gan doi dien Km144+200,10.179859,104.936021,0,kiengiang
+KG02_ID149,Trạm đối diện Nghĩa trang Hòn Đất,Tram doi dien Nghia trang Hon Dat,10.180298,104.935621,0,kiengiang
+KG02_ID150,Trạm gần Km145,Tram gan Km145,10.180736,104.935221,0,kiengiang
+KG02_ID152,Nhà chờ gần Km145+800,Nha cho gan Km145+800,10.181613,104.934421,0,kiengiang
+KG02_ID153,Km146,Km146,10.181833,104.934221,0,kiengiang
+KG02_ID154,Km146+500,Km146+500,10.182381,104.93372,0,kiengiang
+KG02_ID155,Km146+800,Km146+800,10.18271,104.93342,0,kiengiang
+KG_HUB_TRITON,Bến xe Tri Tôn,Ben xe Tri Ton,10.186056,104.930367,1,kiengiang
+KG_HUB_DUONGDONG,Bến xe Dương Đông,Ben xe Duong Dong,10.182596,103.972223,1,kiengiang
+KG07_ID12,Điểm dừng đón - trả khách - Điểm 01,Diem dung don - tra khach - Diem 01,10.182297,103.972248,0,kiengiang
+KG07_ID13,Điểm dừng đón - trả khách - Điểm 02,Diem dung don - tra khach - Diem 02,10.179425,103.972481,0,kiengiang
+KG07_ID14,Điểm dừng đón - trả khách - Điểm 03,Diem dung don - tra khach - Diem 03,10.176553,103.972715,0,kiengiang
+KG07_ID15,Điểm dừng đón - trả khách - Điểm 04,Diem dung don - tra khach - Diem 04,10.173682,103.972948,0,kiengiang
+KG07_ID16,Điểm dừng đón - trả khách - Điểm 05,Diem dung don - tra khach - Diem 05,10.17081,103.973182,0,kiengiang
+KG07_ID17,Điểm dừng đón - trả khách - Điểm 06,Diem dung don - tra khach - Diem 06,10.167938,103.973416,0,kiengiang
+KG_HUB_DUONGTO,Bến xe Dương Tơ,Ben xe Duong To,10.167639,103.97344,1,kiengiang
+KG_HUB_KIENLUONG,Bến xe Kiên Lương,Ben xe Kien Luong,10.252648,104.596348,1,kiengiang
+KG01_ID257,Đối diện Km140+300,Doi dien Km140+300,10.251316,104.603028,0,kiengiang
+KG01_ID258,Đối diện Km140+700,Doi dien Km140+700,10.250668,104.606275,0,kiengiang
+KG01_ID256,Trạm trước Nhà máy phân bón Thiên Giang,Tram truoc Nha may phan bon Thien Giang,10.244114,104.639153,0,kiengiang
+KG01_ID254,Trạm đối diện gần Km148+650,Tram doi dien gan Km148+650,10.237802,104.670813,0,kiengiang
+KG01_ID255,Đối diện Km149+200,Doi dien Km149+200,10.236912,104.675277,0,kiengiang
+KG01_ID259,Trạm gần đối diện Km151+400,Tram gan doi dien Km151+400,10.233351,104.693137,0,kiengiang
+KG01_ID260,Trạm gần đối diện Km151+700,Tram gan doi dien Km151+700,10.232866,104.695572,0,kiengiang
+KG01_ID261,Đối diện Km152,Doi dien Km152,10.23238,104.698008,0,kiengiang
+KG01_ID263,Trạm gần đối diện Km152+300,Tram gan doi dien Km152+300,10.231895,104.700443,0,kiengiang
+KG01_ID262,Trạm gần đối diện Km152+500,Tram gan doi dien Km152+500,10.231571,104.702067,0,kiengiang
+KG01_ID264,Trạm gần đối diện Km153+500,Tram gan doi dien Km153+500,10.229953,104.710185,0,kiengiang
+KG01_ID265,Trạm gần đối diện Km154,Tram gan doi dien Km154,10.229143,104.714244,0,kiengiang
+KG01_ID266,Trạm gần đối diện Km154+300,Tram gan doi dien Km154+300,10.228658,104.716679,0,kiengiang
+KG01_ID267,Trạm gần đối diện Km154+500,Tram gan doi dien Km154+500,10.228334,104.718303,0,kiengiang
+KG01_ID268,Trạm gần đối diện Km155,Tram gan doi dien Km155,10.227525,104.722362,0,kiengiang
+KG01_ID269,Trạm gần đối diện Km155+500,Tram gan doi dien Km155+500,10.226716,104.726421,0,kiengiang
+KG01_ID270,Trạm trước Tiểu học Bình Sơn 3,Tram truoc Tieu hoc Binh Son 3,10.226014,104.729938,0,kiengiang
+KG01_ID271,Trạm trước Trường Mẫu giáo Bình Sơn,Tram truoc Truong Mau giao Binh Son,10.225313,104.733456,0,kiengiang
+KG01_ID272,Km156+800,Km156+800,10.224612,104.736974,0,kiengiang
+KG01_ID273,Trạm gần đối diện Km157+400,Tram gan doi dien Km157+400,10.223641,104.741845,0,kiengiang
+KG01_ID274,Trạm đối diện Km158,Tram doi dien Km158,10.22267,104.746715,0,kiengiang
+KG01_ID253,Trạm trước Nông ngư Cơ Thanh Trung,Tram truoc Nong ngu Co Thanh Trung,10.222144,104.749354,0,kiengiang
+KG01_ID275,Km158+500,Km158+500,10.22186,104.750774,0,kiengiang
+KG01_ID276,Trạm đối diện Km159,Tram doi dien Km159,10.221051,104.754833,0,kiengiang
+KG01_ID277,Trạm đối diện Km159+500,Tram doi dien Km159+500,10.220242,104.758892,0,kiengiang
+KG01_ID278,Trạm đối diện Km160,Tram doi dien Km160,10.219433,104.762951,0,kiengiang
+KG01_ID279,Trạm đối diện Km160+500,Tram doi dien Km160+500,10.218624,104.76701,0,kiengiang
+KG01_ID280,Trạm đối diện Km161,Tram doi dien Km161,10.217814,104.771069,0,kiengiang
+KG01_ID281,Trạm trước Tiệm cơm Nhật Trường khu vực chợ Vàm Rẫy,Tram truoc Tiem com Nhat Truong khu vuc cho Vam Ray,10.217005,104.775128,0,kiengiang
+KG01_ID282,Nhà chờ trước Tiểu học Bình Sơn 1,Nha cho truoc Tieu hoc Binh Son 1,10.216196,104.779187,0,kiengiang
+KG01_ID283,Trạm sau đường lên cầu Tám Ngàn,Tram sau duong len cau Tam Ngan,10.215387,104.783246,0,kiengiang
+KG01_ID284,Trạm gần đối diện Km163,Tram gan doi dien Km163,10.214578,104.787305,0,kiengiang
+KG01_ID285,Trạm gần đối diện Km163+400,Tram gan doi dien Km163+400,10.21393,104.790552,0,kiengiang
+KG01_ID286,Trạm gần đối diện Km164,Tram gan doi dien Km164,10.212959,104.795423,0,kiengiang
+KG01_ID287,Km164+500,Km164+500,10.21215,104.799482,0,kiengiang
+KG01_ID288,Trạm gần đối diện Km165,Tram gan doi dien Km165,10.211341,104.803541,0,kiengiang
+KG01_ID289,Trạm gần đối diện Km165+500,Tram gan doi dien Km165+500,10.210532,104.8076,0,kiengiang
+KG01_ID290,Km165+900,Km165+900,10.209884,104.810847,0,kiengiang
+KG01_ID291,Nhà chờ trước UBND xã Bình Giang,Nha cho truoc UBND xa Binh Giang,10.208967,104.815447,0,kiengiang
+KG01_ID292,Nhà chờ trước Tiểu học Bình Giang 2,Nha cho truoc Tieu hoc Binh Giang 2,10.20805,104.820047,0,kiengiang
+KG01_ID293,Trạm trước Cà phê Quê Hương đối diện Km167+600,Tram truoc Ca phe Que Huong doi dien Km167+600,10.207133,104.824648,0,kiengiang
+KG01_ID294,Gần đối diện Km168,Gan doi dien Km168,10.206486,104.827894,0,kiengiang
+KG01_ID295,Trạm trước Cà phê Trung Nguyên Km168+500,Tram truoc Ca phe Trung Nguyen Km168+500,10.205676,104.831954,0,kiengiang
+KG01_ID296,Gần đối diện Km169,Gan doi dien Km169,10.204867,104.836013,0,kiengiang
+KG01_ID297,Gần đối diện Km170+500,Gan doi dien Km170+500,10.202439,104.84819,0,kiengiang
+KG01_ID298,Trạm trước Tiểu học Bình Giang 2 Điểm Ranh Hat,Tram truoc Tieu hoc Binh Giang 2 Diem Ranh Hat,10.202035,104.850219,0,kiengiang
+KG01_ID299,Gần đối diện Km171,Gan doi dien Km171,10.20163,104.852249,0,kiengiang
+KG01_ID300,Trạm trước cây xăng Hiệp Hưng,Tram truoc cay xang Hiep Hung,10.200659,104.857119,0,kiengiang
+KG01_ID301,Gần đối diện Km172+200,Gan doi dien Km172+200,10.199688,104.86199,0,kiengiang
+KG01_ID302,Trạm trước Cà phê Hải đối diện Km172+500,Tram truoc Ca phe Hai doi dien Km172+500,10.199203,104.864425,0,kiengiang
+KG01_ID303,Trạm trước Tiểu học Kiên Bình 1,Tram truoc Tieu hoc Kien Binh 1,10.198717,104.866861,0,kiengiang
+KG01_ID304,Trạm trước Lò vôi Hai Thế,Tram truoc Lo voi Hai The,10.198232,104.869296,0,kiengiang
+KG01_ID305,Đối diện Km173+400,Doi dien Km173+400,10.197746,104.871732,0,kiengiang
+KG01_ID306,Gần đối diện Km173+750,Gan doi dien Km173+750,10.19718,104.874573,0,kiengiang
+KG01_ID307,Gần đối diện Km174+250,Gan doi dien Km174+250,10.19637,104.878632,0,kiengiang
+KG01_ID308,Trạm trước cây xăng Hiệp Giang,Tram truoc cay xang Hiep Giang,10.195723,104.881879,0,kiengiang
+KG01_ID309,Trạm trước UBND xã Kiên Bình,Tram truoc UBND xa Kien Binh,10.195076,104.885126,0,kiengiang
+KG01_ID310,Trạm trước Tiệm cơm Thanh Thủy đối diện km175+450,Tram truoc Tiem com Thanh Thuy doi dien km175+450,10.194428,104.888373,0,kiengiang
+KG01_ID311,Trạm gần đối diện Km176,Tram gan doi dien Km176,10.193538,104.892838,0,kiengiang
+KG01_ID312,Trạm trước Trường Tiểu học Kiên Bình 1,Tram truoc Truong Tieu hoc Kien Binh 1,10.192891,104.896085,0,kiengiang
+KG01_ID313,Đối diện Km176+800,Doi dien Km176+800,10.192243,104.899333,0,kiengiang
+KG01_ID314,Km177+400,Km177+400,10.191272,104.904203,0,kiengiang
+KG01_ID315,Nhà chờ trước Trường Tiểu học Kiên Bình 1,Nha cho truoc Truong Tieu hoc Kien Binh 1,10.190787,104.906639,0,kiengiang
+KG01_ID316,Đối diện Km178,Doi dien Km178,10.190301,104.909074,0,kiengiang
+KG01_ID317,Trạm đối diện Km178+600,Tram doi dien Km178+600,10.18933,104.913945,0,kiengiang
+KG01_ID318,Trạm đối diện Km179+400,Tram doi dien Km179+400,10.188035,104.920439,0,kiengiang
+KG01_ID319,Trạm đối diện Km179+800,Tram doi dien Km179+800,10.187388,104.923686,0,kiengiang
+KG01_ID320,Trạm trước Trạm QL Đường sông Kiên Lương,Tram truoc Tram QL Duong song Kien Luong,10.187388,104.923686,0,kiengiang
+KG01_ID321,Trạm gần Bưu điện Kiên Lương,Tram gan Buu dien Kien Luong,10.187388,104.923686,0,kiengiang
+KG01_ID322,Trước Xăng dầu số 2,Truoc Xang dau so 2,10.187388,104.923687,0,kiengiang
+KG01_ID323,Trạm trước UBND TT Kiên Lương,Tram truoc UBND TT Kien Luong,10.187388,104.923687,0,kiengiang
+KG06_ID18,Điểm dừng đón - trả khách - Điểm 01,Diem dung don - tra khach - Diem 01,10.167938,103.973416,0,kiengiang
+KG06_ID19,Điểm dừng đón - trả khách - Điểm 02,Diem dung don - tra khach - Diem 02,10.17081,103.973182,0,kiengiang
+KG06_ID20,Điểm dừng đón - trả khách - Điểm 03,Diem dung don - tra khach - Diem 03,10.173682,103.972948,0,kiengiang
+KG06_ID21,Điểm dừng đón - trả khách - Điểm 04,Diem dung don - tra khach - Diem 04,10.176553,103.972715,0,kiengiang
+KG06_ID22,Điểm dừng đón - trả khách - Điểm 05,Diem dung don - tra khach - Diem 05,10.179425,103.972481,0,kiengiang
+KG06_ID23,Điểm dừng đón - trả khách - Điểm 06,Diem dung don - tra khach - Diem 06,10.182297,103.972248,0,kiengiang
+KG_HUB_MINHLUONG,Ngã ba Minh Lương,Nga ba Minh Luong,9.905259,105.160143,1,kiengiang
+KG09_ID24,Km14+050,Km14+050,9.905336,105.163174,0,kiengiang
+KG09_ID25,Km14+450,Km14+450,9.905549,105.17167,0,kiengiang
+KG09_ID26,Km14+850,Km14+850,9.905763,105.180166,0,kiengiang
+KG09_ID27,Km15+300,Km15+300,9.906004,105.189724,0,kiengiang
+KG09_ID28,Km15+500,Km15+500,9.90611,105.193972,0,kiengiang
+KG09_ID29,Km16+250,Km16+250,9.906511,105.209902,0,kiengiang
+KG09_ID30,Km17+100,Km17+100,9.906965,105.227956,0,kiengiang
+KG09_ID31,Km17+800,Km17+800,9.907339,105.242824,0,kiengiang
+KG09_ID32,Km18+300,Km18+300,9.907606,105.253444,0,kiengiang
+KG09_ID33,Km19+300,Km19+300,9.908141,105.274683,0,kiengiang
+KG09_ID34,Km19+800,Km19+800,9.908408,105.285303,0,kiengiang
+KG09_ID35,Km20+00,Km20+00,9.908515,105.289551,0,kiengiang
+KG09_ID36,Km20+900,Km20+900,9.908996,105.308667,0,kiengiang
+KG09_ID37,Trạm đối diện Bưu điện huyện Giồng Riềng,Tram doi dien Buu dien huyen Giong Rieng,9.909427,105.314692,0,kiengiang
+KG09_ID38,Trạm đối diện Huyện ủy Giồng Riềng,Tram doi dien Huyen uy Giong Rieng,9.909823,105.314939,0,kiengiang
+KG_HUB_GIONGRIENG,Trung tâm Giồng Riềng,Trung tam Giong Rieng,9.909072,105.311698,1,kiengiang
+KG08_ID76,Km14+00,Km14+00,9.905336,105.163174,0,kiengiang
+KG08_ID77,Km14+400,Km14+400,9.905539,105.171257,0,kiengiang
+KG08_ID78,Km14+750,Km14+750,9.905717,105.17833,0,kiengiang
+KG08_ID79,Km15+350,Km15+350,9.906022,105.190454,0,kiengiang
+KG08_ID80,Km15+550,Km15+550,9.906124,105.194496,0,kiengiang
+KG08_ID81,Km16+300,Km16+300,9.906505,105.209651,0,kiengiang
+KG08_ID82,Km17+200,Km17+200,9.906962,105.227838,0,kiengiang
+KG08_ID83,Km17+850,Km17+850,9.907293,105.240973,0,kiengiang
+KG08_ID84,Km18+400,Km18+400,9.907572,105.252087,0,kiengiang
+KG08_ID85,Km19+250,Km19+250,9.908004,105.269263,0,kiengiang
+KG08_ID86,Km19+700,Km19+700,9.908233,105.278356,0,kiengiang
+KG08_ID87,Km20+200,Km20+200,9.908487,105.28846,0,kiengiang
+KG08_ID88,Km20+500,Km20+500,9.90864,105.294522,0,kiengiang
+KG08_ID89,Km20+850,Km20+850,9.908818,105.301595,0,kiengiang
+KG08_ID90,Bến xe Km21+200,Ben xe Km21+200,9.908996,105.308667,0,kiengiang
+KG08_ID91,Trạm gần Bưu điện huyện Giồng Riềng,Tram gan Buu dien huyen Giong Rieng,9.909115,105.314408,0,kiengiang
+KG08_ID92,Trạm gần Huyện ủy Giồng Riềng,Tram gan Huyen uy Giong Rieng,9.909739,105.314735,0,kiengiang
+KG05_ID93,Km0+200 Nguyễn Bỉnh Khiêm,Km0+200 Nguyen Binh Khiem,10.18271,104.93342,0,kiengiang
+KG05_ID94,Km0+530 Nguyễn Bỉnh Khiêm,Km0+530 Nguyen Binh Khiem,10.182318,104.933778,0,kiengiang
+KG05_ID95,Km0+800 Nguyễn Bỉnh Khiêm,Km0+800 Nguyen Binh Khiem,10.181998,104.93407,0,kiengiang
+KG05_ID101,Trạm trước doanh trại quân đội đối diện Km12+850,Tram truoc doanh trai quan doi doi dien Km12+850,10.167706,104.947109,0,kiengiang
+KG05_ID100,Nhà chờ trước Trường học Nguyễn Thái Bình,Nha cho truoc Truong hoc Nguyen Thai Binh,10.135491,104.976501,0,kiengiang
+KG05_ID99,Số 687 gần Tạp hóa Khánh Dũng,So 687 gan Tap hoa Khanh Dung,10.103276,105.005894,0,kiengiang
+KG05_ID102,Số 853,So 853,10.10212,105.006949,0,kiengiang
+KG05_ID98,Cây xăng Kim Linh,Cay xang Kim Linh,10.071061,105.035286,0,kiengiang
+KG05_ID96,Km121+300,Km121+300,10.039083,105.064462,0,kiengiang
+KG05_ID97,"Km121+500, số 549A","Km121+500, so 549A",10.038846,105.064679,0,kiengiang
+KG05_ID103,Trạm trước khu vực nghĩa trang liệt sĩ đối diện Km 123+450,Tram truoc khu vuc nghia trang liet si doi dien Km 123+450,10.036533,105.066789,0,kiengiang
+KG05_ID104,Nhà chờ trước Tiểu học Nguyễn Thái Bình,Nha cho truoc Tieu hoc Nguyen Thai Binh,10.036355,105.066951,0,kiengiang
+KG05_ID105,Trạm trước nhà trọ Phương Trang đối diện Km123+750,Tram truoc nha tro Phuong Trang doi dien Km123+750,10.036177,105.067113,0,kiengiang
+KG05_ID106,Trạm gần đối diện Km124,Tram gan doi dien Km124,10.035881,105.067384,0,kiengiang
+KG05_ID107,Nhà chờ trước Tiểu học Mỹ Lâm,Nha cho truoc Tieu hoc My Lam,10.03509,105.068105,0,kiengiang
+KG05_ID108,Trạm gần Công ty TNHH Phương Linh số 145,Tram gan Cong ty TNHH Phuong Linh so 145,10.0343,105.068827,0,kiengiang
+KG05_ID109,Trạm gần đối diện Km126,Tram gan doi dien Km126,10.033509,105.069548,0,kiengiang
+KG05_ID110,Nhà chờ trước Trường TH Mỹ Lâm,Nha cho truoc Truong TH My Lam,10.032975,105.070035,0,kiengiang
+KG05_ID111,Trạm trước Áo cưới Kiều Nhi đối diện Km126+900,Tram truoc Ao cuoi Kieu Nhi doi dien Km126+900,10.032441,105.070522,0,kiengiang
+KG05_ID112,Trạm trước UBND xã Mỹ Lâm,Tram truoc UBND xa My Lam,10.031848,105.071063,0,kiengiang
+KG05_ID113,Trạm đối diện Km127+900,Tram doi dien Km127+900,10.031255,105.071604,0,kiengiang
+KG05_ID114,Trạm gần Cống Thầy Xếp,Tram gan Cong Thay Xep,10.03084,105.071983,0,kiengiang
+KG05_ID115,Trạm gần km128+600,Tram gan km128+600,10.030425,105.072362,0,kiengiang
+KG05_ID116,Trạm gần Trường tình thương Mỹ Lâm,Tram gan Truong tinh thuong My Lam,10.029653,105.073067,0,kiengiang
+KG05_ID117,Trạm gần Cống số 3 Km 129+903,Tram gan Cong so 3 Km 129+903,10.02888,105.073772,0,kiengiang
+KG05_ID118,Trạm trước Tạp hóa BÌnh Bền gần đối diện Km130,Tram truoc Tap hoa BInh Ben gan doi dien Km130,10.028765,105.073877,0,kiengiang
+KG05_ID119,Nhà chờ trước Trường Trung học Mỹ Hưng,Nha cho truoc Truong Trung hoc My Hung,10.028172,105.074418,0,kiengiang
+KG05_ID120,Trạm gần đối diện Km131,Tram gan doi dien Km131,10.027579,105.074959,0,kiengiang
+KG05_ID121,Trạm trước Khu xí nghiệp 536,Tram truoc Khu xi nghiep 536,10.026986,105.0755,0,kiengiang
+KG05_ID122,Trạm trước Sản xuất nước đá Tư Hưng gần Km132,Tram truoc San xuat nuoc da Tu Hung gan Km132,10.026393,105.076041,0,kiengiang
+KG05_ID123,Trạm gần Km132+500,Tram gan Km132+500,10.0258,105.076582,0,kiengiang
+KG05_ID124,Trạm đối diện gần Km133,Tram doi dien gan Km133,10.025207,105.077123,0,kiengiang
+KG05_ID127,Trạm đối diện Km133+500,Tram doi dien Km133+500,10.024614,105.077664,0,kiengiang
+KG05_ID125,Trạm đối diện Km133+600,Tram doi dien Km133+600,10.024495,105.077772,0,kiengiang
+KG05_ID126,Trạm đối diện gần Km134 Honda Chiến,Tram doi dien gan Km134 Honda Chien,10.024021,105.078205,0,kiengiang
+KG05_ID128,Nhà chờ đối diện UBND Xã Sóc Sơn,Nha cho doi dien UBND Xa Soc Son,10.023339,105.078827,0,kiengiang
+KG05_ID129,Trạm đối diện gần Km135+650,Tram doi dien gan Km135+650,10.022064,105.07999,0,kiengiang
+KG05_ID130,Nhà chờ trước Tiểu học TT Sóc Sơn,Nha cho truoc Tieu hoc TT Soc Son,10.022064,105.07999,0,kiengiang
+KG04_ID156,Trạm trước Tiệm sắt Thuận Hòa Km 148+200,Tram truoc Tiem sat Thuan Hoa Km 148+200,10.187388,104.923687,0,kiengiang
+KG04_ID157,Trạm gần Km148+650,Tram gan Km148+650,10.188263,104.919301,0,kiengiang
+KG04_ID158,Km149+200,Km149+200,10.189331,104.91394,0,kiengiang
+KG04_ID159,Km149+600,Km149+600,10.190108,104.910041,0,kiengiang
+KG04_ID160,Km150+300,Km150+300,10.191469,104.903219,0,kiengiang
+KG04_ID161,Km150+700,Km150+700,10.192246,104.89932,0,kiengiang
+KG04_ID162,Km151+400,Km151+400,10.193606,104.892498,0,kiengiang
+KG04_ID163,Km151+700,Km151+700,10.194189,104.889574,0,kiengiang
+KG04_ID164,Km152,Km152,10.194772,104.88665,0,kiengiang
+KG04_ID165,Km152+500,Km152+500,10.195743,104.881777,0,kiengiang
+KG04_ID166,Km153,Km153,10.196715,104.876904,0,kiengiang
+KG04_ID167,Km153+500,Km153+500,10.197686,104.87203,0,kiengiang
+KG04_ID168,Km153+950,Km153+950,10.198561,104.867644,0,kiengiang
+KG04_ID169,Km154+300,Km154+300,10.199241,104.864233,0,kiengiang
+KG04_ID170,Km154+500,Km154+500,10.19963,104.862284,0,kiengiang
+KG04_ID171,Km155,Km155,10.200601,104.857411,0,kiengiang
+KG04_ID172,Km155+500,Km155+500,10.201573,104.852537,0,kiengiang
+KG04_ID173,Trạm đối diện Tiểu học Bình Sơn 3,Tram doi dien Tieu hoc Binh Son 3,10.202447,104.848151,0,kiengiang
+KG04_ID174,Km156+400,Km156+400,10.203321,104.843766,0,kiengiang
+KG04_ID175,Trạm đối diện Km156+800,Tram doi dien Km156+800,10.204099,104.839867,0,kiengiang
+KG04_ID176,Km157+400,Km157+400,10.205265,104.834019,0,kiengiang
+KG04_ID177,Trạm gần Km158,Tram gan Km158,10.20643,104.828171,0,kiengiang
+KG04_ID178,Trạm gần đối diện Km158+500,Tram gan doi dien Km158+500,10.207402,104.823298,0,kiengiang
+KG04_ID179,Trạm gần Km159,Tram gan Km159,10.208373,104.818425,0,kiengiang
+KG04_ID180,Trạm gần Km159+500,Tram gan Km159+500,10.209345,104.813552,0,kiengiang
+KG04_ID181,Trạm gần Km160,Tram gan Km160,10.210317,104.808678,0,kiengiang
+KG04_ID182,Trạm gần Km160+500,Tram gan Km160+500,10.211288,104.803805,0,kiengiang
+KG04_ID183,Trạm gần Km161,Tram gan Km161,10.21226,104.798932,0,kiengiang
+KG04_ID184,Trạm trước Cà phê Nga khu vực chợ Vàm Rẫy,Tram truoc Ca phe Nga khu vuc cho Vam Ray,10.213296,104.793734,0,kiengiang
+KG04_ID185,Trạm trước VLXD Phước Chung,Tram truoc VLXD Phuoc Chung,10.214332,104.788536,0,kiengiang
+KG04_ID186,Km162+600,Km162+600,10.215369,104.783337,0,kiengiang
+KG04_ID187,Km163,Km163,10.216146,104.779439,0,kiengiang
+KG04_ID188,Km163+400,Km163+400,10.216923,104.77554,0,kiengiang
+KG04_ID189,Km164,Km164,10.218089,104.769692,0,kiengiang
+KG04_ID191,Km165,Km165,10.220032,104.759946,0,kiengiang
+KG04_ID190,Trạm trước Cà phê Vườn Xoài đối diện Km165+500,Tram truoc Ca phe Vuon Xoai doi dien Km165+500,10.221004,104.755073,0,kiengiang
+KG04_ID192,Km165+500,Km165+500,10.221004,104.755073,0,kiengiang
+KG04_ID193,Trạm trước Phân bón Đình Trí Km165+900,Tram truoc Phan bon Dinh Tri Km165+900,10.221781,104.751174,0,kiengiang
+KG04_ID194,km166+700,km166+700,10.223335,104.743377,0,kiengiang
+KG04_ID195,Gần Km167,Gan Km167,10.223918,104.740453,0,kiengiang
+KG04_ID196,Trạm trước Cà phê Ba Khai gần Km167+600,Tram truoc Ca phe Ba Khai gan Km167+600,10.225084,104.734605,0,kiengiang
+KG04_ID197,Km168,Km168,10.225861,104.730707,0,kiengiang
+KG04_ID198,Đối diện Km168+500,Doi dien Km168+500,10.226833,104.725833,0,kiengiang
+KG04_ID199,Km169,Km169,10.227804,104.72096,0,kiengiang
+KG04_ID201,Trạm đối diện Tiểu học Bình Giang 2,Tram doi dien Tieu hoc Binh Giang 2,10.229747,104.711214,0,kiengiang
+KG04_ID200,Km170+500,Km170+500,10.230719,104.706341,0,kiengiang
+KG04_ID202,Trạm gần Km171,Tram gan Km171,10.23169,104.701467,0,kiengiang
+KG04_ID203,Km171+800,Km171+800,10.233245,104.69367,0,kiengiang
+KG04_ID204,Km172+200,Km172+200,10.234022,104.689772,0,kiengiang
+KG04_ID205,Km172+500,Km172+500,10.234605,104.686848,0,kiengiang
+KG04_ID206,Km172+750,Km172+750,10.235091,104.684411,0,kiengiang
+KG04_ID207,Trạm trước VLXD Hai Thế,Tram truoc VLXD Hai The,10.235739,104.681162,0,kiengiang
+KG04_ID208,Trạm trước Phèn Polomite Tân Hoàng,Tram truoc Phen Polomite Tan Hoang,10.236386,104.677913,0,kiengiang
+KG04_ID209,Km173+750,Km173+750,10.237034,104.674664,0,kiengiang
+KG04_ID210,Km174+250,Km174+250,10.238006,104.669791,0,kiengiang
+KG04_ID211,Trạm trước Tạp hóa Ngọc Hân Km174+650,Tram truoc Tap hoa Ngoc Han Km174+650,10.238783,104.665893,0,kiengiang
+KG04_ID212,Km175,Km175,10.239463,104.662481,0,kiengiang
+KG04_ID213,Km175+450,Km175+450,10.240337,104.658095,0,kiengiang
+KG04_ID214,Trạm trước Cà phê Anh Ngọc Km 175+700,Tram truoc Ca phe Anh Ngoc Km 175+700,10.240823,104.655659,0,kiengiang
+KG04_ID215,Trạm gần đối diện Trường Tiểu học Kiên Bình 1,Tram gan doi dien Truong Tieu hoc Kien Binh 1,10.241892,104.650298,0,kiengiang
+KG04_ID216,Km176+800,Km176+800,10.24296,104.644938,0,kiengiang
+KG04_ID217,Đối diện Km177+400,Doi dien Km177+400,10.244126,104.63909,0,kiengiang
+KG04_ID218,Trạm đối diện Trường Tiểu học Kiên Bình 1,Tram doi dien Truong Tieu hoc Kien Binh 1,10.244709,104.636166,0,kiengiang
+KG04_ID219,Trạm gần Km178,Tram gan Km178,10.245292,104.633242,0,kiengiang
+KG04_ID220,Trạm gần Km179,Tram gan Km179,10.247235,104.623496,0,kiengiang
+KG04_ID221,Km179+400,Km179+400,10.248012,104.619597,0,kiengiang
+KG04_ID222,Trạm gần Km179+800,Tram gan Km179+800,10.24879,104.615698,0,kiengiang
+KG04_ID223,Trạm đối diện Trạm QL Đường sông Kiên Lương,Tram doi dien Tram QL Duong song Kien Luong,10.249956,104.609851,0,kiengiang
+KG04_ID224,Trạm gần Km181,Tram gan Km181,10.251121,104.604003,0,kiengiang
+KG04_ID225,Km181+100,Km181+100,10.251316,104.603028,0,kiengiang
+KG04_ID226,Trạm đối diện UBND TT Kiên Lương,Tram doi dien UBND TT Kien Luong,10.251316,104.603028,0,kiengiang
+KG03_ID227,Trạm gần Km136+400,Tram gan Km136+400,10.186949,104.930392,0,kiengiang
+KG03_ID228,Trạm gần Km136+676 cầu Tà Lúa,Tram gan Km136+676 cau Ta Lua,10.18818,104.930426,0,kiengiang
+KG03_ID229,Trạm đối diện Km136+900,Tram doi dien Km136+900,10.18918,104.930454,0,kiengiang
+KG03_ID230,Trạm gần Km137+500,Tram gan Km137+500,10.191857,104.930528,0,kiengiang
+KG03_ID231,Nhà chờ trước Trường TH Sơn Kiên,Nha cho truoc Truong TH Son Kien,10.194535,104.930602,0,kiengiang
+KG03_ID232,Trạm đối diện Km138+700,Tram doi dien Km138+700,10.197212,104.930677,0,kiengiang
+KG03_ID233,Nhà chờ trước Trung tâm đào tạo sát hạch lái xe gần đối diện Km139,Nha cho truoc Trung tam dao tao sat hach lai xe gan doi dien Km139,10.198551,104.930714,0,kiengiang
+KG03_ID234,Trạm đối diện Km139+400,Tram doi dien Km139+400,10.200336,104.930763,0,kiengiang
+KG03_ID235,Trạm trước Tiểu học Sơn Kiên 1,Tram truoc Tieu hoc Son Kien 1,10.202455,104.930822,0,kiengiang
+KG03_ID236,Đối diện gần Km140+350,Doi dien gan Km140+350,10.204575,104.930881,0,kiengiang
+KG03_ID237,Đối diện gần Km141,Doi dien gan Km141,10.207475,104.930962,0,kiengiang
+KG03_ID238,Nhà chờ đối diện Km141+500,Nha cho doi dien Km141+500,10.209706,104.931024,0,kiengiang
+KG03_ID239,Trạm đối diện gần Km142,Tram doi dien gan Km142,10.211937,104.931086,0,kiengiang
+KG03_ID240,Trạm đối diện gần Km142+500,Tram doi dien gan Km142+500,10.214169,104.931148,0,kiengiang
+KG03_ID241,Trạm đối diện gần Km143,Tram doi dien gan Km143,10.2164,104.931209,0,kiengiang
+KG03_ID242,Trạm gần Km143+500,Tram gan Km143+500,10.218631,104.931271,0,kiengiang
+KG03_ID243,Trạm gần Km143+943 Cầu Kênh 9,Tram gan Km143+943 Cau Kenh 9,10.220608,104.931326,0,kiengiang
+KG03_ID244,Trạm gần Km144+200,Tram gan Km144+200,10.221754,104.931358,0,kiengiang
+KG03_ID245,Trạm trước Nghĩa trang Hòn Đất,Tram truoc Nghia trang Hon Dat,10.223539,104.931408,0,kiengiang
+KG03_ID246,Trạm đối diện Km145,Tram doi dien Km145,10.225324,104.931457,0,kiengiang
+KG03_ID247,Trạm đối diện Km145+500,Tram doi dien Km145+500,10.227555,104.931519,0,kiengiang
+KG03_ID248,Nhà chờ trước Trung tâm y tế huyện Hòn Đất,Nha cho truoc Trung tam y te huyen Hon Dat,10.228671,104.93155,0,kiengiang
+KG03_ID249,Trạm đối diện gần Km146 Tiệm cơm Minh Nhật,Tram doi dien gan Km146 Tiem com Minh Nhat,10.229787,104.931581,0,kiengiang
+KG03_ID250,Trạm trước Ngân hàng Sông Kiên,Tram truoc Ngan hang Song Kien,10.229787,104.931581,0,kiengiang
+KG03_ID251,Trạm trước Tòa án huyện Hòn Đất,Tram truoc Toa an huyen Hon Dat,10.229787,104.931581,0,kiengiang
+KG03_ID252,Bến xe Hòn Đất,Ben xe Hon Dat,10.229787,104.931581,0,kiengiang
+KG_HUB_HONDAT,Bến xe Hòn Đất,Ben xe Hon Dat,10.230679,104.931606,1,kiengiang

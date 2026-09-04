@@ -38,7 +38,8 @@ from backend.tracking import active_buses
 st.set_page_config(page_title="Smart City Bus Assistant", page_icon="🚌", layout="wide")
 
 LEG_COLORS = ["#2563eb", "#dc2626", "#16a34a", "#d97706"]
-CITY_COLORS = {"hcmc": "#2563eb", "bienhoa": "#7c3aed"}
+CITY_COLORS = {"hcmc": "#2563eb", "bienhoa": "#7c3aed", "kiengiang": "#16a34a"}
+CITY_IDS = ("all", "hcmc", "bienhoa", "kiengiang")
 MANUAL_SENTINEL = "__none__"
 
 # --------------------------------------------------------------------------- #
@@ -170,13 +171,14 @@ with st.sidebar:
     inject_theme_css(dark)
 
     st.divider()
-    st.selectbox(t("city", lang), options=["all", "hcmc", "bienhoa"],
+    st.selectbox(t("city", lang), options=list(CITY_IDS),
                  format_func=lambda x: {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
-                                         "bienhoa": t("city_bienhoa", lang)}.get(x, x),
+                                         "bienhoa": t("city_bienhoa", lang),
+                                         "kiengiang": t("city_kiengiang", lang)}.get(x, x),
                  key="city_filter")
     # Phong thu: bat ke nguyen nhan gi khien gia tri luu khong hop le, luon fallback ve "all"
     # thay vi de KeyError lam sap ung dung (khong bao gio hien traceback cho nguoi dung cuoi).
-    if st.session_state.get("city_filter") not in ("all", "hcmc", "bienhoa"):
+    if st.session_state.get("city_filter") not in CITY_IDS:
         st.session_state["city_filter"] = "all"
     city_filter = st.session_state["city_filter"]
 
@@ -475,24 +477,27 @@ with tab_map:
 
             tile = st.session_state.get("_map_tile")
             tile_attr = st.session_state.get("_map_tile_attr")
-            centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83), "all": (10.86, 106.76)}
-            zoom = 12 if city_filter != "all" else 10
+            centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83),
+                       "kiengiang": (10.02, 105.08), "all": (10.2, 105.5)}
+            zoom = 12 if city_filter != "all" else 8
             fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom,
                                tiles=tile, attr=tile_attr)
 
             # Tat ca tram tren ban do (BusMap-style)
+            # (luon dua vao all_bounds de fit_bounds tu dong can chinh khung hinh phu hop -
+            # quan trong khi city_filter="all" gom nhieu tinh/thanh cach xa nhau).
+            tracked_route_ids = []
+            all_bounds = []
             for _, row in stops_view.iterrows():
                 color = CITY_COLORS.get(row["city_id"], "#2563eb")
                 is_hub = bool(row["is_hub"]) if not isinstance(row["is_hub"], str) else row["is_hub"] == "1"
                 name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
+                latlon = (float(row["lat"]), float(row["lon"]))
+                all_bounds.append(latlon)
                 folium.CircleMarker(
-                    location=(float(row["lat"]), float(row["lon"])),
-                    radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
+                    location=latlon, radius=6 if is_hub else 3, color=color, fill=True, fill_opacity=0.75,
                     weight=2 if is_hub else 1, tooltip=name,
                 ).add_to(fmap)
-
-            tracked_route_ids = []
-            all_bounds = []
 
             if map_focus and map_focus[0] == "itinerary":
                 chosen = map_focus[1]
