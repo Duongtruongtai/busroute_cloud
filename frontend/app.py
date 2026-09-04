@@ -19,6 +19,7 @@ from datetime import datetime
 
 import pandas as pd
 import streamlit as st
+from streamlit_searchbox import st_searchbox
 
 # Cho phep import goi "backend" khi chay `streamlit run frontend/app.py`
 # (Streamlit dat sys.path[0] la thu muc chua file script, tuc frontend/,
@@ -45,10 +46,7 @@ MANUAL_SENTINEL = "__none__"
 # --------------------------------------------------------------------------- #
 for key, default in {
     "lang": "vi", "dark_mode": False, "city_filter": "all",
-    "origin_query": "", "dest_query": "",
-    "origin_stop_id": None, "dest_stop_id": None,
-    "origin_candidates": None, "dest_candidates": None,
-    "origin_geo_name": None, "dest_geo_name": None,
+    "origin_stop_id": None, "dest_stop_id": None, "swap_nonce": 0,
     "selected_itineraries": None, "chosen_itinerary_idx": 0,
     "browse_route_id": MANUAL_SENTINEL, "live_refresh": False,
 }.items():
@@ -248,42 +246,47 @@ def itinerary_tags(itineraries, idx: int, lang: str) -> str:
 
 def _swap_origin_dest():
     """Callback cho nut doi chieu - phai dung on_click (chay truoc khi widget duoc tao lai),
-    khong duoc gan truc tiep session_state[key] sau khi widget key do da instantiate."""
-    st.session_state.origin_query, st.session_state.dest_query = (
-        st.session_state.dest_query, st.session_state.origin_query)
+    khong duoc gan truc tiep session_state[key] sau khi widget key do da instantiate.
+    Tang swap_nonce de "remount" ca 2 o searchbox voi gia tri default moi (xem _search_ui)."""
+    st.session_state.origin_stop_id, st.session_state.dest_stop_id = (
+        st.session_state.get("dest_stop_id"), st.session_state.get("origin_stop_id"))
+    st.session_state["swap_nonce"] = st.session_state.get("swap_nonce", 0) + 1
 
 
-def resolve_place(query: str, manual_choice: str, stops_scope: pd.DataFrame):
-    """Tra ve (stop_id, candidates_df, geo_display_name)."""
-    if manual_choice and manual_choice != MANUAL_SENTINEL:
-        return manual_choice, None, None
-    query = (query or "").strip()
-    if not query:
-        return None, None, None
-    local = local_search_stops(query, stops_scope, limit=5)
-    if not local.empty:
-        return str(local.iloc[0]["stop_id"]), local, None
-    geo = geocode(query, limit=1)
-    if geo:
+def make_stop_search_fn(stops_scope: pd.DataFrame, lang: str):
+    """Tra ve ham search(query) -> List[(nhan_hien_thi, stop_id)] cho st_searchbox.
+    Uu tien so khop cuc bo (nhanh, khong phu thuoc mang) tren du lieu tuyen; chi khi
+    khong khop gi ca va query đủ dai moi thu geocode qua OpenStreetMap lam phuong an
+    du phong cho dia chi thuc te khong trung ten tram (han che goi geocode qua nhieu
+    lan khi go nhanh, ton trong chinh sach su dung cua Nominatim)."""
+
+    def _fn(query: str):
+        query = (query or "").strip()
+        if not query:
+            return []
+        local = local_search_stops(query, stops_scope, limit=8)
+        if not local.empty:
+            options = []
+            for _, row in local.iterrows():
+                name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
+                options.append((str(name), str(row["stop_id"])))
+            return options
+        if len(query) < 6:
+            return []
+        geo = geocode(query, limit=1)
+        if not geo:
+            return []
         lat, lon = geo[0]["lat"], geo[0]["lon"]
-        nearby = nearest_stops(lat, lon, stops_scope, radius_km=1.0, limit=5)
-        if not nearby.empty:
-            return str(nearby.iloc[0]["stop_id"]), nearby, geo[0]["display_name"]
-        return None, None, geo[0]["display_name"]
-    return None, None, None
-
-
-def render_candidates(candidates: pd.DataFrame, geo_name: str, lang: str):
-    if geo_name and (candidates is None or candidates.empty):
-        st.error(t("no_nearby_stop", lang, radius=1000))
-        st.caption(f"({geo_name})")
-    elif geo_name and candidates is not None and not candidates.empty:
-        st.caption(t("geocode_found_stops", lang) + f" _{geo_name}_")
-        for _, row in candidates.iterrows():
+        nearby = nearest_stops(lat, lon, stops_scope, radius_km=1.2, limit=5)
+        options = []
+        for _, row in nearby.iterrows():
             name = row["stop_name"] if lang == "vi" else row.get("stop_name_en", row["stop_name"])
-            st.caption(f"• {name} ({t('distance_away', lang, d=int(row['distance_km'] * 1000))})")
-    elif candidates is not None and not candidates.empty:
-        st.caption(t("resolved_as", lang) + f": **{fmt_stop(str(candidates.iloc[0]['stop_id']), lang)}**")
+            dist_m = int(row["distance_km"] * 1000)
+            label = f"{name} ({t('distance_away', lang, d=dist_m)})"
+            options.append((label, str(row["stop_id"])))
+        return options
+
+    return _fn
 
 
 # --------------------------------------------------------------------------- #
@@ -306,9 +309,23 @@ with tab_map:
                     f'<div class="hero-subtitle">{t("hero_subtitle", lang)}</div>', unsafe_allow_html=True)
 
         st.markdown('<div class="search-card">', unsafe_allow_html=True)
+
+        # key doi moi moi khi bam nut doi chieu -> "remount" searchbox voi default moi
+        # (xem _swap_origin_dest) vi khong duoc gan truc tiep session_state cua 1 widget
+        # sau khi widget do da duoc tao trong cung 1 lan chay.
+        nonce = st.session_state.get("swap_nonce", 0)
+        origin_default_id = st.session_state.get("origin_stop_id")
+        dest_default_id = st.session_state.get("dest_stop_id")
+        origin_default_term = fmt_stop(origin_default_id, lang) if origin_default_id else ""
+        dest_default_term = fmt_stop(dest_default_id, lang) if dest_default_id else ""
+
         oc1, oc2 = st.columns([5, 1])
         with oc1:
-            st.text_input(t("origin", lang), key="origin_query", placeholder=t("search_address_placeholder", lang))
+            picked_origin = st_searchbox(
+                make_stop_search_fn(stops_view, lang), key=f"origin_sb_{nonce}",
+                placeholder=t("search_address_placeholder", lang), label=t("origin", lang),
+                default=origin_default_id, default_searchterm=origin_default_term,
+            )
         with oc2:
             st.write("")
             st.write("")
@@ -316,31 +333,23 @@ with tab_map:
             # gan truc tiep session_state sau khi widget da instantiate trong cung 1 lan chay -
             # gan truc tiep se bao loi "cannot be modified after widget instantiated".
             st.button("🔁", help=t("swap", lang), on_click=_swap_origin_dest)
-        st.text_input(t("destination", lang), key="dest_query", placeholder=t("search_address_placeholder", lang))
+        picked_dest = st_searchbox(
+            make_stop_search_fn(stops_view, lang), key=f"dest_sb_{nonce}",
+            placeholder=t("search_address_placeholder", lang), label=t("destination", lang),
+            default=dest_default_id, default_searchterm=dest_default_term,
+        )
         st.markdown('</div>', unsafe_allow_html=True)
 
-        stop_options_all = ["__none__"] + stops_view.sort_values("stop_name")["stop_id"].tolist()
-        with st.expander(t("manual_pick_expander", lang)):
-            st.selectbox(t("origin", lang), options=stop_options_all,
-                         format_func=lambda x: "—" if x == MANUAL_SENTINEL else fmt_stop(x, lang),
-                         key="origin_manual")
-            st.selectbox(t("destination", lang), options=stop_options_all,
-                         format_func=lambda x: "—" if x == MANUAL_SENTINEL else fmt_stop(x, lang),
-                         key="dest_manual")
+        if picked_origin:
+            st.session_state.origin_stop_id = picked_origin
+        if picked_dest:
+            st.session_state.dest_stop_id = picked_dest
 
         search_clicked = st.button(t("find_route_btn", lang), type="primary", width="stretch")
 
         if search_clicked:
-            o_id, o_cand, o_geo = resolve_place(st.session_state.origin_query,
-                                                 st.session_state.get("origin_manual"), stops_view)
-            d_id, d_cand, d_geo = resolve_place(st.session_state.dest_query,
-                                                 st.session_state.get("dest_manual"), stops_view)
-            st.session_state.origin_stop_id = o_id
-            st.session_state.dest_stop_id = d_id
-            st.session_state.origin_candidates = o_cand
-            st.session_state.dest_candidates = d_cand
-            st.session_state.origin_geo_name = o_geo
-            st.session_state.dest_geo_name = d_geo
+            o_id = st.session_state.get("origin_stop_id")
+            d_id = st.session_state.get("dest_stop_id")
 
             if o_id and d_id and o_id == d_id:
                 st.error(t("same_point_error", lang))
@@ -352,11 +361,6 @@ with tab_map:
                 ds.log_search(o_id, fmt_stop(o_id, "vi"), d_id, fmt_stop(d_id, "vi"), fare_type, len(results))
                 st.session_state.selected_itineraries = results
                 st.session_state.chosen_itinerary_idx = 0
-
-        if st.session_state.origin_candidates is not None or st.session_state.origin_geo_name:
-            render_candidates(st.session_state.origin_candidates, st.session_state.origin_geo_name, lang)
-        if st.session_state.dest_candidates is not None or st.session_state.dest_geo_name:
-            render_candidates(st.session_state.dest_candidates, st.session_state.dest_geo_name, lang)
 
         itineraries = st.session_state.selected_itineraries
         if itineraries is not None:
