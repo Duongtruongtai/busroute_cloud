@@ -162,13 +162,17 @@ streamlit run frontend/app.py
 Badge sidebar phải chuyển sang màu **xanh** ("Đang kết nối Cloud Database (Supabase)").
 File `secrets.toml` **không** được commit lên Git (đã có trong `.gitignore`).
 
-## 6. Đưa dataset lên Cloud Storage (Supabase Storage)
+## 6. Cloud Storage (Supabase Storage) — đã cấu hình
 
-1. Trong Supabase Dashboard → **Storage** → **New bucket** → đặt tên `datasets` → Public bucket.
-2. Upload 3 file `dataset/stops.csv`, `dataset/routes.csv`, `dataset/route_stops.csv` vào bucket này
-   (kéo-thả trên giao diện web).
-3. Đây là bản sao lưu/versioning của dataset gốc — dùng làm bằng chứng "Cloud Storage có vai trò
-   thực tế" khi bảo vệ đồ án (mục 4 - Cloud Architecture, 15 điểm).
+Bucket công khai `datasets` đã được tạo và chứa bản sao lưu 3 file dữ liệu gốc:
+
+- https://pieplfirsanegkuxojch.supabase.co/storage/v1/object/public/datasets/stops.csv
+- https://pieplfirsanegkuxojch.supabase.co/storage/v1/object/public/datasets/routes.csv
+- https://pieplfirsanegkuxojch.supabase.co/storage/v1/object/public/datasets/route_stops.csv
+
+Vai trò: sao lưu/versioning dataset, tải lại dữ liệu gốc qua HTTPS/CDN. Khi seed lại dữ liệu,
+chạy lệnh upload trong `docs/gen_report_buoi4.py` hoặc kéo-thả file mới trên Supabase Dashboard
+→ **Storage** → bucket `datasets`.
 
 ## 7. Deploy lên Cloud Hosting (Streamlit Community Cloud)
 

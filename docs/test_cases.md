@@ -28,17 +28,20 @@ Nhóm test case chia làm 2 loại:
 | TC20 | Mô phỏng vị trí xe realtime | Bật "🔄 Tự động cập nhật vị trí xe", chọn 1 tuyến đang trong giờ hoạt động | Bản đồ hiện icon 🚌 tại vị trí ước tính, tự làm mới mỗi 8 giây, có cảnh báo rõ đây là mô phỏng không phải GPS thật | Đúng như kỳ vọng | PASS |
 | TC21 | Trạng thái hoạt động của tuyến | Xem badge 🟢/⚪ trong danh sách tuyến và trong chi tiết hành trình | Đúng theo giờ hiện tại so với khung giờ hoạt động của từng tuyến | Đúng như kỳ vọng | PASS |
 
-## Kiểm thử hiệu năng (Performance Result)
+## Kiểm thử hiệu năng (Performance Result) — đo thực tế trên bản đã deploy
 
-| Thao tác | Thời gian đo được (local, dữ liệu demo ~60 trạm/10 tuyến) |
+Dữ liệu thật: 426 trạm / 24 tuyến / 455 dòng route_stops trên Supabase (Singapore, ap-southeast-1).
+
+| Thao tác | Thời gian đo được |
 |---|---|
-| Tải dữ liệu lần đầu (cold cache) | ~0.3–0.6s |
+| Tải khung trang Web App (Streamlit Cloud) | ~2,4–2,6s (gồm 3 bước handshake + HTML shell) |
+| Truy vấn Supabase — bảng routes / route_stops / search_logs | ~90–105ms/truy vấn |
+| Tải toàn bộ 426 trạm từ Supabase | ~136ms (có cache 5 phút phía app) |
 | Tìm tuyến (thuật toán route_finder) | < 50ms |
-| Truy vấn Supabase (get_stops/get_routes/get_route_stops) | ~150–400ms tuỳ độ trễ mạng |
-| Ghi 1 dòng search_logs lên Supabase | ~150–300ms |
-| Render bản đồ Folium | ~200–400ms |
+| Tải file từ Cloud Storage (stops.csv, HTTPS/CDN) | ~0,66s |
+| Nền bản đồ OpenStreetMap + geocoding Nominatim | ~0,5–1s tuỳ mạng |
 
-> Ghi chú: số liệu Supabase cần đo lại thực tế sau khi nhóm đã tạo project và seed dữ liệu (xem README mục "Đo hiệu năng thực tế").
+> Số liệu đo bằng `curl` (thời gian phản hồi HTTP) và `supabase-py` (3 lần lấy trung bình), ngày cập nhật gần nhất.
 
 ## Cách chạy lại test tự động
 
