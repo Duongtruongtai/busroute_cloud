@@ -30,6 +30,7 @@ from backend.datastore import DataStore
 from backend.fare import FARE_TYPES, format_minutes, format_vnd
 from backend.geocoding import geocode, nearest_stops
 from backend.i18n import t
+from backend.roads import downsample_waypoints, road_path
 from backend.route_finder import RouteFinder
 from backend.schedule import estimate_arrival_at_stop, is_route_active
 from backend.search import local_search_stops
@@ -544,17 +545,27 @@ with tab_map:
             all_bounds = []
 
             if map_focus and map_focus[0] == "itinerary":
-                # Chi hien 2 diem di/den (hieu ung nhap nhay), KHONG ve duong noi/mui ten -
-                # thong tin hanh trinh chi tiet da co o cac the ben trai roi.
+                # Ve duong di THEO HINH DANG DUONG XA THAT (OSRM) cho tung chang, cong
+                # them 2 marker nhap nhay o diem di/den. Neu OSRM loi/timeout (mat mang,
+                # qua tai may chu demo...) tu dong fallback ve noi thang - khong bao gio
+                # de trang trong hay crash.
                 chosen = map_focus[1]
-                for leg in chosen.legs:
-                    tracked_route_ids.append(leg.route_id)
                 stops_idx = stops_df.set_index("stop_id")
+                for i, leg in enumerate(chosen.legs):
+                    tracked_route_ids.append(leg.route_id)
+                    b_row = stops_idx.loc[leg.board_stop_id]
+                    a_row = stops_idx.loc[leg.alight_stop_id]
+                    b_ll = (float(b_row["lat"]), float(b_row["lon"]))
+                    a_ll = (float(a_row["lat"]), float(a_row["lon"]))
+                    all_bounds.extend([b_ll, a_ll])
+                    path = road_path([b_ll, a_ll])
+                    color = LEG_COLORS[i % len(LEG_COLORS)]
+                    folium.PolyLine(path if path else [b_ll, a_ll], color=color, weight=5,
+                                     opacity=0.85, tooltip=f"Tuyến {leg.route_short_name}").add_to(fmap)
                 o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
                 d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
                 o_latlon = (float(o_row["lat"]), float(o_row["lon"]))
                 d_latlon = (float(d_row["lat"]), float(d_row["lon"]))
-                all_bounds.extend([o_latlon, d_latlon])
                 _pulse_marker(o_latlon, "#16a34a", "🚏", t("origin", lang))
                 _pulse_marker(d_latlon, "#dc2626", "🏁", t("destination", lang))
 
@@ -564,8 +575,12 @@ with tab_map:
                 latlons = [(s["lat"], s["lon"]) for s in ordered]
                 all_bounds.extend(latlons)
                 row = routes_view[routes_view.route_id == rid].iloc[0]
-                folium.PolyLine(latlons, color=LEG_COLORS[0], weight=6, opacity=0.9,
-                                 tooltip=str(row["route_short_name"])).add_to(fmap)
+                # Giam bot waypoint truoc khi goi OSRM (tuyen co the co 70+ tram) roi ve
+                # duong di theo duong xa that; loi thi fallback ve noi thang qua cac tram.
+                waypoints = downsample_waypoints(latlons, max_points=12)
+                path = road_path(waypoints)
+                folium.PolyLine(path if path else latlons, color=LEG_COLORS[0], weight=6,
+                                 opacity=0.9, tooltip=str(row["route_short_name"])).add_to(fmap)
                 tracked_route_ids.append(rid)
 
             # Xe buyt mo phong (chi ve khi bat auto-refresh, tranh hieu lam la GPS luon-bat)
