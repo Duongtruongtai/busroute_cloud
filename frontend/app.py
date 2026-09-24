@@ -146,6 +146,27 @@ def inject_theme_css(dark: bool):
     .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 11px; }}
     .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 11px; }}
 
+    /* ---- Bang so sanh phuong an (Citymapper-style: Fastest/Least walking/...) ---- */
+    .compare-card {{
+        background-color: {card}; border: 1px solid {border}; border-radius: 12px;
+        padding: 10px 8px; text-align: center; margin-bottom: 8px; min-height: 92px;
+    }}
+    .compare-card.active {{ border: 2px solid {accent}; }}
+    .compare-time {{ font-size: 21px; font-weight: 700; color: {text}; margin: 3px 0 1px; }}
+    .compare-sub {{ font-size: 10.5px; color: {subtext}; line-height: 1.5; }}
+
+    /* ---- The hanh trinh chinh (hero card): so phut la thanh phan to nhat ---- */
+    .hero-card {{
+        background-color: {card}; border: 1px solid {border}; border-radius: 14px;
+        padding: 18px; margin: 10px 0 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }}
+    .hero-time {{ font-size: 34px; font-weight: 700; color: {accent}; line-height: 1.1; }}
+    .hero-sub {{ font-size: 12.5px; color: {subtext}; margin-top: 2px; }}
+    .journey-flow {{ margin-top: 14px; font-size: 13.5px; color: {text}; }}
+    .journey-row {{ display: flex; align-items: center; gap: 8px; padding: 3px 0; }}
+    .journey-line {{ color: {border}; margin-left: 9px; padding: 1px 0 1px 8px;
+        border-left: 2px solid {border}; font-size: 11.5px; color: {subtext}; }}
+
     .cloud-status-mini {{ font-size: 11px; color: {subtext}; }}
 
     .stButton>button[kind="primary"] {{
@@ -224,6 +245,23 @@ def route_distance_km(route_id: str) -> float:
     return total
 
 
+def leg_distance_km(route_id: str, board_id: str, alight_id: str) -> float:
+    """Khoang cach uoc tinh cua 1 CHANG (tu tram len den tram xuong tren 1 tuyen)."""
+    from backend.geocoding import haversine_km
+    stops_idx = stops_df.set_index("stop_id")
+    seq = finder.stops_between(route_id, board_id, alight_id)
+    total = 0.0
+    for sid_a, sid_b in zip(seq, seq[1:]):
+        a, b = stops_idx.loc[sid_a], stops_idx.loc[sid_b]
+        total += haversine_km(float(a["lat"]), float(a["lon"]), float(b["lat"]), float(b["lon"]))
+    return total
+
+
+def itinerary_distance_km(itinerary) -> float:
+    """Tong khoang cach uoc tinh ca hanh trinh (cong don tat ca cac chang)."""
+    return sum(leg_distance_km(l.route_id, l.board_stop_id, l.alight_stop_id) for l in itinerary.legs)
+
+
 def itinerary_tags(itineraries, idx: int, lang: str) -> str:
     """Gan nhan Phu hop nhat / Nhanh nhat / Re nhat / It chuyen tuyen nhat cho 1 phuong an."""
     if len(itineraries) <= 1:
@@ -239,6 +277,14 @@ def itinerary_tags(itineraries, idx: int, lang: str) -> str:
     if it.transfers == min(x.transfers for x in itineraries):
         tags.append(("tag-fewtransfer", t("tag_fewest_transfers", lang)))
     return "".join(f'<span class="tag-pill {cls}">{label}</span>' for cls, label in tags)
+
+
+def _pick_popular_route(route_id: str):
+    """Callback cho chip 'tuyen pho bien' - chuyen ban do sang che do duyet tuyen do
+    va xoa ket qua tim kiem hien tai (neu co) de map khong bi ket qua tim kiem cu
+    che mat tuyen vua bam."""
+    st.session_state.browse_route_id = route_id
+    st.session_state.selected_itineraries = None
 
 
 def _swap_origin_dest():
@@ -370,6 +416,15 @@ with tab_map:
         if picked_dest:
             st.session_state.dest_stop_id = picked_dest
 
+        # ---- Tuyen pho bien: bam nhanh de xem tren ban do, khong can go tim kiem ----
+        popular = routes_view.sort_values("route_short_name").head(6)["route_id"].tolist()
+        if popular:
+            st.caption(t("popular_routes", lang))
+            pcols = st.columns(len(popular))
+            for pcol, rid in zip(pcols, popular):
+                short = routes_view.loc[routes_view.route_id == rid, "route_short_name"].iloc[0]
+                pcol.button(str(short), key=f"popchip_{rid}", on_click=_pick_popular_route, args=(rid,))
+
         search_clicked = st.button(t("find_route_btn", lang), type="primary", width="stretch")
 
         if search_clicked:
@@ -393,24 +448,62 @@ with tab_map:
                 st.warning(t("no_route_found", lang))
             else:
                 st.success(t("found_n_options", lang, n=len(itineraries)))
-                labels = [
-                    f"{t('option_label', lang, i=i + 1)}: {it.summary()} • {format_minutes(it.total_minutes)} • "
-                    f"{format_vnd(it.total_fare)} • {it.transfers} {t('n_transfers', lang).lower()}"
-                    for i, it in enumerate(itineraries)
-                ]
+                chosen_idx_state = st.session_state.get("chosen_itinerary_idx", 0)
+
+                # ---- Bang so sanh nhanh (kieu Citymapper: Fastest / Least walking / ...) ----
+                if len(itineraries) > 1:
+                    st.caption(t("compare_title", lang))
+                    cols = st.columns(len(itineraries))
+                    for i, (col, it) in enumerate(zip(cols, itineraries)):
+                        tags_html = itinerary_tags(itineraries, i, lang)
+                        active_cls = "active" if i == chosen_idx_state else ""
+                        col.markdown(f"""
+                        <div class="compare-card {active_cls}">
+                            <div>{tags_html or '&nbsp;'}</div>
+                            <div class="compare-time">{format_minutes(it.total_minutes)}</div>
+                            <div class="compare-sub">{itinerary_distance_km(it):.1f} km<br/>
+                                {format_vnd(it.total_fare)} · {it.transfers} {t('n_transfers_short', lang)}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+                labels = [t("option_label", lang, i=i + 1) + f" — {it.summary()}"
+                          for i, it in enumerate(itineraries)]
                 idx = st.radio(t("choose_option", lang), options=range(len(itineraries)),
-                                format_func=lambda i: labels[i], key="chosen_itinerary_idx")
+                                format_func=lambda i: labels[i], key="chosen_itinerary_idx",
+                                horizontal=True)
                 chosen = itineraries[idx]
                 map_focus = ("itinerary", chosen)
 
-                tags_html = itinerary_tags(itineraries, idx, lang)
-                if tags_html:
-                    st.markdown(tags_html, unsafe_allow_html=True)
+                # ---- The hanh trinh chinh (hero card): so phut la thanh phan TO NHAT ----
+                dist_km = itinerary_distance_km(chosen)
+                origin_name = chosen.legs[0].board_stop_name if lang == "vi" else chosen.legs[0].board_stop_name_en
+                dest_name = (chosen.legs[-1].alight_stop_name if lang == "vi"
+                             else chosen.legs[-1].alight_stop_name_en)
+                flow_rows = [f'<div class="journey-row">📍 <b>{origin_name}</b></div>']
+                for i, leg in enumerate(chosen.legs):
+                    n_stops_leg = len(finder.stops_between(leg.route_id, leg.board_stop_id, leg.alight_stop_id)) - 1
+                    flow_rows.append(f'<div class="journey-line">│ {format_minutes(leg.ride_minutes)}</div>')
+                    flow_rows.append(
+                        f'<div class="journey-row">🚌 <b>{leg.route_short_name}</b> · '
+                        f'{n_stops_leg} {t("n_stops_short", lang)}</div>')
+                    if i < len(chosen.legs) - 1:
+                        alight_name = leg.alight_stop_name if lang == "vi" else leg.alight_stop_name_en
+                        flow_rows.append(f'<div class="journey-line">│</div>')
+                        flow_rows.append(
+                            f'<div class="journey-row">🔄 {t("transfer_flow", lang)} <b>{alight_name}</b></div>')
+                flow_rows.append(f'<div class="journey-line">│</div>')
+                flow_rows.append(f'<div class="journey-row">🎯 <b>{dest_name}</b></div>')
 
-                m1, m2, m3 = st.columns(3)
-                m1.metric(t("total_time", lang), format_minutes(chosen.total_minutes))
-                m2.metric(t("total_fare", lang), format_vnd(chosen.total_fare))
-                m3.metric(t("n_transfers", lang), chosen.transfers)
+                best_tag_html = itinerary_tags(itineraries, idx, lang)
+                st.markdown(f"""
+                <div class="hero-card">
+                    <div>{best_tag_html}</div>
+                    <div class="hero-time">{format_minutes(chosen.total_minutes)}</div>
+                    <div class="hero-sub">{dist_km:.1f} km · {format_vnd(chosen.total_fare)} ·
+                        {chosen.transfers} {t('n_transfers_short', lang)}</div>
+                    <div class="journey-flow">{''.join(flow_rows)}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
                 st.markdown(f"#### {t('itinerary_detail', lang)}")
                 now = datetime.now()
@@ -426,6 +519,7 @@ with tab_map:
                     alight_name = leg.alight_stop_name if lang == "vi" else leg.alight_stop_name_en
                     arrival_txt = (f"{t('expected_arrival', lang)}: <b>{arrival.strftime('%H:%M')}</b>"
                                    if arrival else msg)
+                    leg_km = leg_distance_km(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
                     st.markdown(f"""
                     <div class="bus-card">
                         <span class="route-number">{leg.route_short_name}</span> {status_html}
@@ -436,6 +530,7 @@ with tab_map:
                         </div>
                         <div class="metric-row">
                             <span>{t('ride_time', lang)}: <b>{format_minutes(leg.ride_minutes)}</b></span>
+                            <span>{t('distance_km', lang)}: <b>{leg_km:.1f} km</b></span>
                             <span>{t('fare_label', lang)}: <b>{format_vnd(leg.fare)}</b></span>
                             <span>{arrival_txt}</span>
                         </div>
