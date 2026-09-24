@@ -230,6 +230,10 @@ def inject_theme_css(dark: bool):
     div[data-testid="stSelectbox"] input {{
         background-color: {card} !important; color: {text} !important; border-color: {border} !important;
     }}
+    /* Ten tram day du co the rat dai (vd "DH Bach Khoa TP.HCM (Ly Thuong Kiet)") - thu
+       nho rieng font trong o chon de tranh bi cat chu, khong dam bao vua tuyet doi nhung
+       giam dang ke truong hop bi cat mat noi dung nguoi dung vua chon. */
+    div[data-testid="stSelectbox"] * {{ font-size: 14px !important; }}
     div[data-baseweb="popover"] ul, div[data-baseweb="popover"] li,
     div[data-baseweb="menu"], ul[data-baseweb="menu"], li[data-baseweb="menu-item"] {{
         background-color: {card} !important; color: {text} !important;
@@ -249,12 +253,11 @@ with st.sidebar:
     st.markdown(f"## 🚌 {t('app_title', lang0)}")
     st.caption(t("app_subtitle", lang0))
 
-    c1, c2 = st.columns(2)
-    with c1:
-        st.selectbox(t("language", lang0), options=["vi", "en"],
-                     format_func=lambda x: "🇻🇳 Tiếng Việt" if x == "vi" else "🇬🇧 English", key="lang")
-    with c2:
-        st.toggle(t("theme_dark", lang0), key="dark_mode")
+    # Xep chong theo hang doc (khong chia cot) - sidebar kha hep, chia doi cot se
+    # khien ten ngon ngu day du ("Tieng Viet") bi cat chu.
+    st.selectbox(t("language", lang0), options=["vi", "en"],
+                 format_func=lambda x: "🇻🇳 Tiếng Việt" if x == "vi" else "🇬🇧 English", key="lang")
+    st.toggle(t("theme_dark", lang0), key="dark_mode")
 
     lang = st.session_state["lang"]
     dark = st.session_state["dark_mode"]
@@ -458,7 +461,7 @@ tab_map, tab_stats = st.tabs([
 # TAB: Bản đồ & Tra cứu
 # --------------------------------------------------------------------------- #
 with tab_map:
-    col_left, col_right = st.columns([1, 1.5])
+    col_left, col_right = st.columns([1.2, 1.3])
 
     map_focus = None  # ("itinerary", Itinerary) hoac ("route", route_id) hoac None
 
@@ -499,8 +502,8 @@ with tab_map:
                 "control": {"borderRadius": "10px", "minHeight": "44px", "borderColor": sb_border,
                              "backgroundColor": sb_box},
                 "input": {"color": sb_text},
-                "placeholder": {"color": sb_placeholder},
-                "singleValue": {"color": sb_text},
+                "placeholder": {"color": sb_placeholder, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap"},
+                "singleValue": {"color": sb_text, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap", "maxWidth": "calc(100% - 8px)"},
                 "option": {"color": sb_text, "backgroundColor": sb_box, "highlightColor": sb_hover},
                 "menuList": {"backgroundColor": sb_box, "borderRadius": "10px"},
             },
@@ -693,7 +696,7 @@ with tab_map:
                             <span>{arrival_txt}</span>
                         </div>
                         <div class="metric-row">
-                            <span>{t('operated_by', lang)}: <b>{leg_meta['operator_name'] or '—'}</b></span>
+                            <span>{t('operated_by', lang)}: <b>{leg_meta.get('operator_name') or '—'}</b></span>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -722,7 +725,7 @@ with tab_map:
                 r = routes_idx.loc[browsed_rid]
                 r_name = r["route_long_name"] if lang == "vi" else r["route_long_name_en"]
                 n_stops = int((route_stops_df.route_id == browsed_rid).sum())
-                dist_km = r["distance_km"]
+                dist_km = r.get("distance_km") or 0.0
                 active = is_route_active(r["first_departure"], r["last_departure"])
                 status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
                                else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
@@ -738,7 +741,7 @@ with tab_map:
                     <div class="metric-row">
                         <span>{t('fare_regular', lang)}: <b>{format_vnd(int(r['fare_regular']))}</b></span>
                         <span>{t('fare_student', lang)}: <b>{format_vnd(int(r['fare_student']))}</b></span>
-                        <span>{t('operated_by', lang)}: <b>{r['operator_name'] or '—'}</b></span>
+                        <span>{t('operated_by', lang)}: <b>{r.get('operator_name') or '—'}</b></span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
