@@ -47,7 +47,7 @@
 | stop_name_en | text | Tên trạm tiếng Anh (cho người dùng nước ngoài) |
 | lat, lon | double | Toạ độ (dùng vẽ bản đồ + tìm trạm gần địa chỉ) |
 | is_hub | boolean | Có phải bến/điểm trung tâm không |
-| city_id | text | `hcmc` hoặc `bienhoa` - phân vùng thành phố |
+| city_id | text | Luôn `hcmc` (giữ cột để mở rộng đa thành phố sau này nếu cần) |
 
 ### `routes`
 | Cột | Kiểu | Mô tả |
@@ -58,9 +58,12 @@
 | route_long_name_en | text | Tên đầy đủ tiếng Anh |
 | fare_regular | integer | Giá vé phổ thông (VND) |
 | fare_student | integer | Giá vé sinh viên (VND) |
-| headway_min | integer | Giãn cách giữa 2 chuyến (phút) |
+| headway_min | numeric | Giãn cách giữa 2 chuyến (phút, có thể lẻ vd 12,5) |
 | first_departure, last_departure | text | Khung giờ hoạt động 'HH:MM' - dùng để tính trạng thái 🟢/⚪ và mô phỏng vị trí xe |
-| city_id | text | `hcmc` hoặc `bienhoa` |
+| city_id | text | Luôn `hcmc` |
+| operator_name | text | Đơn vị vận hành tuyến |
+| is_subsidized | boolean | Tuyến có được trợ giá HSSV hay không (giải thích chênh lệch giá vé) |
+| distance_km | numeric | Quãng đường thực tế của tuyến (km) |
 
 ### `route_stops`
 | Cột | Kiểu | Mô tả |
@@ -69,7 +72,7 @@
 | route_id | text (FK -> routes) | |
 | stop_id | text (FK -> stops) | |
 | stop_sequence | integer | Thứ tự trạm trên tuyến |
-| offset_min | integer | Phút tích luỹ từ đầu tuyến |
+| offset_min | numeric | Phút tích luỹ từ đầu tuyến |
 
 ### `search_logs`
 | Cột | Kiểu | Mô tả |

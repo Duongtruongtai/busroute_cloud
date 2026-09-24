@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Smart City Bus Assistant
-Cổng tra cứu tuyến & theo dõi xe buýt đô thị (TP.HCM + Biên Hòa - Đồng Nai) trên bản đồ.
-Đồ án học phần Ứng dụng Điện toán đám mây.
+Cổng tra cứu tuyến & theo dõi xe buýt đô thị TP. Hồ Chí Minh (74 tuyến, dữ liệu
+thực tế 2026) trên bản đồ. Đồ án học phần Ứng dụng Điện toán đám mây.
 
 Kiến trúc Cloud:
     USER -> Streamlit Web App (Cloud Hosting)
@@ -30,7 +30,6 @@ from backend.datastore import DataStore
 from backend.fare import FARE_TYPES, format_minutes, format_vnd
 from backend.geocoding import geocode, nearest_stops
 from backend.i18n import t
-from backend.roads import downsample_waypoints, road_path
 from backend.route_finder import RouteFinder
 from backend.schedule import estimate_arrival_at_stop, is_route_active
 from backend.search import local_search_stops
@@ -38,17 +37,15 @@ from backend.tracking import active_buses
 
 st.set_page_config(page_title="Smart City Bus Assistant", page_icon="🚌", layout="wide")
 
-LEG_COLORS = ["#2563eb", "#dc2626", "#16a34a", "#d97706"]
-CITY_COLORS = {"hcmc": "#2563eb", "bienhoa": "#7c3aed", "kiengiang": "#16a34a"}
-CITY_IDS = ("all", "hcmc", "bienhoa", "kiengiang")
-CITY_ICON = {"all": "🌐", "hcmc": "🏙️", "bienhoa": "🏘️", "kiengiang": "🌾"}
+MAP_CENTER = (10.77, 106.70)
+MAP_ZOOM = 11
 MANUAL_SENTINEL = "__none__"
 
 # --------------------------------------------------------------------------- #
 # Session state defaults
 # --------------------------------------------------------------------------- #
 for key, default in {
-    "lang": "vi", "dark_mode": False, "city_filter": "all",
+    "lang": "vi", "dark_mode": False,
     "origin_stop_id": None, "dest_stop_id": None, "swap_nonce": 0,
     "selected_itineraries": None, "chosen_itinerary_idx": 0,
     "browse_route_id": MANUAL_SENTINEL, "live_refresh": False,
@@ -77,6 +74,7 @@ def build_finder(stops_df: pd.DataFrame, routes_df: pd.DataFrame, route_stops_df
 ds = get_datastore()
 stops_df, routes_df, route_stops_df = load_data(ds)
 finder = build_finder(stops_df, routes_df, route_stops_df)
+routes_idx = routes_df.set_index("route_id")
 
 
 # --------------------------------------------------------------------------- #
@@ -113,7 +111,7 @@ def inject_theme_css(dark: bool):
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; font-size: 14px; }}
+    html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; font-size: 16px; }}
 
     .stApp {{ background-color: {bg}; }}
     [data-testid="stSidebar"] {{ background-color: {bg2}; }}
@@ -122,14 +120,20 @@ def inject_theme_css(dark: bool):
 
     /* Metric mac dinh cua Streamlit khá to, tren sidebar hep de bi tran/cat chu -
        thu nho + cho xuong dong thay vi cat chu (...). */
-    [data-testid="stMetricValue"] {{ color: {text}; font-size: 20px; }}
+    [data-testid="stMetricValue"] {{ color: {text}; font-size: 22px; }}
     [data-testid="stMetricLabel"] {{
-        color: {text}; font-size: 11.5px; white-space: normal; overflow-wrap: break-word;
+        color: {text}; font-size: 13px; white-space: normal; overflow-wrap: break-word;
     }}
 
     /* ---- Hero / search card ---- */
-    .hero-title {{ font-size: 21px; font-weight: 700; color: {text}; margin-bottom: 2px; }}
-    .hero-subtitle {{ font-size: 13px; color: {subtext}; margin-bottom: 16px; }}
+    .hero-title {{ font-size: 24px; font-weight: 700; color: {text}; margin-bottom: 2px; }}
+    .hero-subtitle {{ font-size: 15px; color: {subtext}; margin-bottom: 10px; }}
+    .feature-strip {{ display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }}
+    .feature-chip {{
+        display: inline-flex; align-items: center; gap: 6px; background: {accent_soft2};
+        border: 1px solid {border}; border-radius: 999px; padding: 6px 13px;
+        font-size: 13px; font-weight: 600; color: {text};
+    }}
     .search-card {{
         background-color: {card}; border: 1px solid {border}; border-radius: 16px;
         padding: 18px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -143,22 +147,24 @@ def inject_theme_css(dark: bool):
     }}
     .route-number {{
         display: inline-block; background: {accent}; color: white; font-weight: 700;
-        font-size: 12px; padding: 3px 9px; border-radius: 8px; letter-spacing: 0.3px;
+        font-size: 13.5px; padding: 3px 9px; border-radius: 8px; letter-spacing: 0.3px;
     }}
-    .route-name {{ font-size: 13px; font-weight: 500; color: {text}; margin-top: 6px; }}
-    .metric-row {{ display: flex; gap: 14px; margin-top: 8px; font-size: 12px; color: {subtext}; flex-wrap: wrap; }}
+    .route-name {{ font-size: 14.5px; font-weight: 500; color: {text}; margin-top: 6px; }}
+    .metric-row {{ display: flex; gap: 14px; margin-top: 8px; font-size: 13.5px; color: {subtext}; flex-wrap: wrap; }}
     .metric-row b {{ color: {text}; }}
     .tag-pill {{
-        display: inline-block; font-size: 10.5px; font-weight: 600; padding: 3px 8px;
+        display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 8px;
         border-radius: 999px; margin-right: 6px; margin-bottom: 6px;
     }}
     .tag-best {{ background: #dbeafe; color: #1d4ed8; }}
     .tag-fast {{ background: #dcfce7; color: #15803d; }}
     .tag-cheap {{ background: #fef9c3; color: #a16207; }}
     .tag-fewtransfer {{ background: #f3e8ff; color: #7e22ce; }}
+    .tag-subsidized {{ background: #dcfce7; color: #15803d; }}
+    .tag-not-subsidized {{ background: #fef3c7; color: #b45309; }}
 
-    .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 11px; }}
-    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 11px; }}
+    .bus-badge-active {{ color: #16a34a; font-weight: 600; font-size: 12.5px; }}
+    .bus-badge-inactive {{ color: #94a3b8; font-weight: 600; font-size: 12.5px; }}
 
     /* ---- Bang so sanh phuong an (Citymapper-style: Fastest/Least walking/...) ---- */
     .compare-card {{
@@ -166,28 +172,28 @@ def inject_theme_css(dark: bool):
         padding: 10px 8px; text-align: center; margin-bottom: 8px; min-height: 92px;
     }}
     .compare-card.active {{ border: 2px solid {accent}; }}
-    .compare-time {{ font-size: 21px; font-weight: 700; color: {text}; margin: 3px 0 1px; }}
-    .compare-sub {{ font-size: 10.5px; color: {subtext}; line-height: 1.5; }}
+    .compare-time {{ font-size: 23px; font-weight: 700; color: {text}; margin: 3px 0 1px; }}
+    .compare-sub {{ font-size: 12px; color: {subtext}; line-height: 1.5; }}
 
     /* ---- The hanh trinh chinh (hero card): so phut la thanh phan to nhat ---- */
     .hero-card {{
         background-color: {card}; border: 1px solid {border}; border-radius: 14px;
         padding: 18px; margin: 10px 0 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }}
-    .hero-time {{ font-size: 34px; font-weight: 700; color: {accent}; line-height: 1.1; }}
-    .hero-sub {{ font-size: 12.5px; color: {subtext}; margin-top: 2px; }}
-    .journey-flow {{ margin-top: 14px; font-size: 13.5px; color: {text}; }}
+    .hero-time {{ font-size: 38px; font-weight: 700; color: {accent}; line-height: 1.1; }}
+    .hero-sub {{ font-size: 14px; color: {subtext}; margin-top: 2px; }}
+    .journey-flow {{ margin-top: 14px; font-size: 15px; color: {text}; }}
     .journey-row {{ display: flex; align-items: center; gap: 8px; padding: 3px 0; }}
     .journey-line {{ color: {border}; margin-left: 9px; padding: 1px 0 1px 8px;
-        border-left: 2px solid {border}; font-size: 11.5px; color: {subtext}; }}
+        border-left: 2px solid {border}; font-size: 13px; color: {subtext}; }}
 
-    .cloud-status-mini {{ font-size: 11px; color: {subtext}; }}
+    .cloud-status-mini {{ font-size: 12.5px; color: {subtext}; }}
 
     .stButton>button[kind="primary"] {{
         background-color: {accent}; border-color: {accent}; border-radius: 10px;
-        height: 44px; font-weight: 600; font-size: 13.5px;
+        height: 46px; font-weight: 600; font-size: 15px;
     }}
-    div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 40px; font-size: 13.5px; }}
+    div[data-testid="stTextInput"] input {{ border-radius: 10px; min-height: 42px; font-size: 15px; }}
 
     /* ---- Bo chon khu vuc (segmented control) - dang pill be tron, gan gui hon ---- */
     div[data-testid="stSegmentedControl"] label {{
@@ -206,12 +212,30 @@ def inject_theme_css(dark: bool):
         box-shadow: 0 6px 16px {accent_soft2}; transform: translateY(-1px);
     }}
     .compare-card:hover {{ box-shadow: 0 4px 10px {accent_soft2}; }}
-    div[data-testid="stButton"] > button:not([kind="primary"]) {{
+    div[data-testid="stButton"] button:not([kind="primary"]) {{
         border-radius: 999px !important; border-color: {border} !important;
         font-weight: 600; transition: all 150ms ease;
+        background-color: {card} !important; color: {text} !important;
     }}
-    div[data-testid="stButton"] > button:not([kind="primary"]):hover {{
+    div[data-testid="stButton"] button:not([kind="primary"]):hover {{
         border-color: {accent} !important; color: {accent} !important; background: {accent_soft} !important;
+    }}
+
+    /* ---- Cac widget Streamlit mac dinh (button/selectbox/dropdown popover) doc theme
+       SANG co dinh tu .streamlit/config.toml, khong tu doi theo cong tac Toi/Sang cua
+       rieng app (CSS tu che o day, khong phai theme native cua Streamlit) - neu khong
+       ghi de rieng se bi "mang trang" giua giao dien toi (nut, o chon, danh sach xo
+       xuong deu trang xoa). ---- */
+    div[data-testid="stSelectbox"] > div > div,
+    div[data-testid="stSelectbox"] input {{
+        background-color: {card} !important; color: {text} !important; border-color: {border} !important;
+    }}
+    div[data-baseweb="popover"] ul, div[data-baseweb="popover"] li,
+    div[data-baseweb="menu"], ul[data-baseweb="menu"], li[data-baseweb="menu-item"] {{
+        background-color: {card} !important; color: {text} !important;
+    }}
+    div[data-baseweb="popover"] li:hover, li[data-baseweb="menu-item"]:hover {{
+        background-color: {accent_soft2} !important;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -237,23 +261,13 @@ with st.sidebar:
     inject_theme_css(dark)
 
     st.divider()
-    # Phong thu: bat ke nguyen nhan gi khien gia tri luu khong hop le, luon fallback ve "all"
-    # thay vi de KeyError lam sap ung dung (khong bao gio hien traceback cho nguoi dung cuoi).
-    # (Widget chon khu vuc THAT nam o dau trang chinh - gan phan tim kiem - de de thay hon,
-    # xem CITY_LABEL/CITY_ICON o duoi; muc nay chi dam bao gia tri luon hop le.)
-    if st.session_state.get("city_filter") not in CITY_IDS:
-        st.session_state["city_filter"] = "all"
-    city_filter = st.session_state["city_filter"]
-
     fare_type = st.radio(t("fare_type", lang), options=list(FARE_TYPES.keys()),
                           format_func=lambda k: t(f"fare_{k}", lang), key="fare_type_radio")
 
     st.divider()
-    routes_view = routes_df if city_filter == "all" else routes_df[routes_df.city_id == city_filter]
-    stops_view = stops_df if city_filter == "all" else stops_df[stops_df.city_id == city_filter]
     m1, m2 = st.columns(2)
-    m1.metric(t("n_routes", lang), len(routes_view))
-    m2.metric(t("n_stops", lang), len(stops_view))
+    m1.metric(t("n_routes", lang), len(routes_df))
+    m2.metric(t("n_stops", lang), len(stops_df))
 
     st.toggle(t("auto_refresh_on", lang), key="live_refresh")
 
@@ -264,16 +278,6 @@ if st.session_state["live_refresh"]:
 
 def fmt_stop(stop_id: str, lang: str) -> str:
     return finder.stop_name(stop_id, lang) if stop_id and stop_id != MANUAL_SENTINEL else stop_id
-
-
-def route_distance_km(route_id: str) -> float:
-    """Tong khoang cach uoc tinh cua 1 tuyen (tong haversine giua cac tram lien tiep)."""
-    from backend.geocoding import haversine_km
-    ordered = finder.ordered_stops(route_id)
-    total = 0.0
-    for a, b in zip(ordered, ordered[1:]):
-        total += haversine_km(a["lat"], a["lon"], b["lat"], b["lon"])
-    return total
 
 
 def leg_distance_km(route_id: str, board_id: str, alight_id: str) -> float:
@@ -310,6 +314,14 @@ def itinerary_tags(itineraries, idx: int, lang: str) -> str:
     return "".join(f'<span class="tag-pill {cls}">{label}</span>' for cls, label in tags)
 
 
+def subsidized_badge(route_row, lang: str) -> str:
+    """The nho bao gia ve tuyen nay co duoc tro gia HSSV hay khong - giup sinh
+    vien hieu vi sao gia ve khac nhau giua cac tuyen (toi uu chi phi)."""
+    if bool(route_row.get("is_subsidized", True)):
+        return f'<span class="tag-pill tag-subsidized">{t("subsidized_yes", lang)}</span>'
+    return f'<span class="tag-pill tag-not-subsidized">{t("subsidized_no", lang)}</span>'
+
+
 def _pick_popular_route(route_id: str):
     """Callback cho chip 'tuyen pho bien' - chuyen ban do sang che do duyet tuyen do
     va xoa ket qua tim kiem hien tai (neu co) de map khong bi ket qua tim kiem cu
@@ -325,6 +337,78 @@ def _swap_origin_dest():
     st.session_state.origin_stop_id, st.session_state.dest_stop_id = (
         st.session_state.get("dest_stop_id"), st.session_state.get("origin_stop_id"))
     st.session_state["swap_nonce"] = st.session_state.get("swap_nonce", 0) + 1
+
+
+def _run_search(o_id: str, d_id: str, fare_type_value: str):
+    """Thuc thi tim tuyen + ghi log + luu ket qua vao session_state - dung chung cho nut
+    'Tim tuyen xe buyt' va cac nut goi y diem gan (xem find_nearby_alternatives)."""
+    results = finder.find(o_id, d_id, fare_type=fare_type_value, max_results=3)
+    ds.log_search(o_id, fmt_stop(o_id, "vi"), d_id, fmt_stop(d_id, "vi"), fare_type_value, len(results))
+    st.session_state.selected_itineraries = results
+    st.session_state.chosen_itinerary_idx = 0
+
+
+def _apply_manual_pick(kind: str):
+    """Callback cho o chon truc tiep tu danh sach (thay the/bo sung o go tim kiem tu do -
+    danh cho nguoi dung chua biet ten tram/dia danh can go gi)."""
+    key = "manual_origin_pick" if kind == "origin" else "manual_dest_pick"
+    sid = st.session_state.get(key)
+    if not sid or sid == MANUAL_SENTINEL:
+        return
+    if kind == "origin":
+        st.session_state.origin_stop_id = sid
+    else:
+        st.session_state.dest_stop_id = sid
+    st.session_state["swap_nonce"] = st.session_state.get("swap_nonce", 0) + 1
+
+
+def find_nearby_alternatives(origin_id: str, dest_id: str, fare_type_value: str, max_suggestions: int = 4):
+    """Khi khong tim duoc duong di truc tiep/1-lan-chuyen giua origin_id va dest_id, thu
+    goi y cac tram GAN origin hoac GAN dest ma CO duong di duoc - giup nguoi dung co them
+    lua chon thay vi chi thay bao loi 'khong tim thay'. Mo rong dan ban kinh tim kiem (1km
+    -> 3km -> 6km) vi mang luoi o vung ngoai thanh/xa trung tam thua tram hon."""
+    stops_idx_local = stops_df.set_index("stop_id")
+    if origin_id not in stops_idx_local.index or dest_id not in stops_idx_local.index:
+        return []
+    o_row, d_row = stops_idx_local.loc[origin_id], stops_idx_local.loc[dest_id]
+    found, seen_pairs = [], set()
+    for radius in (1.0, 3.0, 6.0):
+        near_o = nearest_stops(float(o_row["lat"]), float(o_row["lon"]), stops_df, radius_km=radius, limit=6)
+        for _, r in near_o[near_o.stop_id != origin_id].iterrows():
+            pair = ("origin", r.stop_id)
+            if pair in seen_pairs:
+                continue
+            res = finder.find(r.stop_id, dest_id, fare_type=fare_type_value, max_results=1)
+            if res:
+                found.append({"kind": "origin", "alt_id": r.stop_id, "dist_km": float(r.distance_km),
+                               "itinerary": res[0]})
+                seen_pairs.add(pair)
+        near_d = nearest_stops(float(d_row["lat"]), float(d_row["lon"]), stops_df, radius_km=radius, limit=6)
+        for _, r in near_d[near_d.stop_id != dest_id].iterrows():
+            pair = ("dest", r.stop_id)
+            if pair in seen_pairs:
+                continue
+            res = finder.find(origin_id, r.stop_id, fare_type=fare_type_value, max_results=1)
+            if res:
+                found.append({"kind": "dest", "alt_id": r.stop_id, "dist_km": float(r.distance_km),
+                               "itinerary": res[0]})
+                seen_pairs.add(pair)
+        if found:
+            break
+    found.sort(key=lambda x: x["dist_km"])
+    return found[:max_suggestions]
+
+
+def _apply_alt_suggestion(kind: str, alt_id: str):
+    """Callback cho nut goi y diem gan - ap dung diem thay the roi tim tuyen lai ngay
+    (khong bat nguoi dung phai bam Tim tuyen them 1 lan nua)."""
+    if kind == "origin":
+        st.session_state.origin_stop_id = alt_id
+    else:
+        st.session_state.dest_stop_id = alt_id
+    st.session_state["swap_nonce"] = st.session_state.get("swap_nonce", 0) + 1
+    fare_type_value = st.session_state.get("fare_type_radio", "student")
+    _run_search(st.session_state.origin_stop_id, st.session_state.dest_stop_id, fare_type_value)
 
 
 def make_stop_search_fn(stops_scope: pd.DataFrame, lang: str):
@@ -382,18 +466,15 @@ with tab_map:
         st.markdown(f'<div class="hero-title">🚌 {t("hero_title", lang)}</div>'
                     f'<div class="hero-subtitle">{t("hero_subtitle", lang)}</div>', unsafe_allow_html=True)
 
-        city_labels = {"all": t("city_all", lang), "hcmc": t("city_hcmc", lang),
-                       "bienhoa": t("city_bienhoa", lang), "kiengiang": t("city_kiengiang", lang)}
-        st.segmented_control(
-            t("city", lang), options=list(CITY_IDS), required=True,
-            format_func=lambda x: f"{CITY_ICON.get(x, '')} {city_labels.get(x, x)}",
-            key="city_filter", label_visibility="collapsed",
-        )
-        if st.session_state.get("city_filter") not in CITY_IDS:
-            st.session_state["city_filter"] = "all"
-        city_filter = st.session_state["city_filter"]
-        routes_view = routes_df if city_filter == "all" else routes_df[routes_df.city_id == city_filter]
-        stops_view = stops_df if city_filter == "all" else stops_df[stops_df.city_id == city_filter]
+        # ---- Dai tinh nang chinh - luon hien de nguoi dung thay ngay app lam duoc gi,
+        # khong can tim kiem truoc moi thay ----
+        st.markdown(f"""
+        <div class="feature-strip">
+            <span class="feature-chip">🗺️ {t('feature_routes', lang)}</span>
+            <span class="feature-chip">🔎 {t('feature_lookup', lang)}</span>
+            <span class="feature-chip">🕒 {t('feature_arrival', lang)}</span>
+        </div>
+        """, unsafe_allow_html=True)
 
         st.markdown('<div class="search-card">', unsafe_allow_html=True)
 
@@ -406,23 +487,29 @@ with tab_map:
         origin_default_term = fmt_stop(origin_default_id, lang) if origin_default_id else ""
         dest_default_term = fmt_stop(dest_default_id, lang) if dest_default_id else ""
 
-        # Style rieng cho o tim kiem (component ben ngoai, khong tu doi theo dark mode cua
-        # trang) - giu luon sang/de doc, be tron, mau xanh dong bo voi thuong hieu app.
+        # Style rieng cho o tim kiem (component ben ngoai, tu render trong iframe rieng nen
+        # khong tu ke thua CSS cua trang) - truyen mau theo dark/light de tranh "mang trang"
+        # giua giao dien toi.
+        sb_box, sb_text, sb_placeholder, sb_border, sb_hover = (
+            ("#1e293b", "#f1f5f9", "#94a3b8", "#334155", "#334155") if dark
+            else ("#ffffff", "#0f172a", "#94a3b8", "#e2e8f0", "#dbeafe")
+        )
         SEARCHBOX_STYLE = {
             "searchbox": {
-                "control": {"borderRadius": "10px", "minHeight": "44px", "borderColor": "#e2e8f0"},
-                "input": {"color": "#0f172a"},
-                "placeholder": {"color": "#94a3b8"},
-                "singleValue": {"color": "#0f172a"},
-                "option": {"color": "#0f172a", "backgroundColor": "#ffffff", "highlightColor": "#dbeafe"},
-                "menuList": {"backgroundColor": "#ffffff", "borderRadius": "10px"},
+                "control": {"borderRadius": "10px", "minHeight": "44px", "borderColor": sb_border,
+                             "backgroundColor": sb_box},
+                "input": {"color": sb_text},
+                "placeholder": {"color": sb_placeholder},
+                "singleValue": {"color": sb_text},
+                "option": {"color": sb_text, "backgroundColor": sb_box, "highlightColor": sb_hover},
+                "menuList": {"backgroundColor": sb_box, "borderRadius": "10px"},
             },
         }
 
         oc1, oc2 = st.columns([5, 1])
         with oc1:
             picked_origin = st_searchbox(
-                make_stop_search_fn(stops_view, lang), key=f"origin_sb_{nonce}",
+                make_stop_search_fn(stops_df, lang), key=f"origin_sb_{nonce}",
                 placeholder=t("search_address_placeholder", lang), label=t("origin", lang),
                 default=origin_default_id, default_searchterm=origin_default_term,
                 style_overrides=SEARCHBOX_STYLE,
@@ -435,7 +522,7 @@ with tab_map:
             # gan truc tiep se bao loi "cannot be modified after widget instantiated".
             st.button("🔁", help=t("swap", lang), on_click=_swap_origin_dest)
         picked_dest = st_searchbox(
-            make_stop_search_fn(stops_view, lang), key=f"dest_sb_{nonce}",
+            make_stop_search_fn(stops_df, lang), key=f"dest_sb_{nonce}",
             placeholder=t("search_address_placeholder", lang), label=t("destination", lang),
             default=dest_default_id, default_searchterm=dest_default_term,
             style_overrides=SEARCHBOX_STYLE,
@@ -447,14 +534,39 @@ with tab_map:
         if picked_dest:
             st.session_state.dest_stop_id = picked_dest
 
-        # ---- Tuyen pho bien: bam nhanh de xem tren ban do, khong can go tim kiem ----
-        popular = routes_view.sort_values("route_short_name").head(6)["route_id"].tolist()
+        # ---- Chon truc tiep tu danh sach - danh cho nguoi dung chua biet ten tram/dia
+        # danh can go gi (go tim kiem o tren la 1 lua chon THEM cho ai da biet san) ----
+        with st.expander(t("manual_pick_expander", lang), expanded=False):
+            stop_label_map = {row.stop_id: (row.stop_name if lang == "vi" else row.stop_name_en)
+                               for row in stops_df.itertuples()}
+            sorted_stop_ids = sorted(stop_label_map, key=lambda sid: stop_label_map[sid])
+            manual_opts = [MANUAL_SENTINEL] + sorted_stop_ids
+
+            def _fmt_manual(sid):
+                return "—" if sid == MANUAL_SENTINEL else stop_label_map[sid]
+
+            mc1, mc2 = st.columns(2)
+            with mc1:
+                st.selectbox(t("origin", lang), options=manual_opts, format_func=_fmt_manual,
+                             key="manual_origin_pick", on_change=_apply_manual_pick, args=("origin",))
+            with mc2:
+                st.selectbox(t("destination", lang), options=manual_opts, format_func=_fmt_manual,
+                             key="manual_dest_pick", on_change=_apply_manual_pick, args=("dest",))
+
+        # ---- Tuyen tieu bieu: hien san vai tuyen kem ten day du (khong can go tim kiem) -
+        # bam vao la xem ngay tren ban do, phu hop nguoi dung moi chua biet chon diem nao ----
+        popular = routes_df.sort_values("route_short_name").head(6)["route_id"].tolist()
         if popular:
             st.caption(t("popular_routes", lang))
-            pcols = st.columns(len(popular))
-            for pcol, rid in zip(pcols, popular):
-                short = routes_view.loc[routes_view.route_id == rid, "route_short_name"].iloc[0]
-                pcol.button(str(short), key=f"popchip_{rid}", on_click=_pick_popular_route, args=(rid,))
+            pcols = st.columns(2)
+            for i, rid in enumerate(popular):
+                row = routes_idx.loc[rid]
+                long_name = row["route_long_name"] if lang == "vi" else row["route_long_name_en"]
+                label = f"{row['route_short_name']} · {long_name}"
+                if len(label) > 30:
+                    label = label[:27] + "…"
+                pcols[i % 2].button(label, key=f"popchip_{rid}", on_click=_pick_popular_route,
+                                     args=(rid,), width="stretch")
 
         search_clicked = st.button(t("find_route_btn", lang), type="primary", width="stretch")
 
@@ -468,15 +580,28 @@ with tab_map:
             elif not o_id or not d_id:
                 st.session_state.selected_itineraries = None
             else:
-                results = finder.find(o_id, d_id, fare_type=fare_type, max_results=3)
-                ds.log_search(o_id, fmt_stop(o_id, "vi"), d_id, fmt_stop(d_id, "vi"), fare_type, len(results))
-                st.session_state.selected_itineraries = results
-                st.session_state.chosen_itinerary_idx = 0
+                _run_search(o_id, d_id, fare_type)
 
         itineraries = st.session_state.selected_itineraries
         if itineraries is not None:
             if len(itineraries) == 0:
                 st.warning(t("no_route_found", lang))
+                o_id = st.session_state.get("origin_stop_id")
+                d_id = st.session_state.get("dest_stop_id")
+                alt_suggestions = find_nearby_alternatives(o_id, d_id, fare_type) if o_id and d_id else []
+                if alt_suggestions:
+                    st.caption(t("try_nearby", lang))
+                    for sug in alt_suggestions:
+                        alt_name = fmt_stop(sug["alt_id"], lang)
+                        if sug["kind"] == "origin":
+                            other_name = fmt_stop(d_id, lang)
+                            label = f"🔁 {alt_name} → {other_name}  (~{sug['dist_km']:.1f} km)"
+                        else:
+                            other_name = fmt_stop(o_id, lang)
+                            label = f"🔁 {other_name} → {alt_name}  (~{sug['dist_km']:.1f} km)"
+                        st.button(label, key=f"altsug_{sug['kind']}_{sug['alt_id']}",
+                                  on_click=_apply_alt_suggestion, args=(sug["kind"], sug["alt_id"]),
+                                  width="stretch")
             else:
                 st.success(t("found_n_options", lang, n=len(itineraries)))
                 chosen_idx_state = st.session_state.get("chosen_itinerary_idx", 0)
@@ -551,9 +676,11 @@ with tab_map:
                     arrival_txt = (f"{t('expected_arrival', lang)}: <b>{arrival.strftime('%H:%M')}</b>"
                                    if arrival else msg)
                     leg_km = leg_distance_km(leg.route_id, leg.board_stop_id, leg.alight_stop_id)
+                    leg_meta = routes_idx.loc[leg.route_id]
+                    subsidized_html = subsidized_badge(leg_meta, lang)
                     st.markdown(f"""
                     <div class="bus-card">
-                        <span class="route-number">{leg.route_short_name}</span> {status_html}
+                        <span class="route-number">{leg.route_short_name}</span> {status_html} {subsidized_html}
                         <div class="route-name">{route_name}</div>
                         <div class="metric-row">
                             <span>{t('board_at', lang)}: <b>{board_name}</b></span>
@@ -565,6 +692,9 @@ with tab_map:
                             <span>{t('fare_label', lang)}: <b>{format_vnd(leg.fare)}</b></span>
                             <span>{arrival_txt}</span>
                         </div>
+                        <div class="metric-row">
+                            <span>{t('operated_by', lang)}: <b>{leg_meta['operator_name'] or '—'}</b></span>
+                        </div>
                     </div>
                     """, unsafe_allow_html=True)
                     if i < len(chosen.legs) - 1:
@@ -572,12 +702,12 @@ with tab_map:
 
         st.divider()
         with st.expander(f"🚍 {t('browse_by_route', lang)}", expanded=False):
-            route_opts = [MANUAL_SENTINEL] + routes_view["route_id"].tolist()
+            route_opts = [MANUAL_SENTINEL] + routes_df["route_id"].tolist()
 
             def _route_label(rid):
                 if rid == MANUAL_SENTINEL:
                     return "—"
-                row = routes_view[routes_view.route_id == rid].iloc[0]
+                row = routes_idx.loc[rid]
                 active = is_route_active(row["first_departure"], row["last_departure"])
                 dot = "🟢" if active else "⚪"
                 name = row["route_long_name"] if lang == "vi" else row["route_long_name_en"]
@@ -589,16 +719,16 @@ with tab_map:
             if browsed_rid != MANUAL_SENTINEL:
                 if map_focus is None:
                     map_focus = ("route", browsed_rid)
-                r = routes_view[routes_view.route_id == browsed_rid].iloc[0]
+                r = routes_idx.loc[browsed_rid]
                 r_name = r["route_long_name"] if lang == "vi" else r["route_long_name_en"]
                 n_stops = int((route_stops_df.route_id == browsed_rid).sum())
-                dist_km = route_distance_km(browsed_rid)
+                dist_km = r["distance_km"]
                 active = is_route_active(r["first_departure"], r["last_departure"])
                 status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
                                else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
                 st.markdown(f"""
                 <div class="bus-card">
-                    <span class="route-number">{r['route_short_name']}</span> {status_html}
+                    <span class="route-number">{r['route_short_name']}</span> {status_html} {subsidized_badge(r, lang)}
                     <div class="route-name">{r_name}</div>
                     <div class="metric-row">
                         <span>🚏 {n_stops} {t('n_stops_on_route', lang)}</span>
@@ -608,6 +738,7 @@ with tab_map:
                     <div class="metric-row">
                         <span>{t('fare_regular', lang)}: <b>{format_vnd(int(r['fare_regular']))}</b></span>
                         <span>{t('fare_student', lang)}: <b>{format_vnd(int(r['fare_student']))}</b></span>
+                        <span>{t('operated_by', lang)}: <b>{r['operator_name'] or '—'}</b></span>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -629,11 +760,7 @@ with tab_map:
 
             tile = st.session_state.get("_map_tile")
             tile_attr = st.session_state.get("_map_tile_attr")
-            centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83),
-                       "kiengiang": (10.02, 105.08), "all": (10.2, 105.5)}
-            zoom = 12 if city_filter != "all" else 8
-            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom,
-                               tiles=tile, attr=tile_attr)
+            fmap = folium.Map(location=MAP_CENTER, zoom_start=MAP_ZOOM, tiles=tile, attr=tile_attr)
 
             # CSS hieu ung "pulse" (to nho lien tuc) cho marker diem di/den - ve ngay trong
             # tai lieu HTML cua ban do (giong cach lam voi filter dark mode o duoi).
@@ -692,27 +819,26 @@ with tab_map:
                 _pulse_marker(d_latlon, "#dc2626", "🏁", t("destination", lang))
 
             elif map_focus and map_focus[0] == "route":
+                # Chi hien 2 chấm diem dau/cuoi tuyen (giong che do ket qua tim tuyen o
+                # tren) - KHONG ve duong noi, giu ban do gon gang, de nhin.
                 rid = map_focus[1]
                 ordered = finder.ordered_stops(rid)
-                latlons = [(s["lat"], s["lon"]) for s in ordered]
-                all_bounds.extend(latlons)
-                row = routes_view[routes_view.route_id == rid].iloc[0]
-                # Giam bot waypoint truoc khi goi OSRM (tuyen co the co 70+ tram) roi ve
-                # duong di theo duong xa that; loi thi fallback ve noi thang qua cac tram.
-                waypoints = downsample_waypoints(latlons, max_points=12)
-                path = road_path(waypoints)
-                folium.PolyLine(path if path else latlons, color=LEG_COLORS[0], weight=6,
-                                 opacity=0.9, tooltip=str(row["route_short_name"])).add_to(fmap)
+                if ordered:
+                    o_latlon = (ordered[0]["lat"], ordered[0]["lon"])
+                    d_latlon = (ordered[-1]["lat"], ordered[-1]["lon"])
+                    all_bounds.extend([o_latlon, d_latlon])
+                    _pulse_marker(o_latlon, "#16a34a", "🚏", t("origin", lang))
+                    _pulse_marker(d_latlon, "#dc2626", "🏁", t("destination", lang))
                 tracked_route_ids.append(rid)
 
             # Xe buyt mo phong (chi ve khi bat auto-refresh, tranh hieu lam la GPS luon-bat)
             n_buses_shown = 0
             if st.session_state.live_refresh:
                 for rid in tracked_route_ids:
-                    row = routes_df[routes_df.route_id == rid].iloc[0]
+                    row = routes_idx.loc[rid]
                     ordered = finder.ordered_stops(rid)
                     buses = active_buses(rid, str(row["route_short_name"]), str(row["first_departure"]),
-                                          str(row["last_departure"]), int(row["headway_min"]), ordered)
+                                          str(row["last_departure"]), float(row["headway_min"]), ordered)
                     for bus in buses:
                         folium.map.Marker(
                             location=(bus.lat, bus.lon),

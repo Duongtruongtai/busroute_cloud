@@ -1,6 +1,9 @@
 """
 Nap du lieu tu dataset/*.csv len Supabase (Cloud Database).
 
+Du lieu trong dataset/*.csv la du lieu TP.HCM THAT (2026, 74 tuyen), sinh ra boi
+dataset/build_hcm_dataset.py - chay script do TRUOC neu can tai tao lai dataset.
+
 Dieu kien truoc khi chay:
 1. Da tao project Supabase va chay xong database/schema.sql trong SQL Editor.
 2. Da dat 2 bien moi truong (hoac tao file .env va load thu cong):

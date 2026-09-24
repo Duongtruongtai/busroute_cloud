@@ -1,25 +1,75 @@
-route_id,route_short_name,route_long_name,route_long_name_en,city_id,fare_regular,fare_student,headway_min,first_departure,last_departure
-R01,01,Bến Thành - Bến xe Chợ Lớn,Ben Thanh - Cho Lon Bus Station,hcmc,6000,3000,10,05:00,20:30
-R08,08,Bến xe Quận 8 - Đại học Quốc Gia,District 8 - Vietnam National University,hcmc,6000,3000,15,05:00,20:00
-R10,10,Đại học Quốc Gia - Bến xe Chợ Lớn,Vietnam National University - Cho Lon,hcmc,6000,3000,15,05:00,20:00
-R19,19,Bến Thành - Đại học Quốc Gia (qua Suối Tiên),Ben Thanh - VNU-HCM (via Suoi Tien),hcmc,7000,3000,12,05:00,21:00
-R30,30,Bến xe Chợ Lớn - Sân bay Tân Sơn Nhất,Cho Lon - Tan Son Nhat Airport,hcmc,6000,3000,15,05:30,20:00
-R152,152,Sân bay Tân Sơn Nhất - Bến Thành,Tan Son Nhat Airport - Ben Thanh,hcmc,6000,3000,10,05:00,21:30
-R88,88,Bến Thành - Phú Mỹ Hưng,Ben Thanh - Phu My Hung,hcmc,6000,3000,15,05:30,20:00
-R93,93,Bến xe Miền Đông mới - Bến xe Miền Tây,New Mien Dong - Mien Tay Bus Station,hcmc,7000,3000,15,04:30,20:30
-R45,45,Bến Thành - Đại học Sư Phạm,Ben Thanh - HCMC University of Education,hcmc,6000,3000,15,05:00,19:30
-R36,36,Bến xe Miền Tây - Bến Thành,Mien Tay Bus Station - Ben Thanh,hcmc,6000,3000,12,05:00,20:00
-BH01,BH-01,Bến xe Biên Hòa - Chợ Biên Hòa,Bien Hoa Bus Station - Bien Hoa Market,bienhoa,6000,3000,15,05:00,19:30
-BH02,BH-02,Ga Biên Hòa - Đại học Lạc Hồng (qua Nguyễn Ái Quốc),Bien Hoa Railway Station - Lac Hong University (via Nguyen Ai Quoc),bienhoa,8000,3000,20,05:00,19:30
-BH03,BH-03,Ngã tư Vũng Tàu - Ga Biên Hòa (qua KCN Biên Hòa 2),Vung Tau Junction - Bien Hoa Railway Station (via Industrial Park 2),bienhoa,7000,3000,20,05:00,19:00
-BH04,BH-04,Chợ Biên Hòa - Bệnh viện Đa khoa Đồng Nai,Bien Hoa Market - Dong Nai General Hospital,bienhoa,6000,3000,20,05:00,19:30
-BH05,BH-05,Khu công nghiệp Biên Hòa 1 - Vincom Plaza,Industrial Park 1 - Vincom Plaza Bien Hoa,bienhoa,6000,3000,20,05:00,19:00
-KG02,KG-02,Bến xe Rạch Giá - Nguyễn Bỉnh Khiêm - Quốc lộ 80 - Bến xe Tri Tôn,Ben xe Rach Gia - Nguyen Binh Khiem - Quoc lo 80 - Ben xe Tri Ton,kiengiang,30000,15000,60,05:00,18:00
-KG07,KG-07,Dương Đông - Suối Tranh - Dương Tơ,Duong Dong - Suoi Tranh - Duong To,kiengiang,10000,5000,30,05:30,18:30
-KG01,KG-01,Bến xe Kiên Lương - Quốc lộ 80 - Bến xe Tri Tôn,Ben xe Kien Luong - Quoc lo 80 - Ben xe Tri Ton,kiengiang,25000,12000,60,05:00,18:00
-KG06,KG-06,Dương Tơ - Suối Tranh - Dương Đông,Duong To - Suoi Tranh - Duong Dong,kiengiang,10000,5000,30,05:30,18:30
-KG09,KG-09,Ngã 3 Minh Lương - Quốc lộ 61 - Ngã 3 Bến Nhứt - Giồng Riềng,Nga 3 Minh Luong - Quoc lo 61 - Nga 3 Ben Nhut - Giong Rieng,kiengiang,15000,7000,45,05:00,18:00
-KG08,KG-08,Giồng Riềng - Ngã 3 Bến Nhứt - Quốc lộ 61 - Ngã 3 Minh Lương,Giong Rieng - Nga 3 Ben Nhut - Quoc lo 61 - Nga 3 Minh Luong,kiengiang,15000,7000,45,05:00,18:00
-KG05,KG-05,Bến xe Tri Tôn - Quốc lộ 80 - Nguyễn Bỉnh Khiêm - Bến xe Rạch Giá,Ben xe Tri Ton - Quoc lo 80 - Nguyen Binh Khiem - Ben xe Rach Gia,kiengiang,30000,15000,60,05:00,18:00
-KG04,KG-04,Bến xe Tri Tôn - Quốc lộ 80 - Bến xe Kiên Lương,Ben xe Tri Ton - Quoc lo 80 - Ben xe Kien Luong,kiengiang,25000,12000,60,05:00,18:00
-KG03,KG-03,Bến xe Tri Tôn - Bến xe Rạch Giá - Nguyễn Bỉnh Khiêm - Quốc lộ 80,Ben xe Tri Ton - Ben xe Rach Gia - Nguyen Binh Khiem - Quoc lo 80,kiengiang,30000,15000,60,05:00,18:00
+route_id,route_short_name,route_long_name,route_long_name_en,city_id,fare_regular,fare_student,headway_min,first_departure,last_departure,operator_name,is_subsidized,distance_km
+01,01,Ga Ba Son - Bến xe buýt Chợ Lớn,Ga Ba Son - Bến xe buýt Chợ Lớn,hcmc,5000,3000,14.0,05:00,22:00,Cty Phương Trang FutaBusLines,True,9.62
+03,03,Bến Thành - Thạnh Xuân,Bến Thành - Thạnh Xuân,hcmc,6000,3000,10.0,04:00,21:00,Cty Phương Trang FutaBusLines,True,20.6
+04,04,Bến Thành - Cộng Hòa - Bến xe An Sương,Bến Thành - Cộng Hòa - Bến xe An Sương,hcmc,6000,3000,14.0,05:00,22:00,Cty Phương Trang,True,16.42
+SWB1,SWB1,Bạch Đằng - Linh Đông,Bạch Đằng - Linh Đông,hcmc,15000,15000,55.0,07:10,18:20,Cty TNHH Thường Nhật,False,10.8
+MRT1,MRT1,Bến Thành - Suối Tiên,Bến Thành - Suối Tiên,hcmc,6000,3000,15.0,05:00,22:00,Cty TNHH MTV Đường sắt đô thị số 1,True,18.82
+HS-07,HS-07,Đường Rừng Sác - Trường THPT Bình Khánh,Đường Rừng Sác - Trường THPT Bình Khánh,hcmc,0,0,1.0,06:15,16:39,HTX Tân Tiến,True,2.6
+HS-06,HS-06,Bà Xán - Trường THPT Bình Khánh,Bà Xán - Trường THPT Bình Khánh,hcmc,0,0,10.0,06:00,17:11,HTX Tân Tiến,True,7.1
+05,05,Bến xe buýt Chợ Lớn - Bến xe Biên Hòa,Bến xe buýt Chợ Lớn - Bến xe Biên Hòa,hcmc,25000,25000,35.0,04:50,17:50,HTX Quyết Thắng & Cty Vĩnh Phú,False,38.0
+06,06,Bến xe buýt Chợ Lớn - Đại học Nông Lâm,Bến xe buýt Chợ Lớn - Đại học Nông Lâm,hcmc,7000,3000,11.5,04:55,21:00,Cty Xe khách Sài Gòn,True,26.5
+07,07,Bến xe buýt Chợ Lớn - Gò Vấp,Bến xe buýt Chợ Lớn - Gò Vấp,hcmc,6000,3000,15.0,04:00,20:00,Cty Phương Trang,True,15.5
+08,08,Bến xe buýt Quận 8 - Đại học Quốc gia,Bến xe buýt Quận 8 - Đại học Quốc gia,hcmc,7000,3000,9.5,04:30,22:00,Cty Phương Trang,True,32.7
+09,09,Bến xe buýt Chợ Lớn - Bình Chánh - Hưng Long,Bến xe buýt Chợ Lớn - Bình Chánh - Hưng Long,hcmc,7000,3000,11.5,03:45,19:30,Cty Phương Trang,True,25.0
+10,10,Đại học Quốc Gia - Bến xe Miền Tây,Đại học Quốc Gia - Bến xe Miền Tây,hcmc,7000,3000,20.0,04:45,21:00,Cty Xe khách Sài Gòn,True,30.85
+100,100,Bến xe Củ Chi - Cầu Tân Thái,Bến xe Củ Chi - Cầu Tân Thái,hcmc,6000,3000,14.0,04:45,21:00,Cty Phương Trang,True,16.5
+101,101,Bến xe buýt Chợ Lớn - Chợ Tân Nhựt,Bến xe buýt Chợ Lớn - Chợ Tân Nhựt,hcmc,6000,3000,15.0,05:00,20:30,Cty Phương Trang,True,19.85
+102,102,Bến xe buýt Sài Gòn - Nguyễn Văn Linh - Bến xe Miền Tây,Bến xe buýt Sài Gòn - Nguyễn Văn Linh - Bến xe Miền Tây,hcmc,7000,3000,16.0,04:30,19:00,Cty Phương Trang,True,32.72
+103,103,Bến xe buýt Chợ Lớn - Bến xe Ngã tư Ga,Bến xe buýt Chợ Lớn - Bến xe Ngã tư Ga,hcmc,6000,3000,12.5,05:00,20:30,Cty Phương Trang,True,24.9
+104,104,Bến xe An Sương - Bến xe buýt Văn Thánh,Bến xe An Sương - Bến xe buýt Văn Thánh,hcmc,6000,3000,13.0,04:30,22:00,Cty Phương Trang,True,16.1
+107,107,Bến xe Củ Chi - Bố Heo,Bến xe Củ Chi - Bố Heo,hcmc,6000,3000,22.5,04:45,20:00,Cty Phương Trang,True,15.6
+109,109,Bến xe buýt Sài Gòn - Sân bay Tân Sơn Nhất,Bến xe buýt Sài Gòn - Sân bay Tân Sơn Nhất,hcmc,15000,15000,42.5,05:30,22:15,Cty Phương Trang,False,9.3
+110,110,Hiệp Phước - Phước Lộc,Hiệp Phước - Phước Lộc,hcmc,7000,3000,13.5,04:45,20:00,Cty Phương Trang,True,26.3
+122,122,Bến xe An Sương - Tân Quy,Bến xe An Sương - Tân Quy,hcmc,6000,3000,9.0,04:45,19:30,HTX 19/5,True,19.8
+126,126,Bến xe Củ Chi - Bình Mỹ,Bến xe Củ Chi - Bình Mỹ,hcmc,6000,3000,11.5,04:45,20:00,Cty Phương Trang,True,19.4
+127,127,An Thới Đông - Ngã ba Bà Xán,An Thới Đông - Ngã ba Bà Xán,hcmc,6000,3000,19.0,05:00,20:00,Cty Vinbus,True,18.0
+128,128,Tân Điền - An Nghĩa,Tân Điền - An Nghĩa,hcmc,6000,3000,29.0,05:00,20:00,Cty Phương Trang,True,24.9
+13,13,Bến xe buýt Sài Gòn - Bến xe Củ Chi,Bến xe buýt Sài Gòn - Bến xe Củ Chi,hcmc,23000,10000,19.5,04:00,19:45,HTX Quyết Tiến & HTX 19/5,False,36.0
+139,139,Bến xe Miền Tây - Khu Tái Định Cư Phú Mỹ,Bến xe Miền Tây - Khu Tái Định Cư Phú Mỹ,hcmc,6000,3000,15.0,04:45,22:00,Cty Phương Trang,True,22.0
+14,14,Bến xe Miền Đông - Bến xe Miền Tây,Bến xe Miền Đông - Bến xe Miền Tây,hcmc,6000,3000,9.0,04:00,20:30,Cty Phương Trang,True,16.4
+140,140,Bến xe buýt Sài Gòn - Phạm Thế Hiển - Khu dân cư Phú Lợi,Bến xe buýt Sài Gòn - Phạm Thế Hiển - Khu dân cư Phú Lợi,hcmc,6000,3000,16.0,05:00,21:00,Cty Vinbus,True,21.4
+141,141,Khu du lịch BCR - Long Trường - KCX Linh Trung II,Khu du lịch BCR - Long Trường - KCX Linh Trung II,hcmc,6000,3000,11.0,05:00,19:30,Cty Phương Trang,True,21.8
+145,145,Bến xe buýt Chợ Lớn - Chợ Hiệp Thành,Bến xe buýt Chợ Lớn - Chợ Hiệp Thành,hcmc,6000,3000,13.5,04:30,20:30,Cty Phương Trang,True,23.0
+146,146,Bến xe Miền Đông - Chợ Hiệp Thành,Bến xe Miền Đông - Chợ Hiệp Thành,hcmc,6000,3000,12.5,04:45,20:30,Cty Phương Trang,True,19.0
+148,148,Bến xe Miền Tây - Gò Vấp,Bến xe Miền Tây - Gò Vấp,hcmc,6000,3000,15.0,04:45,21:00,Cty Vinbus,True,16.7
+15,15,Chợ Phú Định - Đầm Sen,Chợ Phú Định - Đầm Sen,hcmc,6000,3000,14.0,04:45,21:00,Cty Phương Trang,True,17.1
+150,150,Bến xe buýt Chợ Lớn - Bến xe Miền Đông mới,Bến xe buýt Chợ Lớn - Bến xe Miền Đông mới,hcmc,7000,3000,12.5,04:00,22:00,Cty Vinbus,True,26.6
+151,151,Bến xe Miền Tây - Bến xe An Sương,Bến xe Miền Tây - Bến xe An Sương,hcmc,6000,3000,11.0,04:00,20:00,Cty Phương Trang,True,17.2
+152,152,KDC Trung Sơn - Bến Thành - Sân bay Tân Sơn Nhất,KDC Trung Sơn - Bến Thành - Sân bay Tân Sơn Nhất,hcmc,5000,3000,16.0,05:00,22:00,Cty Phương Trang,True,14.55
+153,153,Bến tàu thủy Bình An - Đường Liên Phường,Bến tàu thủy Bình An - Đường Liên Phường,hcmc,6000,3000,19.0,05:00,22:30,Cty Phương Trang,True,16.7
+154,154,ĐH Quản lý & Công nghệ (UMT) - Masteri An Phú,ĐH Quản lý & Công nghệ (UMT) - Masteri An Phú,hcmc,6000,3000,15.0,05:05,22:10,Cty Phương Trang,True,16.85
+155,155,Ga Bến Thành - Bến Vân Đồn - Ga Nhà hát TP,Ga Bến Thành - Bến Vân Đồn - Ga Nhà hát TP,hcmc,5000,3000,22.5,05:00,22:00,Cty Phương Trang,True,6.4
+156D/V,156D/V,Ga Bến Thành - Ga Hòa Hưng - Bệnh viện Mắt TP.HCM,Ga Bến Thành - Ga Hòa Hưng - Bệnh viện Mắt TP.HCM,hcmc,5000,3000,17.5,05:00,22:05,Cty Phương Trang,True,7.35
+157,157,Bến xe buýt Văn Thánh - KDC Thạnh Mỹ Lợi,Bến xe buýt Văn Thánh - KDC Thạnh Mỹ Lợi,hcmc,6000,3000,12.5,05:00,22:05,Cty Phương Trang,True,15.5
+158,158,Bến xe buýt Văn Thánh - Cư xá Thanh Đa,Bến xe buýt Văn Thánh - Cư xá Thanh Đa,hcmc,5000,3000,12.5,05:00,22:00,Cty Phương Trang,True,9.8
+159,159,Ga Văn Thánh - Điện Biên Phủ - Ga Tân Cảng,Ga Văn Thánh - Điện Biên Phủ - Ga Tân Cảng,hcmc,5000,3000,20.0,05:00,22:00,Cty Phương Trang,True,7.0
+16,16,Bến xe buýt Chợ Lớn - Bến xe buýt Tân Phú,Bến xe buýt Chợ Lớn - Bến xe buýt Tân Phú,hcmc,6000,3000,16.0,05:00,19:00,Cty Phương Trang,True,16.8
+160,160,Ga Văn Thánh - Vinhomes Central Park,Ga Văn Thánh - Vinhomes Central Park,hcmc,5000,3000,17.5,05:00,22:00,Cty Phương Trang,True,4.1
+161,161,Bến xe buýt Văn Thánh - Bến xe Ngã tư Ga,Bến xe buýt Văn Thánh - Bến xe Ngã tư Ga,hcmc,6000,3000,11.5,05:00,22:05,Cty Phương Trang,True,15.25
+162,162,Ga Thủ Đức - Chung cư Man Thiện - Ga Bình Thái,Ga Thủ Đức - Chung cư Man Thiện - Ga Bình Thái,hcmc,5000,3000,12.5,05:00,22:05,Cty Phương Trang,True,10.0
+163D/V,163D/V,Ga Bình Thái - THCS Phước Bình - Cao đẳng Công Thương,Ga Bình Thái - THCS Phước Bình - Cao đẳng Công Thương,hcmc,5000,3000,12.5,05:00,22:00,Cty Phương Trang,True,8.0
+164D/V,164D/V,ĐH Nông Lâm - Ga Metro KCNC - Chung cư Topaz,ĐH Nông Lâm - Ga Metro KCNC - Chung cư Topaz,hcmc,5000,3000,12.5,05:00,22:00,Cty Phương Trang,True,10.4
+165,165,Đại học Nông Lâm - Khu Công nghệ cao,Đại học Nông Lâm - Khu Công nghệ cao,hcmc,6000,3000,12.5,05:00,22:00,Cty Phương Trang,True,16.0
+166,166,Đại học Quốc Gia - Suối Tiên,Đại học Quốc Gia - Suối Tiên,hcmc,5000,3000,11.5,05:00,22:00,Cty Phương Trang,True,6.6
+167D/V,167D/V,ĐH Hutech - Ga KCNC - ĐH Kinh tế Luật - KCX Linh Trung 1,ĐH Hutech - Ga KCNC - ĐH Kinh tế Luật - KCX Linh Trung 1,hcmc,5000,3000,11.0,05:00,22:00,Cty Phương Trang,True,13.5
+168D/V,168D/V,ĐH Ngân Hàng - Ga Thủ Đức - Nhà Thiếu nhi TP Thủ Đức,ĐH Ngân Hàng - Ga Thủ Đức - Nhà Thiếu nhi TP Thủ Đức,hcmc,5000,3000,12.5,05:00,22:00,Cty Phương Trang,True,6.1
+169D/V,169D/V,Ga Metro Bình Thái - Vincom Thủ Đức - Cảng Phúc Long,Ga Metro Bình Thái - Vincom Thủ Đức - Cảng Phúc Long,hcmc,5000,3000,12.5,05:00,22:05,Cty Phương Trang,True,7.7
+170,170,Bến xe buýt khu A - Bến xe buýt khu B (ĐH Quốc Gia),Bến xe buýt khu A - Bến xe buýt khu B (ĐH Quốc Gia),hcmc,6000,3000,11.5,05:00,22:00,Cty Phương Trang,True,15.45
+171,171,Bến xe Phú Chánh - TTHC Bình Dương - Bến Thành,Bến xe Phú Chánh - TTHC Bình Dương - Bến Thành,hcmc,40000,40000,37.5,05:00,20:00,Cty Phương Trang,False,46.0
+172,172,Bến xe Vũng Tàu - TTHC Bà Rịa Vũng Tàu - Bến Thành,Bến xe Vũng Tàu - TTHC Bà Rịa Vũng Tàu - Bến Thành,hcmc,70000,70000,30.0,04:00,21:30,Cty Phương Trang,False,97.0
+173,173,Trung tâm Côn Đảo - Cỏ Ống,Trung tâm Côn Đảo - Cỏ Ống,hcmc,25000,25000,12.5,04:15,19:00,Cty Tập đoàn Côn Đảo,False,17.1
+18,18,Bến Thành - Chợ Hiệp Thành,Bến Thành - Chợ Hiệp Thành,hcmc,6000,3000,11.5,04:30,22:00,Cty Phương Trang,True,22.73
+19,19,Bến Thành - KCX Linh Trung - Đại học Quốc gia,Bến Thành - KCX Linh Trung - Đại học Quốc gia,hcmc,7000,3000,10.0,05:00,20:15,HTX 19/5,True,27.43
+20,20,Bến Thành - Nhà Bè,Bến Thành - Nhà Bè,hcmc,6000,3000,11.0,04:20,21:15,Cty Vận tải 26,True,16.93
+22,22,Bến xe buýt Quận 8 - Bến xe buýt Lê Minh Xuân,Bến xe buýt Quận 8 - Bến xe buýt Lê Minh Xuân,hcmc,6000,3000,16.0,04:20,21:00,Cty Phương Trang,True,24.9
+23,23,Bến xe buýt Chợ Lớn - Ngã ba Giồng - Cầu Lớn,Bến xe buýt Chợ Lớn - Ngã ba Giồng - Cầu Lớn,hcmc,6000,3000,12.5,04:00,20:30,Cty Phương Trang,True,23.45
+24,24,Bến xe Miền Đông - Hóc Môn,Bến xe Miền Đông - Hóc Môn,hcmc,7000,3000,8.5,04:00,20:30,Cty Phương Trang,True,27.2
+25,25,Bến Xe buýt Quận 8 - Khu dân cư Vĩnh Lộc A,Bến Xe buýt Quận 8 - Khu dân cư Vĩnh Lộc A,hcmc,6000,3000,15.0,04:30,21:00,Cty Phương Trang,True,22.3
+27,27,Bến xe buýt Sài Gòn - Âu Cơ - Bến xe An Sương,Bến xe buýt Sài Gòn - Âu Cơ - Bến xe An Sương,hcmc,6000,3000,12.5,04:45,21:00,Cty Phương Trang,True,15.6
+28,28,Bến xe buýt Sài Gòn - Chợ Xuân Thới Thượng,Bến xe buýt Sài Gòn - Chợ Xuân Thới Thượng,hcmc,7000,3000,12.5,04:45,20:30,Cty Phương Trang,True,26.45
+29,29,Phà Cát Lái - Chợ nông sản Thủ Đức,Phà Cát Lái - Chợ nông sản Thủ Đức,hcmc,6000,3000,11.5,05:00,19:30,Cty Phương Trang,True,20.75
+30,30,Chợ Tân Hương - Bến xe buýt Văn Thánh,Chợ Tân Hương - Bến xe buýt Văn Thánh,hcmc,6000,3000,15.0,05:00,22:00,Cty Phương Trang,True,18.3
+31,31,Đại Học Tôn Đức Thắng - Bến Thành - Đại học Văn Lang,Đại Học Tôn Đức Thắng - Bến Thành - Đại học Văn Lang,hcmc,6000,3000,15.0,05:00,22:00,Cty Phương Trang,True,21.27
+32,32,Bến xe Miền Tây - Bến xe Ngã tư Ga,Bến xe Miền Tây - Bến xe Ngã tư Ga,hcmc,6000,3000,9.0,04:00,21:00,Cty Vinbus,True,24.8
+33,33,Bến xe An Sương - Suối Tiên - Đại học Quốc gia,Bến xe An Sương - Suối Tiên - Đại học Quốc gia,hcmc,6000,3000,9.5,04:30,22:00,Cty Vinbus,True,25.0
+34,34,Bến xe buýt Sài Gòn - Bến xe buýt Quận 8,Bến xe buýt Sài Gòn - Bến xe buýt Quận 8,hcmc,6000,3000,15.0,04:45,22:00,Cty Phương Trang,True,20.4

@@ -38,7 +38,7 @@ class Leg:
     alight_offset_min: float
     ride_minutes: float
     fare: int
-    headway_min: int
+    headway_min: float
     first_departure: str
     last_departure: str
 
@@ -144,7 +144,7 @@ class RouteFinder:
             alight_offset_min=d_off,
             ride_minutes=abs(d_off - o_off),
             fare=self._fare(route_id, fare_type),
-            headway_min=int(route["headway_min"]),
+            headway_min=float(route["headway_min"]),
             first_departure=str(route["first_departure"]),
             last_departure=str(route["last_departure"]),
         )

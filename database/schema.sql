@@ -25,13 +25,22 @@ create table if not exists routes (
     route_long_name_en text,
     fare_regular       integer not null,
     fare_student       integer not null,
-    headway_min        integer not null,
+    headway_min        numeric not null,
     first_departure    text not null,   -- 'HH:MM'
     last_departure     text not null,   -- 'HH:MM'
-    city_id             text not null default 'hcmc'
+    city_id             text not null default 'hcmc',
+    operator_name      text,
+    is_subsidized      boolean not null default true,
+    distance_km        numeric
 );
 alter table routes add column if not exists route_long_name_en text;
 alter table routes add column if not exists city_id text not null default 'hcmc';
+alter table routes add column if not exists operator_name text;
+alter table routes add column if not exists is_subsidized boolean not null default true;
+alter table routes add column if not exists distance_km numeric;
+-- headway_min doi tu integer sang numeric: du lieu thuc TP.HCM 2026 co gia tri
+-- le nhu 12,5 / 17,5 phut, khong the lam tron nguyen ma khong mat thong tin.
+alter table routes alter column headway_min type numeric using headway_min::numeric;
 
 -- Bang quan he tuyen - tram (thu tu tram tren moi tuyen + thoi gian tich luy)
 create table if not exists route_stops (
@@ -42,8 +51,8 @@ create table if not exists route_stops (
     offset_min     numeric not null,
     unique (route_id, stop_sequence)
 );
--- offset_min doi tu integer sang numeric: tuyen thuc te (vd Kien Giang, 70+ tram)
--- can do phan giai theo phut le, khong the lam tron nguyen ma khong bi trung gia tri.
+-- offset_min doi tu integer sang numeric: tuyen thuc te can do phan giai theo
+-- phut le, khong the lam tron nguyen ma khong bi trung gia tri.
 alter table route_stops alter column offset_min type numeric using offset_min::numeric;
 
 create index if not exists idx_route_stops_route on route_stops (route_id);

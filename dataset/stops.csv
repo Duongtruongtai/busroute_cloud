@@ -1,427 +1,291 @@
 stop_id,stop_name,stop_name_en,lat,lon,is_hub,city_id
-BEN_THANH,Chợ Bến Thành,Ben Thanh Market,10.7724,106.698,1,hcmc
-R01_S2,Trần Hưng Đạo - Trạm 1 (tuyến 01),Tran Hung Dao St. - Stop 1 (Route 01),10.766625,106.6863,0,hcmc
-R01_S3,Trần Hưng Đạo - Trạm 2 (tuyến 01),Tran Hung Dao St. - Stop 2 (Route 01),10.76085,106.6746,0,hcmc
-R01_S4,Trần Hưng Đạo - Trạm 3 (tuyến 01),Tran Hung Dao St. - Stop 3 (Route 01),10.755075,106.6629,0,hcmc
-CHO_LON,Bến xe Chợ Lớn,Cho Lon Bus Station,10.7493,106.6512,1,hcmc
-Q8,Bến xe Quận 8,District 8 Bus Station,10.7385,106.665,1,hcmc
-R08_S2,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 1 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 1 (Route 08),10.746975,106.67325,0,hcmc
-R08_S3,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 2 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 2 (Route 08),10.75545,106.6815,0,hcmc
-R08_S4,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 3 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 3 (Route 08),10.763925,106.68975,0,hcmc
-R08_S6,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 1 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 1 (Route 08),10.7968,106.72425,0,hcmc
-R08_S7,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 2 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 2 (Route 08),10.8212,106.7505,0,hcmc
-R08_S8,Nguyễn Thị Thập - Xa lộ Hà Nội - Trạm 3 (tuyến 08),Nguyen Thi Thap - Ha Noi Highway - Stop 3 (Route 08),10.8456,106.77675,0,hcmc
-DHQG,Đại học Quốc Gia TP.HCM,Vietnam National University HCMC,10.87,106.803,1,hcmc
-R10_S2,Lý Thường Kiệt - Trạm 1 (tuyến 10),Ly Thuong Kiet St. - Stop 1 (Route 10),10.845625,106.766675,0,hcmc
-R10_S3,Lý Thường Kiệt - Trạm 2 (tuyến 10),Ly Thuong Kiet St. - Stop 2 (Route 10),10.82125,106.73035,0,hcmc
-R10_S4,Lý Thường Kiệt - Trạm 3 (tuyến 10),Ly Thuong Kiet St. - Stop 3 (Route 10),10.796875,106.694025,0,hcmc
-BACH_KHOA,Đại học Bách Khoa,HCMC University of Technology,10.7725,106.6577,1,hcmc
-R10_S6,Lý Thường Kiệt - Trạm 1 (tuyến 10),Ly Thuong Kiet St. - Stop 1 (Route 10),10.7667,106.656075,0,hcmc
-R10_S7,Lý Thường Kiệt - Trạm 2 (tuyến 10),Ly Thuong Kiet St. - Stop 2 (Route 10),10.7609,106.65445,0,hcmc
-R10_S8,Lý Thường Kiệt - Trạm 3 (tuyến 10),Ly Thuong Kiet St. - Stop 3 (Route 10),10.7551,106.652825,0,hcmc
-R19_S2,Xa lộ Hà Nội - Trạm 1 (tuyến 19),Ha Noi Highway - Stop 1 (Route 19),10.79038,106.71884,0,hcmc
-R19_S3,Xa lộ Hà Nội - Trạm 2 (tuyến 19),Ha Noi Highway - Stop 2 (Route 19),10.80836,106.73968,0,hcmc
-R19_S4,Xa lộ Hà Nội - Trạm 3 (tuyến 19),Ha Noi Highway - Stop 3 (Route 19),10.82634,106.76052,0,hcmc
-R19_S5,Xa lộ Hà Nội - Trạm 4 (tuyến 19),Ha Noi Highway - Stop 4 (Route 19),10.84432,106.78136,0,hcmc
-SUOI_TIEN,Khu du lịch Suối Tiên,Suoi Tien Tourist Park,10.8623,106.8022,1,hcmc
-R19_S7,Xa lộ Hà Nội - Trạm 1 (tuyến 19),Ha Noi Highway - Stop 1 (Route 19),10.86384,106.80236,0,hcmc
-R19_S8,Xa lộ Hà Nội - Trạm 2 (tuyến 19),Ha Noi Highway - Stop 2 (Route 19),10.86538,106.80252,0,hcmc
-R19_S9,Xa lộ Hà Nội - Trạm 3 (tuyến 19),Ha Noi Highway - Stop 3 (Route 19),10.86692,106.80268,0,hcmc
-R19_S10,Xa lộ Hà Nội - Trạm 4 (tuyến 19),Ha Noi Highway - Stop 4 (Route 19),10.86846,106.80284,0,hcmc
-R30_S2,Lý Thường Kiệt - Trường Chinh - Trạm 1 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 1 (Route 30),10.7667,106.6514,0,hcmc
-R30_S3,Lý Thường Kiệt - Trường Chinh - Trạm 2 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 2 (Route 30),10.7841,106.6516,0,hcmc
-R30_S4,Lý Thường Kiệt - Trường Chinh - Trạm 3 (tuyến 30),Ly Thuong Kiet - Truong Chinh St. - Stop 3 (Route 30),10.8015,106.6518,0,hcmc
-TSN,Sân bay Tân Sơn Nhất,Tan Son Nhat Airport,10.8189,106.652,1,hcmc
-R152_S2,Trường Sơn - Nguyễn Văn Trỗi - Trạm 1 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 1 (Route 152),10.807275,106.6635,0,hcmc
-R152_S3,Trường Sơn - Nguyễn Văn Trỗi - Trạm 2 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 2 (Route 152),10.79565,106.675,0,hcmc
-R152_S4,Trường Sơn - Nguyễn Văn Trỗi - Trạm 3 (tuyến 152),Truong Son - Nguyen Van Troi St. - Stop 3 (Route 152),10.784025,106.6865,0,hcmc
-R88_S2,Nguyễn Hữu Thọ - Trạm 1 (tuyến 88),Nguyen Huu Tho St. - Stop 1 (Route 88),10.761575,106.703075,0,hcmc
-R88_S3,Nguyễn Hữu Thọ - Trạm 2 (tuyến 88),Nguyen Huu Tho St. - Stop 2 (Route 88),10.75075,106.70815,0,hcmc
-R88_S4,Nguyễn Hữu Thọ - Trạm 3 (tuyến 88),Nguyen Huu Tho St. - Stop 3 (Route 88),10.739925,106.713225,0,hcmc
-PMH,Khu đô thị Phú Mỹ Hưng,Phu My Hung Urban Area,10.7291,106.7183,1,hcmc
-MIEN_DONG,Bến xe Miền Đông mới,New Mien Dong Bus Station,10.8657,106.7735,1,hcmc
-R93_S2,Điện Biên Phủ - Trạm 1 (tuyến 93),Dien Bien Phu St. - Stop 1 (Route 93),10.84704,106.7584,0,hcmc
-R93_S3,Điện Biên Phủ - Trạm 2 (tuyến 93),Dien Bien Phu St. - Stop 2 (Route 93),10.82838,106.7433,0,hcmc
-R93_S4,Điện Biên Phủ - Trạm 3 (tuyến 93),Dien Bien Phu St. - Stop 3 (Route 93),10.80972,106.7282,0,hcmc
-R93_S5,Điện Biên Phủ - Trạm 4 (tuyến 93),Dien Bien Phu St. - Stop 4 (Route 93),10.79106,106.7131,0,hcmc
-R93_S7,Điện Biên Phủ - Trạm 1 (tuyến 93),Dien Bien Phu St. - Stop 1 (Route 93),10.76588,106.682,0,hcmc
-R93_S8,Điện Biên Phủ - Trạm 2 (tuyến 93),Dien Bien Phu St. - Stop 2 (Route 93),10.75936,106.666,0,hcmc
-R93_S9,Điện Biên Phủ - Trạm 3 (tuyến 93),Dien Bien Phu St. - Stop 3 (Route 93),10.75284,106.65,0,hcmc
-R93_S10,Điện Biên Phủ - Trạm 4 (tuyến 93),Dien Bien Phu St. - Stop 4 (Route 93),10.74632,106.634,0,hcmc
-MIEN_TAY,Bến xe Miền Tây,Mien Tay Bus Station,10.7398,106.618,1,hcmc
-R45_S2,Cách Mạng Tháng 8 - Trạm 1 (tuyến 45),Cach Mang Thang 8 St. - Stop 1 (Route 45),10.768233,106.692733,0,hcmc
-R45_S3,Cách Mạng Tháng 8 - Trạm 2 (tuyến 45),Cach Mang Thang 8 St. - Stop 2 (Route 45),10.764067,106.687467,0,hcmc
-SU_PHAM,Đại học Sư Phạm TP.HCM,HCMC University of Education,10.7599,106.6822,1,hcmc
-R36_S2,Hùng Vương - Trạm 1 (tuyến 36),Hung Vuong St. - Stop 1 (Route 36),10.7471,106.6367,0,hcmc
-R36_S3,Hùng Vương - Trạm 2 (tuyến 36),Hung Vuong St. - Stop 2 (Route 36),10.7544,106.6554,0,hcmc
-R36_S4,Hùng Vương - Trạm 3 (tuyến 36),Hung Vuong St. - Stop 3 (Route 36),10.7617,106.6741,0,hcmc
-CV_23_9,Công viên 23/9,23/9 Park,10.769,106.6928,1,hcmc
-R36_S6,Hùng Vương - Trạm 1 (tuyến 36),Hung Vuong St. - Stop 1 (Route 36),10.76985,106.6941,0,hcmc
-R36_S7,Hùng Vương - Trạm 2 (tuyến 36),Hung Vuong St. - Stop 2 (Route 36),10.7707,106.6954,0,hcmc
-R36_S8,Hùng Vương - Trạm 3 (tuyến 36),Hung Vuong St. - Stop 3 (Route 36),10.77155,106.6967,0,hcmc
-BX_BIEN_HOA,Bến xe Biên Hòa,Bien Hoa Bus Station,10.942,106.846,1,bienhoa
-BH01_S2,Cách Mạng Tháng Tám - Trạm 1 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 1 (Route BH-01),10.9407,106.8469,0,bienhoa
-BH01_S3,Cách Mạng Tháng Tám - Trạm 2 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 2 (Route BH-01),10.9394,106.8478,0,bienhoa
-BH01_S4,Cách Mạng Tháng Tám - Trạm 3 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 3 (Route BH-01),10.9381,106.8487,0,bienhoa
-GA_BIEN_HOA,Ga Biên Hòa,Bien Hoa Railway Station,10.9368,106.8496,1,bienhoa
-BH01_S6,Cách Mạng Tháng Tám - Trạm 1 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 1 (Route BH-01),10.938775,106.843075,0,bienhoa
-BH01_S7,Cách Mạng Tháng Tám - Trạm 2 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 2 (Route BH-01),10.94075,106.83655,0,bienhoa
-BH01_S8,Cách Mạng Tháng Tám - Trạm 3 (tuyến BH-01),Cach Mang Thang Tam St. - Stop 3 (Route BH-01),10.942725,106.830025,0,bienhoa
-CHO_BIEN_HOA,Chợ Biên Hòa,Bien Hoa Market,10.9447,106.8235,1,bienhoa
-BH02_S2,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.949533,106.852733,0,bienhoa
-BH02_S3,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.962267,106.855867,0,bienhoa
-TRUONG_NGUYEN_TRI_PHUONG,Trường Nguyễn Tri Phương (đường Nguyễn Ái Quốc),Nguyen Tri Phuong School (Nguyen Ai Quoc St.),10.975,106.859,1,bienhoa
-BH02_S5,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.964,106.854667,0,bienhoa
-BH02_S6,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.953,106.850333,0,bienhoa
-BH02_S8,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.944333,106.840333,0,bienhoa
-BH02_S9,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.946667,106.834667,0,bienhoa
-CV_BIEN_HUNG,Công viên Biên Hùng,Bien Hung Park,10.949,106.829,1,bienhoa
-BH02_S11,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.949,106.830333,0,bienhoa
-BH02_S12,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.949,106.831667,0,bienhoa
-DH_DONG_NAI,Đại học Đồng Nai,Dong Nai University,10.949,106.833,1,bienhoa
-BH02_S14,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 1 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 1 (Route BH-02),10.9511,106.8247,0,bienhoa
-BH02_S15,Nguyễn Ái Quốc - Huỳnh Văn Nghệ - Trạm 2 (tuyến BH-02),Nguyen Ai Quoc - Huynh Van Nghe St. - Stop 2 (Route BH-02),10.9532,106.8164,0,bienhoa
-DH_LAC_HONG,Đại học Lạc Hồng,Lac Hong University,10.9553,106.8081,1,bienhoa
-NGA_TU_VUNG_TAU,Ngã tư Vũng Tàu,Vung Tau Junction,10.9633,106.8636,1,bienhoa
-BH03_S2,Đồng Khởi - Trạm 1 (tuyến BH-03),Dong Khoi St. - Stop 1 (Route BH-03),10.96185,106.861575,0,bienhoa
-BH03_S3,Đồng Khởi - Trạm 2 (tuyến BH-03),Dong Khoi St. - Stop 2 (Route BH-03),10.9604,106.85955,0,bienhoa
-BH03_S4,Đồng Khởi - Trạm 3 (tuyến BH-03),Dong Khoi St. - Stop 3 (Route BH-03),10.95895,106.857525,0,bienhoa
-KCN_BIEN_HOA_2,Khu công nghiệp Biên Hòa 2,Bien Hoa Industrial Park 2,10.9575,106.8555,1,bienhoa
-BH03_S6,Đồng Khởi - Trạm 1 (tuyến BH-03),Dong Khoi St. - Stop 1 (Route BH-03),10.952325,106.854025,0,bienhoa
-BH03_S7,Đồng Khởi - Trạm 2 (tuyến BH-03),Dong Khoi St. - Stop 2 (Route BH-03),10.94715,106.85255,0,bienhoa
-BH03_S8,Đồng Khởi - Trạm 3 (tuyến BH-03),Dong Khoi St. - Stop 3 (Route BH-03),10.941975,106.851075,0,bienhoa
-BH04_S2,Đồng Khởi - Trạm 1 (tuyến BH-04),Dong Khoi St. - Stop 1 (Route BH-04),10.945775,106.825875,0,bienhoa
-BH04_S3,Đồng Khởi - Trạm 2 (tuyến BH-04),Dong Khoi St. - Stop 2 (Route BH-04),10.94685,106.82825,0,bienhoa
-BH04_S4,Đồng Khởi - Trạm 3 (tuyến BH-04),Dong Khoi St. - Stop 3 (Route BH-04),10.947925,106.830625,0,bienhoa
-BH04_S6,Đồng Khởi - Trạm 1 (tuyến BH-04),Dong Khoi St. - Stop 1 (Route BH-04),10.948325,106.8344,0,bienhoa
-BH04_S7,Đồng Khởi - Trạm 2 (tuyến BH-04),Dong Khoi St. - Stop 2 (Route BH-04),10.94765,106.8358,0,bienhoa
-BH04_S8,Đồng Khởi - Trạm 3 (tuyến BH-04),Dong Khoi St. - Stop 3 (Route BH-04),10.946975,106.8372,0,bienhoa
-BV_DONG_NAI,Bệnh viện Đa khoa Đồng Nai,Dong Nai General Hospital,10.9463,106.8386,1,bienhoa
-KCN_BIEN_HOA_1,Khu công nghiệp Biên Hòa 1,Bien Hoa Industrial Park 1,10.931,106.833,1,bienhoa
-BH05_S2,Bùi Văn Hòa - Đồng Khởi - Trạm 1 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 1 (Route BH-05),10.9355,106.832,0,bienhoa
-BH05_S3,Bùi Văn Hòa - Đồng Khởi - Trạm 2 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 2 (Route BH-05),10.94,106.831,0,bienhoa
-BH05_S4,Bùi Văn Hòa - Đồng Khởi - Trạm 3 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 3 (Route BH-05),10.9445,106.83,0,bienhoa
-BH05_S6,Bùi Văn Hòa - Đồng Khởi - Trạm 1 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 1 (Route BH-05),10.949,106.832375,0,bienhoa
-BH05_S7,Bùi Văn Hòa - Đồng Khởi - Trạm 2 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 2 (Route BH-05),10.949,106.83575,0,bienhoa
-BH05_S8,Bùi Văn Hòa - Đồng Khởi - Trạm 3 (tuyến BH-05),Bui Van Hoa - Dong Khoi St. - Stop 3 (Route BH-05),10.949,106.839125,0,bienhoa
-VINCOM_BIEN_HOA,Vincom Plaza Biên Hòa,Vincom Plaza Bien Hoa,10.949,106.8425,1,bienhoa
-KG_HUB_RACHGIA,Bến xe Rạch Giá,Ben xe Rach Gia,10.018717,105.083044,1,kiengiang
-KG02_ID39,Km0+250 Nguyễn Bỉnh Khiêm,Km0+250 Nguyen Binh Khiem,10.022064,105.07999,0,kiengiang
-KG02_ID40,Km0+500 Nguyễn Bỉnh Khiêm,Km0+500 Nguyen Binh Khiem,10.022338,105.07974,0,kiengiang
-KG02_ID46,Km12+550 số 782,Km12+550 so 782,10.035547,105.067689,0,kiengiang
-KG02_ID47,Km12+850,Km12+850,10.035876,105.067389,0,kiengiang
-KG02_ID151,Trạm trước Honda Diệp Bình Km45+500,Tram truoc Honda Diep Binh Km45+500,10.071666,105.034734,0,kiengiang
-KG02_ID41,Nhà chờ gần Cây xăng số 2,Nha cho gan Cay xang so 2,10.088547,105.019332,0,kiengiang
-KG02_ID42,"Km121+300, số 426","Km121+300, so 426",10.154757,104.958924,0,kiengiang
-KG02_ID43,"Km121+300, số 426","Km121+300, so 426",10.154757,104.958924,0,kiengiang
-KG02_ID44,Km122,Km122,10.155524,104.958224,0,kiengiang
-KG02_ID45,Km122+200,Km122+200,10.155743,104.958024,0,kiengiang
-KG02_ID48,Gần km123+100,Gan km123+100,10.15673,104.957124,0,kiengiang
-KG02_ID49,Số 1044 gần Km123+450,So 1044 gan Km123+450,10.157114,104.956774,0,kiengiang
-KG02_ID50,Trạm trước Phế liệu Phát Đạt số 1164,Tram truoc Phe lieu Phat Dat so 1164,10.157278,104.956624,0,kiengiang
-KG02_ID51,Km123+750,Km123+750,10.157442,104.956474,0,kiengiang
-KG02_ID52,Km124+500,Km124+500,10.158265,104.955724,0,kiengiang
-KG02_ID53,Trạm trước Uốn tóc Như Thảo số 38,Tram truoc Uon toc Nhu Thao so 38,10.158621,104.955398,0,kiengiang
-KG02_ID54,Trạm gần Km125+150,Tram gan Km125+150,10.158977,104.955073,0,kiengiang
-KG02_ID55,Km125+900,Km125+900,10.159799,104.954323,0,kiengiang
-KG02_ID56,Trạm trước Honda Thành Tâm gần Km126+400,Tram truoc Honda Thanh Tam gan Km126+400,10.160347,104.953823,0,kiengiang
-KG02_ID57,Nhà chờ Km126+900,Nha cho Km126+900,10.160895,104.953323,0,kiengiang
-KG02_ID58,Trạm gần Km127+400,Tram gan Km127+400,10.161444,104.952823,0,kiengiang
-KG02_ID59,Trạm gần Km128,Tram gan Km128,10.162101,104.952223,0,kiengiang
-KG02_ID60,Km128+300,Km128+300,10.16243,104.951923,0,kiengiang
-KG02_ID61,Km128+950,Km128+950,10.163143,104.951273,0,kiengiang
-KG02_ID62,Trạm đối diện doanh trại quân đội gần Km129+500,Tram doi dien doanh trai quan doi gan Km129+500,10.163746,104.950723,0,kiengiang
-KG02_ID63,Km130,Km130,10.164294,104.950223,0,kiengiang
-KG02_ID64,Trạm đối diện Trường Trung học Mỹ Hưng,Tram doi dien Truong Trung hoc My Hung,10.164732,104.949823,0,kiengiang
-KG02_ID65,Km130+800,Km130+800,10.165171,104.949423,0,kiengiang
-KG02_ID66,Km131+500,Km131+500,10.165938,104.948723,0,kiengiang
-KG02_ID67,Km131+900,Km131+900,10.166376,104.948323,0,kiengiang
-KG02_ID68,Trạm đối diện gần Km132+500,Tram doi dien gan Km132+500,10.167034,104.947722,0,kiengiang
-KG02_ID69,Trạm gần Km133,Tram gan Km133,10.167582,104.947222,0,kiengiang
-KG02_ID72,Trạm gần Km133+500,Tram gan Km133+500,10.16813,104.946722,0,kiengiang
-KG02_ID70,Trạm gần Km133+600 Kho Hải Sơn,Tram gan Km133+600 Kho Hai Son,10.16824,104.946622,0,kiengiang
-KG02_ID71,Km134,Km134,10.168678,104.946222,0,kiengiang
-KG02_ID73,Nhà chờ trước Bưu điện Sóc Xoài,Nha cho truoc Buu dien Soc Xoai,10.169309,104.945647,0,kiengiang
-KG02_ID74,Trạm gần Km135+650 Honda Bảy Xem,Tram gan Km135+650 Honda Bay Xem,10.170487,104.944572,0,kiengiang
-KG02_ID75,Trạm gần Km135+850,Tram gan Km135+850,10.170706,104.944372,0,kiengiang
-KG02_ID131,Trạm đối diện Km136+200 tạp hóa Minh Trí,Tram doi dien Km136+200 tap hoa Minh Tri,10.17109,104.944022,0,kiengiang
-KG02_ID132,Trạm đối diện Km136+400,Tram doi dien Km136+400,10.171309,104.943822,0,kiengiang
-KG02_ID133,Trạm gần Km136+900,Tram gan Km136+900,10.171857,104.943322,0,kiengiang
-KG02_ID134,Trạm đối diện Km137+500,Tram doi dien Km137+500,10.172515,104.942722,0,kiengiang
-KG02_ID135,Trạm đối diện Trường TH Sơn Kiên,Tram doi dien Truong TH Son Kien,10.173173,104.942122,0,kiengiang
-KG02_ID136,Trạm gần Km138+700,Tram gan Km138+700,10.17383,104.941522,0,kiengiang
-KG02_ID137,Trạm trước Cà phê Quỳnh Nga Km139,Tram truoc Ca phe Quynh Nga Km139,10.174159,104.941222,0,kiengiang
-KG02_ID138,Trạm gần Km139+400,Tram gan Km139+400,10.174598,104.940821,0,kiengiang
-KG02_ID139,Km140,Km140,10.175255,104.940221,0,kiengiang
-KG02_ID140,Km140+350,Km140+350,10.175639,104.939871,0,kiengiang
-KG02_ID141,Km141,Km141,10.176352,104.939221,0,kiengiang
-KG02_ID142,Trạm gần Km141+500 Phân bón Vạn Lợi,Tram gan Km141+500 Phan bon Van Loi,10.1769,104.938721,0,kiengiang
-KG02_ID143,Trạm gần Km142,Tram gan Km142,10.177448,104.938221,0,kiengiang
-KG02_ID144,Trạm gần Km142+500,Tram gan Km142+500,10.177996,104.937721,0,kiengiang
-KG02_ID145,Km143,Km143,10.178544,104.937221,0,kiengiang
-KG02_ID146,Trạm đối diện gần Km143+500,Tram doi dien gan Km143+500,10.179092,104.936721,0,kiengiang
-KG02_ID147,Trạm đối diện Km143+700,Tram doi dien Km143+700,10.179311,104.936521,0,kiengiang
-KG02_ID148,Trạm gần đối diện Km144+200,Tram gan doi dien Km144+200,10.179859,104.936021,0,kiengiang
-KG02_ID149,Trạm đối diện Nghĩa trang Hòn Đất,Tram doi dien Nghia trang Hon Dat,10.180298,104.935621,0,kiengiang
-KG02_ID150,Trạm gần Km145,Tram gan Km145,10.180736,104.935221,0,kiengiang
-KG02_ID152,Nhà chờ gần Km145+800,Nha cho gan Km145+800,10.181613,104.934421,0,kiengiang
-KG02_ID153,Km146,Km146,10.181833,104.934221,0,kiengiang
-KG02_ID154,Km146+500,Km146+500,10.182381,104.93372,0,kiengiang
-KG02_ID155,Km146+800,Km146+800,10.18271,104.93342,0,kiengiang
-KG_HUB_TRITON,Bến xe Tri Tôn,Ben xe Tri Ton,10.186056,104.930367,1,kiengiang
-KG_HUB_DUONGDONG,Bến xe Dương Đông,Ben xe Duong Dong,10.182596,103.972223,1,kiengiang
-KG07_ID12,Điểm dừng đón - trả khách - Điểm 01,Diem dung don - tra khach - Diem 01,10.182297,103.972248,0,kiengiang
-KG07_ID13,Điểm dừng đón - trả khách - Điểm 02,Diem dung don - tra khach - Diem 02,10.179425,103.972481,0,kiengiang
-KG07_ID14,Điểm dừng đón - trả khách - Điểm 03,Diem dung don - tra khach - Diem 03,10.176553,103.972715,0,kiengiang
-KG07_ID15,Điểm dừng đón - trả khách - Điểm 04,Diem dung don - tra khach - Diem 04,10.173682,103.972948,0,kiengiang
-KG07_ID16,Điểm dừng đón - trả khách - Điểm 05,Diem dung don - tra khach - Diem 05,10.17081,103.973182,0,kiengiang
-KG07_ID17,Điểm dừng đón - trả khách - Điểm 06,Diem dung don - tra khach - Diem 06,10.167938,103.973416,0,kiengiang
-KG_HUB_DUONGTO,Bến xe Dương Tơ,Ben xe Duong To,10.167639,103.97344,1,kiengiang
-KG_HUB_KIENLUONG,Bến xe Kiên Lương,Ben xe Kien Luong,10.252648,104.596348,1,kiengiang
-KG01_ID257,Đối diện Km140+300,Doi dien Km140+300,10.251316,104.603028,0,kiengiang
-KG01_ID258,Đối diện Km140+700,Doi dien Km140+700,10.250668,104.606275,0,kiengiang
-KG01_ID256,Trạm trước Nhà máy phân bón Thiên Giang,Tram truoc Nha may phan bon Thien Giang,10.244114,104.639153,0,kiengiang
-KG01_ID254,Trạm đối diện gần Km148+650,Tram doi dien gan Km148+650,10.237802,104.670813,0,kiengiang
-KG01_ID255,Đối diện Km149+200,Doi dien Km149+200,10.236912,104.675277,0,kiengiang
-KG01_ID259,Trạm gần đối diện Km151+400,Tram gan doi dien Km151+400,10.233351,104.693137,0,kiengiang
-KG01_ID260,Trạm gần đối diện Km151+700,Tram gan doi dien Km151+700,10.232866,104.695572,0,kiengiang
-KG01_ID261,Đối diện Km152,Doi dien Km152,10.23238,104.698008,0,kiengiang
-KG01_ID263,Trạm gần đối diện Km152+300,Tram gan doi dien Km152+300,10.231895,104.700443,0,kiengiang
-KG01_ID262,Trạm gần đối diện Km152+500,Tram gan doi dien Km152+500,10.231571,104.702067,0,kiengiang
-KG01_ID264,Trạm gần đối diện Km153+500,Tram gan doi dien Km153+500,10.229953,104.710185,0,kiengiang
-KG01_ID265,Trạm gần đối diện Km154,Tram gan doi dien Km154,10.229143,104.714244,0,kiengiang
-KG01_ID266,Trạm gần đối diện Km154+300,Tram gan doi dien Km154+300,10.228658,104.716679,0,kiengiang
-KG01_ID267,Trạm gần đối diện Km154+500,Tram gan doi dien Km154+500,10.228334,104.718303,0,kiengiang
-KG01_ID268,Trạm gần đối diện Km155,Tram gan doi dien Km155,10.227525,104.722362,0,kiengiang
-KG01_ID269,Trạm gần đối diện Km155+500,Tram gan doi dien Km155+500,10.226716,104.726421,0,kiengiang
-KG01_ID270,Trạm trước Tiểu học Bình Sơn 3,Tram truoc Tieu hoc Binh Son 3,10.226014,104.729938,0,kiengiang
-KG01_ID271,Trạm trước Trường Mẫu giáo Bình Sơn,Tram truoc Truong Mau giao Binh Son,10.225313,104.733456,0,kiengiang
-KG01_ID272,Km156+800,Km156+800,10.224612,104.736974,0,kiengiang
-KG01_ID273,Trạm gần đối diện Km157+400,Tram gan doi dien Km157+400,10.223641,104.741845,0,kiengiang
-KG01_ID274,Trạm đối diện Km158,Tram doi dien Km158,10.22267,104.746715,0,kiengiang
-KG01_ID253,Trạm trước Nông ngư Cơ Thanh Trung,Tram truoc Nong ngu Co Thanh Trung,10.222144,104.749354,0,kiengiang
-KG01_ID275,Km158+500,Km158+500,10.22186,104.750774,0,kiengiang
-KG01_ID276,Trạm đối diện Km159,Tram doi dien Km159,10.221051,104.754833,0,kiengiang
-KG01_ID277,Trạm đối diện Km159+500,Tram doi dien Km159+500,10.220242,104.758892,0,kiengiang
-KG01_ID278,Trạm đối diện Km160,Tram doi dien Km160,10.219433,104.762951,0,kiengiang
-KG01_ID279,Trạm đối diện Km160+500,Tram doi dien Km160+500,10.218624,104.76701,0,kiengiang
-KG01_ID280,Trạm đối diện Km161,Tram doi dien Km161,10.217814,104.771069,0,kiengiang
-KG01_ID281,Trạm trước Tiệm cơm Nhật Trường khu vực chợ Vàm Rẫy,Tram truoc Tiem com Nhat Truong khu vuc cho Vam Ray,10.217005,104.775128,0,kiengiang
-KG01_ID282,Nhà chờ trước Tiểu học Bình Sơn 1,Nha cho truoc Tieu hoc Binh Son 1,10.216196,104.779187,0,kiengiang
-KG01_ID283,Trạm sau đường lên cầu Tám Ngàn,Tram sau duong len cau Tam Ngan,10.215387,104.783246,0,kiengiang
-KG01_ID284,Trạm gần đối diện Km163,Tram gan doi dien Km163,10.214578,104.787305,0,kiengiang
-KG01_ID285,Trạm gần đối diện Km163+400,Tram gan doi dien Km163+400,10.21393,104.790552,0,kiengiang
-KG01_ID286,Trạm gần đối diện Km164,Tram gan doi dien Km164,10.212959,104.795423,0,kiengiang
-KG01_ID287,Km164+500,Km164+500,10.21215,104.799482,0,kiengiang
-KG01_ID288,Trạm gần đối diện Km165,Tram gan doi dien Km165,10.211341,104.803541,0,kiengiang
-KG01_ID289,Trạm gần đối diện Km165+500,Tram gan doi dien Km165+500,10.210532,104.8076,0,kiengiang
-KG01_ID290,Km165+900,Km165+900,10.209884,104.810847,0,kiengiang
-KG01_ID291,Nhà chờ trước UBND xã Bình Giang,Nha cho truoc UBND xa Binh Giang,10.208967,104.815447,0,kiengiang
-KG01_ID292,Nhà chờ trước Tiểu học Bình Giang 2,Nha cho truoc Tieu hoc Binh Giang 2,10.20805,104.820047,0,kiengiang
-KG01_ID293,Trạm trước Cà phê Quê Hương đối diện Km167+600,Tram truoc Ca phe Que Huong doi dien Km167+600,10.207133,104.824648,0,kiengiang
-KG01_ID294,Gần đối diện Km168,Gan doi dien Km168,10.206486,104.827894,0,kiengiang
-KG01_ID295,Trạm trước Cà phê Trung Nguyên Km168+500,Tram truoc Ca phe Trung Nguyen Km168+500,10.205676,104.831954,0,kiengiang
-KG01_ID296,Gần đối diện Km169,Gan doi dien Km169,10.204867,104.836013,0,kiengiang
-KG01_ID297,Gần đối diện Km170+500,Gan doi dien Km170+500,10.202439,104.84819,0,kiengiang
-KG01_ID298,Trạm trước Tiểu học Bình Giang 2 Điểm Ranh Hat,Tram truoc Tieu hoc Binh Giang 2 Diem Ranh Hat,10.202035,104.850219,0,kiengiang
-KG01_ID299,Gần đối diện Km171,Gan doi dien Km171,10.20163,104.852249,0,kiengiang
-KG01_ID300,Trạm trước cây xăng Hiệp Hưng,Tram truoc cay xang Hiep Hung,10.200659,104.857119,0,kiengiang
-KG01_ID301,Gần đối diện Km172+200,Gan doi dien Km172+200,10.199688,104.86199,0,kiengiang
-KG01_ID302,Trạm trước Cà phê Hải đối diện Km172+500,Tram truoc Ca phe Hai doi dien Km172+500,10.199203,104.864425,0,kiengiang
-KG01_ID303,Trạm trước Tiểu học Kiên Bình 1,Tram truoc Tieu hoc Kien Binh 1,10.198717,104.866861,0,kiengiang
-KG01_ID304,Trạm trước Lò vôi Hai Thế,Tram truoc Lo voi Hai The,10.198232,104.869296,0,kiengiang
-KG01_ID305,Đối diện Km173+400,Doi dien Km173+400,10.197746,104.871732,0,kiengiang
-KG01_ID306,Gần đối diện Km173+750,Gan doi dien Km173+750,10.19718,104.874573,0,kiengiang
-KG01_ID307,Gần đối diện Km174+250,Gan doi dien Km174+250,10.19637,104.878632,0,kiengiang
-KG01_ID308,Trạm trước cây xăng Hiệp Giang,Tram truoc cay xang Hiep Giang,10.195723,104.881879,0,kiengiang
-KG01_ID309,Trạm trước UBND xã Kiên Bình,Tram truoc UBND xa Kien Binh,10.195076,104.885126,0,kiengiang
-KG01_ID310,Trạm trước Tiệm cơm Thanh Thủy đối diện km175+450,Tram truoc Tiem com Thanh Thuy doi dien km175+450,10.194428,104.888373,0,kiengiang
-KG01_ID311,Trạm gần đối diện Km176,Tram gan doi dien Km176,10.193538,104.892838,0,kiengiang
-KG01_ID312,Trạm trước Trường Tiểu học Kiên Bình 1,Tram truoc Truong Tieu hoc Kien Binh 1,10.192891,104.896085,0,kiengiang
-KG01_ID313,Đối diện Km176+800,Doi dien Km176+800,10.192243,104.899333,0,kiengiang
-KG01_ID314,Km177+400,Km177+400,10.191272,104.904203,0,kiengiang
-KG01_ID315,Nhà chờ trước Trường Tiểu học Kiên Bình 1,Nha cho truoc Truong Tieu hoc Kien Binh 1,10.190787,104.906639,0,kiengiang
-KG01_ID316,Đối diện Km178,Doi dien Km178,10.190301,104.909074,0,kiengiang
-KG01_ID317,Trạm đối diện Km178+600,Tram doi dien Km178+600,10.18933,104.913945,0,kiengiang
-KG01_ID318,Trạm đối diện Km179+400,Tram doi dien Km179+400,10.188035,104.920439,0,kiengiang
-KG01_ID319,Trạm đối diện Km179+800,Tram doi dien Km179+800,10.187388,104.923686,0,kiengiang
-KG01_ID320,Trạm trước Trạm QL Đường sông Kiên Lương,Tram truoc Tram QL Duong song Kien Luong,10.187388,104.923686,0,kiengiang
-KG01_ID321,Trạm gần Bưu điện Kiên Lương,Tram gan Buu dien Kien Luong,10.187388,104.923686,0,kiengiang
-KG01_ID322,Trước Xăng dầu số 2,Truoc Xang dau so 2,10.187388,104.923687,0,kiengiang
-KG01_ID323,Trạm trước UBND TT Kiên Lương,Tram truoc UBND TT Kien Luong,10.187388,104.923687,0,kiengiang
-KG06_ID18,Điểm dừng đón - trả khách - Điểm 01,Diem dung don - tra khach - Diem 01,10.167938,103.973416,0,kiengiang
-KG06_ID19,Điểm dừng đón - trả khách - Điểm 02,Diem dung don - tra khach - Diem 02,10.17081,103.973182,0,kiengiang
-KG06_ID20,Điểm dừng đón - trả khách - Điểm 03,Diem dung don - tra khach - Diem 03,10.173682,103.972948,0,kiengiang
-KG06_ID21,Điểm dừng đón - trả khách - Điểm 04,Diem dung don - tra khach - Diem 04,10.176553,103.972715,0,kiengiang
-KG06_ID22,Điểm dừng đón - trả khách - Điểm 05,Diem dung don - tra khach - Diem 05,10.179425,103.972481,0,kiengiang
-KG06_ID23,Điểm dừng đón - trả khách - Điểm 06,Diem dung don - tra khach - Diem 06,10.182297,103.972248,0,kiengiang
-KG_HUB_MINHLUONG,Ngã ba Minh Lương,Nga ba Minh Luong,9.905259,105.160143,1,kiengiang
-KG09_ID24,Km14+050,Km14+050,9.905336,105.163174,0,kiengiang
-KG09_ID25,Km14+450,Km14+450,9.905549,105.17167,0,kiengiang
-KG09_ID26,Km14+850,Km14+850,9.905763,105.180166,0,kiengiang
-KG09_ID27,Km15+300,Km15+300,9.906004,105.189724,0,kiengiang
-KG09_ID28,Km15+500,Km15+500,9.90611,105.193972,0,kiengiang
-KG09_ID29,Km16+250,Km16+250,9.906511,105.209902,0,kiengiang
-KG09_ID30,Km17+100,Km17+100,9.906965,105.227956,0,kiengiang
-KG09_ID31,Km17+800,Km17+800,9.907339,105.242824,0,kiengiang
-KG09_ID32,Km18+300,Km18+300,9.907606,105.253444,0,kiengiang
-KG09_ID33,Km19+300,Km19+300,9.908141,105.274683,0,kiengiang
-KG09_ID34,Km19+800,Km19+800,9.908408,105.285303,0,kiengiang
-KG09_ID35,Km20+00,Km20+00,9.908515,105.289551,0,kiengiang
-KG09_ID36,Km20+900,Km20+900,9.908996,105.308667,0,kiengiang
-KG09_ID37,Trạm đối diện Bưu điện huyện Giồng Riềng,Tram doi dien Buu dien huyen Giong Rieng,9.909427,105.314692,0,kiengiang
-KG09_ID38,Trạm đối diện Huyện ủy Giồng Riềng,Tram doi dien Huyen uy Giong Rieng,9.909823,105.314939,0,kiengiang
-KG_HUB_GIONGRIENG,Trung tâm Giồng Riềng,Trung tam Giong Rieng,9.909072,105.311698,1,kiengiang
-KG08_ID76,Km14+00,Km14+00,9.905336,105.163174,0,kiengiang
-KG08_ID77,Km14+400,Km14+400,9.905539,105.171257,0,kiengiang
-KG08_ID78,Km14+750,Km14+750,9.905717,105.17833,0,kiengiang
-KG08_ID79,Km15+350,Km15+350,9.906022,105.190454,0,kiengiang
-KG08_ID80,Km15+550,Km15+550,9.906124,105.194496,0,kiengiang
-KG08_ID81,Km16+300,Km16+300,9.906505,105.209651,0,kiengiang
-KG08_ID82,Km17+200,Km17+200,9.906962,105.227838,0,kiengiang
-KG08_ID83,Km17+850,Km17+850,9.907293,105.240973,0,kiengiang
-KG08_ID84,Km18+400,Km18+400,9.907572,105.252087,0,kiengiang
-KG08_ID85,Km19+250,Km19+250,9.908004,105.269263,0,kiengiang
-KG08_ID86,Km19+700,Km19+700,9.908233,105.278356,0,kiengiang
-KG08_ID87,Km20+200,Km20+200,9.908487,105.28846,0,kiengiang
-KG08_ID88,Km20+500,Km20+500,9.90864,105.294522,0,kiengiang
-KG08_ID89,Km20+850,Km20+850,9.908818,105.301595,0,kiengiang
-KG08_ID90,Bến xe Km21+200,Ben xe Km21+200,9.908996,105.308667,0,kiengiang
-KG08_ID91,Trạm gần Bưu điện huyện Giồng Riềng,Tram gan Buu dien huyen Giong Rieng,9.909115,105.314408,0,kiengiang
-KG08_ID92,Trạm gần Huyện ủy Giồng Riềng,Tram gan Huyen uy Giong Rieng,9.909739,105.314735,0,kiengiang
-KG05_ID93,Km0+200 Nguyễn Bỉnh Khiêm,Km0+200 Nguyen Binh Khiem,10.18271,104.93342,0,kiengiang
-KG05_ID94,Km0+530 Nguyễn Bỉnh Khiêm,Km0+530 Nguyen Binh Khiem,10.182318,104.933778,0,kiengiang
-KG05_ID95,Km0+800 Nguyễn Bỉnh Khiêm,Km0+800 Nguyen Binh Khiem,10.181998,104.93407,0,kiengiang
-KG05_ID101,Trạm trước doanh trại quân đội đối diện Km12+850,Tram truoc doanh trai quan doi doi dien Km12+850,10.167706,104.947109,0,kiengiang
-KG05_ID100,Nhà chờ trước Trường học Nguyễn Thái Bình,Nha cho truoc Truong hoc Nguyen Thai Binh,10.135491,104.976501,0,kiengiang
-KG05_ID99,Số 687 gần Tạp hóa Khánh Dũng,So 687 gan Tap hoa Khanh Dung,10.103276,105.005894,0,kiengiang
-KG05_ID102,Số 853,So 853,10.10212,105.006949,0,kiengiang
-KG05_ID98,Cây xăng Kim Linh,Cay xang Kim Linh,10.071061,105.035286,0,kiengiang
-KG05_ID96,Km121+300,Km121+300,10.039083,105.064462,0,kiengiang
-KG05_ID97,"Km121+500, số 549A","Km121+500, so 549A",10.038846,105.064679,0,kiengiang
-KG05_ID103,Trạm trước khu vực nghĩa trang liệt sĩ đối diện Km 123+450,Tram truoc khu vuc nghia trang liet si doi dien Km 123+450,10.036533,105.066789,0,kiengiang
-KG05_ID104,Nhà chờ trước Tiểu học Nguyễn Thái Bình,Nha cho truoc Tieu hoc Nguyen Thai Binh,10.036355,105.066951,0,kiengiang
-KG05_ID105,Trạm trước nhà trọ Phương Trang đối diện Km123+750,Tram truoc nha tro Phuong Trang doi dien Km123+750,10.036177,105.067113,0,kiengiang
-KG05_ID106,Trạm gần đối diện Km124,Tram gan doi dien Km124,10.035881,105.067384,0,kiengiang
-KG05_ID107,Nhà chờ trước Tiểu học Mỹ Lâm,Nha cho truoc Tieu hoc My Lam,10.03509,105.068105,0,kiengiang
-KG05_ID108,Trạm gần Công ty TNHH Phương Linh số 145,Tram gan Cong ty TNHH Phuong Linh so 145,10.0343,105.068827,0,kiengiang
-KG05_ID109,Trạm gần đối diện Km126,Tram gan doi dien Km126,10.033509,105.069548,0,kiengiang
-KG05_ID110,Nhà chờ trước Trường TH Mỹ Lâm,Nha cho truoc Truong TH My Lam,10.032975,105.070035,0,kiengiang
-KG05_ID111,Trạm trước Áo cưới Kiều Nhi đối diện Km126+900,Tram truoc Ao cuoi Kieu Nhi doi dien Km126+900,10.032441,105.070522,0,kiengiang
-KG05_ID112,Trạm trước UBND xã Mỹ Lâm,Tram truoc UBND xa My Lam,10.031848,105.071063,0,kiengiang
-KG05_ID113,Trạm đối diện Km127+900,Tram doi dien Km127+900,10.031255,105.071604,0,kiengiang
-KG05_ID114,Trạm gần Cống Thầy Xếp,Tram gan Cong Thay Xep,10.03084,105.071983,0,kiengiang
-KG05_ID115,Trạm gần km128+600,Tram gan km128+600,10.030425,105.072362,0,kiengiang
-KG05_ID116,Trạm gần Trường tình thương Mỹ Lâm,Tram gan Truong tinh thuong My Lam,10.029653,105.073067,0,kiengiang
-KG05_ID117,Trạm gần Cống số 3 Km 129+903,Tram gan Cong so 3 Km 129+903,10.02888,105.073772,0,kiengiang
-KG05_ID118,Trạm trước Tạp hóa BÌnh Bền gần đối diện Km130,Tram truoc Tap hoa BInh Ben gan doi dien Km130,10.028765,105.073877,0,kiengiang
-KG05_ID119,Nhà chờ trước Trường Trung học Mỹ Hưng,Nha cho truoc Truong Trung hoc My Hung,10.028172,105.074418,0,kiengiang
-KG05_ID120,Trạm gần đối diện Km131,Tram gan doi dien Km131,10.027579,105.074959,0,kiengiang
-KG05_ID121,Trạm trước Khu xí nghiệp 536,Tram truoc Khu xi nghiep 536,10.026986,105.0755,0,kiengiang
-KG05_ID122,Trạm trước Sản xuất nước đá Tư Hưng gần Km132,Tram truoc San xuat nuoc da Tu Hung gan Km132,10.026393,105.076041,0,kiengiang
-KG05_ID123,Trạm gần Km132+500,Tram gan Km132+500,10.0258,105.076582,0,kiengiang
-KG05_ID124,Trạm đối diện gần Km133,Tram doi dien gan Km133,10.025207,105.077123,0,kiengiang
-KG05_ID127,Trạm đối diện Km133+500,Tram doi dien Km133+500,10.024614,105.077664,0,kiengiang
-KG05_ID125,Trạm đối diện Km133+600,Tram doi dien Km133+600,10.024495,105.077772,0,kiengiang
-KG05_ID126,Trạm đối diện gần Km134 Honda Chiến,Tram doi dien gan Km134 Honda Chien,10.024021,105.078205,0,kiengiang
-KG05_ID128,Nhà chờ đối diện UBND Xã Sóc Sơn,Nha cho doi dien UBND Xa Soc Son,10.023339,105.078827,0,kiengiang
-KG05_ID129,Trạm đối diện gần Km135+650,Tram doi dien gan Km135+650,10.022064,105.07999,0,kiengiang
-KG05_ID130,Nhà chờ trước Tiểu học TT Sóc Sơn,Nha cho truoc Tieu hoc TT Soc Son,10.022064,105.07999,0,kiengiang
-KG04_ID156,Trạm trước Tiệm sắt Thuận Hòa Km 148+200,Tram truoc Tiem sat Thuan Hoa Km 148+200,10.187388,104.923687,0,kiengiang
-KG04_ID157,Trạm gần Km148+650,Tram gan Km148+650,10.188263,104.919301,0,kiengiang
-KG04_ID158,Km149+200,Km149+200,10.189331,104.91394,0,kiengiang
-KG04_ID159,Km149+600,Km149+600,10.190108,104.910041,0,kiengiang
-KG04_ID160,Km150+300,Km150+300,10.191469,104.903219,0,kiengiang
-KG04_ID161,Km150+700,Km150+700,10.192246,104.89932,0,kiengiang
-KG04_ID162,Km151+400,Km151+400,10.193606,104.892498,0,kiengiang
-KG04_ID163,Km151+700,Km151+700,10.194189,104.889574,0,kiengiang
-KG04_ID164,Km152,Km152,10.194772,104.88665,0,kiengiang
-KG04_ID165,Km152+500,Km152+500,10.195743,104.881777,0,kiengiang
-KG04_ID166,Km153,Km153,10.196715,104.876904,0,kiengiang
-KG04_ID167,Km153+500,Km153+500,10.197686,104.87203,0,kiengiang
-KG04_ID168,Km153+950,Km153+950,10.198561,104.867644,0,kiengiang
-KG04_ID169,Km154+300,Km154+300,10.199241,104.864233,0,kiengiang
-KG04_ID170,Km154+500,Km154+500,10.19963,104.862284,0,kiengiang
-KG04_ID171,Km155,Km155,10.200601,104.857411,0,kiengiang
-KG04_ID172,Km155+500,Km155+500,10.201573,104.852537,0,kiengiang
-KG04_ID173,Trạm đối diện Tiểu học Bình Sơn 3,Tram doi dien Tieu hoc Binh Son 3,10.202447,104.848151,0,kiengiang
-KG04_ID174,Km156+400,Km156+400,10.203321,104.843766,0,kiengiang
-KG04_ID175,Trạm đối diện Km156+800,Tram doi dien Km156+800,10.204099,104.839867,0,kiengiang
-KG04_ID176,Km157+400,Km157+400,10.205265,104.834019,0,kiengiang
-KG04_ID177,Trạm gần Km158,Tram gan Km158,10.20643,104.828171,0,kiengiang
-KG04_ID178,Trạm gần đối diện Km158+500,Tram gan doi dien Km158+500,10.207402,104.823298,0,kiengiang
-KG04_ID179,Trạm gần Km159,Tram gan Km159,10.208373,104.818425,0,kiengiang
-KG04_ID180,Trạm gần Km159+500,Tram gan Km159+500,10.209345,104.813552,0,kiengiang
-KG04_ID181,Trạm gần Km160,Tram gan Km160,10.210317,104.808678,0,kiengiang
-KG04_ID182,Trạm gần Km160+500,Tram gan Km160+500,10.211288,104.803805,0,kiengiang
-KG04_ID183,Trạm gần Km161,Tram gan Km161,10.21226,104.798932,0,kiengiang
-KG04_ID184,Trạm trước Cà phê Nga khu vực chợ Vàm Rẫy,Tram truoc Ca phe Nga khu vuc cho Vam Ray,10.213296,104.793734,0,kiengiang
-KG04_ID185,Trạm trước VLXD Phước Chung,Tram truoc VLXD Phuoc Chung,10.214332,104.788536,0,kiengiang
-KG04_ID186,Km162+600,Km162+600,10.215369,104.783337,0,kiengiang
-KG04_ID187,Km163,Km163,10.216146,104.779439,0,kiengiang
-KG04_ID188,Km163+400,Km163+400,10.216923,104.77554,0,kiengiang
-KG04_ID189,Km164,Km164,10.218089,104.769692,0,kiengiang
-KG04_ID191,Km165,Km165,10.220032,104.759946,0,kiengiang
-KG04_ID190,Trạm trước Cà phê Vườn Xoài đối diện Km165+500,Tram truoc Ca phe Vuon Xoai doi dien Km165+500,10.221004,104.755073,0,kiengiang
-KG04_ID192,Km165+500,Km165+500,10.221004,104.755073,0,kiengiang
-KG04_ID193,Trạm trước Phân bón Đình Trí Km165+900,Tram truoc Phan bon Dinh Tri Km165+900,10.221781,104.751174,0,kiengiang
-KG04_ID194,km166+700,km166+700,10.223335,104.743377,0,kiengiang
-KG04_ID195,Gần Km167,Gan Km167,10.223918,104.740453,0,kiengiang
-KG04_ID196,Trạm trước Cà phê Ba Khai gần Km167+600,Tram truoc Ca phe Ba Khai gan Km167+600,10.225084,104.734605,0,kiengiang
-KG04_ID197,Km168,Km168,10.225861,104.730707,0,kiengiang
-KG04_ID198,Đối diện Km168+500,Doi dien Km168+500,10.226833,104.725833,0,kiengiang
-KG04_ID199,Km169,Km169,10.227804,104.72096,0,kiengiang
-KG04_ID201,Trạm đối diện Tiểu học Bình Giang 2,Tram doi dien Tieu hoc Binh Giang 2,10.229747,104.711214,0,kiengiang
-KG04_ID200,Km170+500,Km170+500,10.230719,104.706341,0,kiengiang
-KG04_ID202,Trạm gần Km171,Tram gan Km171,10.23169,104.701467,0,kiengiang
-KG04_ID203,Km171+800,Km171+800,10.233245,104.69367,0,kiengiang
-KG04_ID204,Km172+200,Km172+200,10.234022,104.689772,0,kiengiang
-KG04_ID205,Km172+500,Km172+500,10.234605,104.686848,0,kiengiang
-KG04_ID206,Km172+750,Km172+750,10.235091,104.684411,0,kiengiang
-KG04_ID207,Trạm trước VLXD Hai Thế,Tram truoc VLXD Hai The,10.235739,104.681162,0,kiengiang
-KG04_ID208,Trạm trước Phèn Polomite Tân Hoàng,Tram truoc Phen Polomite Tan Hoang,10.236386,104.677913,0,kiengiang
-KG04_ID209,Km173+750,Km173+750,10.237034,104.674664,0,kiengiang
-KG04_ID210,Km174+250,Km174+250,10.238006,104.669791,0,kiengiang
-KG04_ID211,Trạm trước Tạp hóa Ngọc Hân Km174+650,Tram truoc Tap hoa Ngoc Han Km174+650,10.238783,104.665893,0,kiengiang
-KG04_ID212,Km175,Km175,10.239463,104.662481,0,kiengiang
-KG04_ID213,Km175+450,Km175+450,10.240337,104.658095,0,kiengiang
-KG04_ID214,Trạm trước Cà phê Anh Ngọc Km 175+700,Tram truoc Ca phe Anh Ngoc Km 175+700,10.240823,104.655659,0,kiengiang
-KG04_ID215,Trạm gần đối diện Trường Tiểu học Kiên Bình 1,Tram gan doi dien Truong Tieu hoc Kien Binh 1,10.241892,104.650298,0,kiengiang
-KG04_ID216,Km176+800,Km176+800,10.24296,104.644938,0,kiengiang
-KG04_ID217,Đối diện Km177+400,Doi dien Km177+400,10.244126,104.63909,0,kiengiang
-KG04_ID218,Trạm đối diện Trường Tiểu học Kiên Bình 1,Tram doi dien Truong Tieu hoc Kien Binh 1,10.244709,104.636166,0,kiengiang
-KG04_ID219,Trạm gần Km178,Tram gan Km178,10.245292,104.633242,0,kiengiang
-KG04_ID220,Trạm gần Km179,Tram gan Km179,10.247235,104.623496,0,kiengiang
-KG04_ID221,Km179+400,Km179+400,10.248012,104.619597,0,kiengiang
-KG04_ID222,Trạm gần Km179+800,Tram gan Km179+800,10.24879,104.615698,0,kiengiang
-KG04_ID223,Trạm đối diện Trạm QL Đường sông Kiên Lương,Tram doi dien Tram QL Duong song Kien Luong,10.249956,104.609851,0,kiengiang
-KG04_ID224,Trạm gần Km181,Tram gan Km181,10.251121,104.604003,0,kiengiang
-KG04_ID225,Km181+100,Km181+100,10.251316,104.603028,0,kiengiang
-KG04_ID226,Trạm đối diện UBND TT Kiên Lương,Tram doi dien UBND TT Kien Luong,10.251316,104.603028,0,kiengiang
-KG03_ID227,Trạm gần Km136+400,Tram gan Km136+400,10.186949,104.930392,0,kiengiang
-KG03_ID228,Trạm gần Km136+676 cầu Tà Lúa,Tram gan Km136+676 cau Ta Lua,10.18818,104.930426,0,kiengiang
-KG03_ID229,Trạm đối diện Km136+900,Tram doi dien Km136+900,10.18918,104.930454,0,kiengiang
-KG03_ID230,Trạm gần Km137+500,Tram gan Km137+500,10.191857,104.930528,0,kiengiang
-KG03_ID231,Nhà chờ trước Trường TH Sơn Kiên,Nha cho truoc Truong TH Son Kien,10.194535,104.930602,0,kiengiang
-KG03_ID232,Trạm đối diện Km138+700,Tram doi dien Km138+700,10.197212,104.930677,0,kiengiang
-KG03_ID233,Nhà chờ trước Trung tâm đào tạo sát hạch lái xe gần đối diện Km139,Nha cho truoc Trung tam dao tao sat hach lai xe gan doi dien Km139,10.198551,104.930714,0,kiengiang
-KG03_ID234,Trạm đối diện Km139+400,Tram doi dien Km139+400,10.200336,104.930763,0,kiengiang
-KG03_ID235,Trạm trước Tiểu học Sơn Kiên 1,Tram truoc Tieu hoc Son Kien 1,10.202455,104.930822,0,kiengiang
-KG03_ID236,Đối diện gần Km140+350,Doi dien gan Km140+350,10.204575,104.930881,0,kiengiang
-KG03_ID237,Đối diện gần Km141,Doi dien gan Km141,10.207475,104.930962,0,kiengiang
-KG03_ID238,Nhà chờ đối diện Km141+500,Nha cho doi dien Km141+500,10.209706,104.931024,0,kiengiang
-KG03_ID239,Trạm đối diện gần Km142,Tram doi dien gan Km142,10.211937,104.931086,0,kiengiang
-KG03_ID240,Trạm đối diện gần Km142+500,Tram doi dien gan Km142+500,10.214169,104.931148,0,kiengiang
-KG03_ID241,Trạm đối diện gần Km143,Tram doi dien gan Km143,10.2164,104.931209,0,kiengiang
-KG03_ID242,Trạm gần Km143+500,Tram gan Km143+500,10.218631,104.931271,0,kiengiang
-KG03_ID243,Trạm gần Km143+943 Cầu Kênh 9,Tram gan Km143+943 Cau Kenh 9,10.220608,104.931326,0,kiengiang
-KG03_ID244,Trạm gần Km144+200,Tram gan Km144+200,10.221754,104.931358,0,kiengiang
-KG03_ID245,Trạm trước Nghĩa trang Hòn Đất,Tram truoc Nghia trang Hon Dat,10.223539,104.931408,0,kiengiang
-KG03_ID246,Trạm đối diện Km145,Tram doi dien Km145,10.225324,104.931457,0,kiengiang
-KG03_ID247,Trạm đối diện Km145+500,Tram doi dien Km145+500,10.227555,104.931519,0,kiengiang
-KG03_ID248,Nhà chờ trước Trung tâm y tế huyện Hòn Đất,Nha cho truoc Trung tam y te huyen Hon Dat,10.228671,104.93155,0,kiengiang
-KG03_ID249,Trạm đối diện gần Km146 Tiệm cơm Minh Nhật,Tram doi dien gan Km146 Tiem com Minh Nhat,10.229787,104.931581,0,kiengiang
-KG03_ID250,Trạm trước Ngân hàng Sông Kiên,Tram truoc Ngan hang Song Kien,10.229787,104.931581,0,kiengiang
-KG03_ID251,Trạm trước Tòa án huyện Hòn Đất,Tram truoc Toa an huyen Hon Dat,10.229787,104.931581,0,kiengiang
-KG03_ID252,Bến xe Hòn Đất,Ben xe Hon Dat,10.229787,104.931581,0,kiengiang
-KG_HUB_HONDAT,Bến xe Hòn Đất,Ben xe Hon Dat,10.230679,104.931606,1,kiengiang
+GA_METRO_BA_SON,Ga Metro Ba Son,Ga Metro Ba Son,10.777991,106.704761,1,hcmc
+CHO_BEN_THANH,Chợ Bến Thành,Chợ Bến Thành,10.77253,106.698037,1,hcmc
+BENH_VIEN_RANG_HAM_MAT,Bệnh viện Răng Hàm Mặt,Bệnh viện Răng Hàm Mặt,10.763451,106.691889,0,hcmc
+CHO_AN_DONG,Chợ An Đông,Chợ An Đông,10.757067,106.67216,1,hcmc
+CHO_KIM_BIEN,Chợ Kim Biên,Chợ Kim Biên,10.750686,106.655007,1,hcmc
+BEN_XE_CHO_LON,Bến xe Chợ Lớn,Bến xe Chợ Lớn,10.751211,106.651871,1,hcmc
+BEN_THANH,Bến Thành,Bến Thành,10.777991,106.704761,1,hcmc
+BEN_XE_SAI_GON,Bến xe Sài Gòn,Bến xe Sài Gòn,10.767682,106.689548,1,hcmc
+CONG_VIEN_23_9,Công viên 23/9,Công viên 23/9,10.767993,106.690202,1,hcmc
+CHO_TAN_DINH,Chợ Tân Định,Chợ Tân Định,10.789041,106.690456,1,hcmc
+NGA_6_GO_VAP,Ngã 6 Gò Vấp,Ngã 6 Gò Vấp,10.82465,106.68114,0,hcmc
+CAU_AN_LOC,Cầu An Lộc,Cầu An Lộc,10.850977,106.678851,0,hcmc
+THANH_XUAN_52,Thạnh Xuân 52,Thạnh Xuân 52,10.86747,106.673355,1,hcmc
+BENH_VIEN_MAT_TP_HCM,Bệnh viện Mắt TP.HCM,Bệnh viện Mắt TP.HCM,10.778661,106.684937,1,hcmc
+CAU_CONG_LY,Cầu Công Lý,Cầu Công Lý,10.767296,106.684786,0,hcmc
+LOTTE_MART_TAN_BINH,Lotte Mart Tân Bình,Lotte Mart Tân Bình,10.904836,106.71278,0,hcmc
+PANDORA_CITY,Pandora City,Pandora City,10.806606,106.634284,0,hcmc
+NGA_TU_AN_SUONG,Ngã tư An Sương,Ngã tư An Sương,10.842688,106.615654,1,hcmc
+BEN_XE_AN_SUONG,Bến xe An Sương,Bến xe An Sương,10.845254,106.613345,1,hcmc
+BEN_THUY_BACH_DANG,Bến thủy Bạch Đằng,Bến thủy Bạch Đằng,10.778404,106.707501,1,hcmc
+VINHOMES_CENTRAL_PARK,Vinhomes Central Park,Vinhomes Central Park,10.79353,106.722857,1,hcmc
+LANDMARK_81,Landmark 81,Landmark 81,10.795084,106.721914,0,hcmc
+MASTERI_THAO_DIEN,Masteri Thảo Điền,Masteri Thảo Điền,10.802649,106.742399,0,hcmc
+CU_XA_THANH_DA,Cư xá Thanh Đa,Cư xá Thanh Đa,10.821378,106.728528,1,hcmc
+DH_LUAT_TP_HCM,ĐH Luật TP.HCM,ĐH Luật TP.HCM,10.793509,106.85914,0,hcmc
+KHA_VAN_CAN,Kha Vạn Cân,Kha Vạn Cân,10.829424,106.722439,1,hcmc
+GA_BEN_THANH,Ga Bến Thành,Ga Bến Thành,10.769969,106.696688,1,hcmc
+NHA_HAT_TP,Nhà hát TP,Nhà hát TP,10.776744,106.703249,0,hcmc
+GA_BA_SON,Ga Ba Son,Ga Ba Son,10.782424,106.667237,0,hcmc
+LANDMARK_81_TAN_CANG,Landmark 81 Tân Cảng,Landmark 81 Tân Cảng,10.798617,106.723319,0,hcmc
+VINCOM_MEGA_MALL_THAO_DIEN,Vincom Mega Mall Thảo Điền,Vincom Mega Mall Thảo Điền,10.802,106.740614,1,hcmc
+KHU_CONG_NGHE_CAO_TP_HCM,Khu Công nghệ cao TP.HCM,Khu Công nghệ cao TP.HCM,10.855253,106.784282,1,hcmc
+DH_QUOC_GIA,ĐH Quốc Gia,ĐH Quốc Gia,10.762584,106.681695,0,hcmc
+SUOI_TIEN,Suối Tiên,Suối Tiên,10.777991,106.704761,1,hcmc
+DUONG_RUNG_SAC,Đường Rừng Sác,Đường Rừng Sác,10.576274,106.824377,1,hcmc
+PHA_BINH_KHANH,Phà Bình Khánh,Phà Bình Khánh,10.663071,106.777177,0,hcmc
+TRUONG_THCS_BINH_KHANH,Trường THCS Bình Khánh,Trường THCS Bình Khánh,10.631866,106.795894,1,hcmc
+TRUONG_THPT_BINH_KHANH_CAN_GIO,Trường THPT Bình Khánh Cần Giờ,Trường THPT Bình Khánh Cần Giờ,10.642588,106.78701,1,hcmc
+BA_XAN_CAN_GIO,Bà Xán Cần Giờ,Bà Xán Cần Giờ,10.411743,106.965965,1,hcmc
+RUNG_SAC,Rừng Sác,Rừng Sác,10.566101,106.826817,0,hcmc
+TRUONG_THPT_BINH_KHANH,Trường THPT Bình Khánh,Trường THPT Bình Khánh,10.631866,106.795894,1,hcmc
+DH_KHOA_HOC_TU_NHIEN,ĐH Khoa học Tự nhiên,ĐH Khoa học Tự nhiên,10.762584,106.681695,0,hcmc
+CHO_THI_NGHE,Chợ Thị Nghè,Chợ Thị Nghè,10.792041,106.707548,0,hcmc
+CAU_BINH_TRIEU,Cầu Bình Triệu,Cầu Bình Triệu,10.820747,106.713564,0,hcmc
+CHO_THU_DUC,Chợ Thủ Đức,Chợ Thủ Đức,10.850238,106.754197,1,hcmc
+GA_DI_AN,Ga Dĩ An,Ga Dĩ An,10.908262,106.769838,0,hcmc
+BEN_XE_BIEN_HOA_DONG_NAI,Bến xe Biên Hòa Đồng Nai,Bến xe Biên Hòa Đồng Nai,10.87483,106.80779,1,hcmc
+DH_SU_PHAM_TP_HCM,ĐH Sư Phạm TP.HCM,ĐH Sư Phạm TP.HCM,10.881767,106.806157,1,hcmc
+DH_SAI_GON,ĐH Sài Gòn,ĐH Sài Gòn,10.777991,106.704761,1,hcmc
+DH_KINH_TE_TP_HCM,ĐH Kinh Tế TP.HCM,ĐH Kinh Tế TP.HCM,10.881767,106.806157,1,hcmc
+DH_QUOC_TE_HONG_BANG,ĐH Quốc Tế Hồng Bàng,ĐH Quốc Tế Hồng Bàng,10.841953,106.711797,1,hcmc
+NGA_4_THU_DUC,Ngã 4 Thủ Đức,Ngã 4 Thủ Đức,10.848575,106.773598,0,hcmc
+DH_SU_PHAM_KY_THUAT,ĐH Sư phạm Kỹ thuật,ĐH Sư phạm Kỹ thuật,10.797562,106.669167,0,hcmc
+TRUONG_DH_NONG_LAM,Trường ĐH Nông Lâm,Trường ĐH Nông Lâm,10.872325,106.788978,1,hcmc
+GA_SAI_GON,Ga Sài Gòn,Ga Sài Gòn,10.782417,106.677177,1,hcmc
+LE_VAN_SY,Lê Văn Sỹ,Lê Văn Sỹ,10.787053,106.68104,0,hcmc
+BENH_VIEN_AN_SINH,Bệnh viện An Sinh,Bệnh viện An Sinh,10.790975,106.6781,0,hcmc
+BENH_VIEN_175,Bệnh viện 175,Bệnh viện 175,10.820022,106.678751,0,hcmc
+CONG_VIEN_GIA_DINH,Công viên Gia Định,Công viên Gia Định,10.812466,106.674442,1,hcmc
+BAI_HAU_CAN_SO_1_GO_VAP,Bãi hậu cần số 1 Gò Vấp,Bãi hậu cần số 1 Gò Vấp,10.823598,106.692094,1,hcmc
+BEN_XE_QUAN_8,Bến xe Quận 8,Bến xe Quận 8,10.733501,106.656721,1,hcmc
+DH_BACH_KHOA_TP_HCM_LY_THUONG_KIET,ĐH Bách Khoa TP.HCM (Lý Thường Kiệt),ĐH Bách Khoa TP.HCM (Lý Thường Kiệt),10.881767,106.806157,0,hcmc
+BENH_VIEN_THONG_NHAT,Bệnh viện Thống Nhất,Bệnh viện Thống Nhất,10.792645,106.653983,1,hcmc
+CHO_BA_CHIEU,Chợ Bà Chiểu,Chợ Bà Chiểu,10.802957,106.699429,1,hcmc
+VINCOM_THU_DUC,Vincom Thủ Đức,Vincom Thủ Đức,10.849866,106.765176,1,hcmc
+NHA_VAN_HOA_SINH_VIEN,Nhà văn hóa Sinh viên,Nhà văn hóa Sinh viên,10.874482,106.800213,0,hcmc
+BEN_XE_KHU_A_DH_QUOC_GIA,Bến xe Khu A ĐH Quốc gia,Bến xe Khu A ĐH Quốc gia,10.87483,106.80779,1,hcmc
+BEN_XE_MIEN_TAY,Bến xe Miền Tây,Bến xe Miền Tây,10.741055,106.618526,1,hcmc
+VONG_XOAY_AN_LAC,Vòng xoay An Lạc,Vòng xoay An Lạc,10.703243,106.594949,1,hcmc
+CHO_BINH_CHANH,Chợ Bình Chánh,Chợ Bình Chánh,10.665431,106.571371,0,hcmc
+UBND_XA_HUNG_LONG,UBND Xã Hưng Long,UBND Xã Hưng Long,10.648585,106.64971,1,hcmc
+BEN_XE_DH_QUOC_GIA,Bến xe ĐH Quốc Gia,Bến xe ĐH Quốc Gia,10.87483,106.80779,1,hcmc
+KDL_SUOI_TIEN,KDL Suối Tiên,KDL Suối Tiên,10.802594,106.744579,1,hcmc
+PEARL_PLAZA,Pearl Plaza,Pearl Plaza,10.800125,106.718602,1,hcmc
+BENH_VIEN_NHI_DONG_1,Bệnh viện Nhi Đồng 1,Bệnh viện Nhi Đồng 1,10.768891,106.670416,0,hcmc
+CHO_CAY_GO,Chợ Cây Gõ,Chợ Cây Gõ,11.086345,106.516393,1,hcmc
+BEN_XE_CU_CHI,Bến xe Củ Chi,Bến xe Củ Chi,10.971392,106.48221,1,hcmc
+CHO_PHUOC_THANH,Chợ Phước Thạnh,Chợ Phước Thạnh,10.551709,107.067229,0,hcmc
+TRUONG_THPT_QUANG_TRUNG_CU_CHI,Trường THPT Quang Trung Củ Chi,Trường THPT Quang Trung Củ Chi,10.969307,106.486696,0,hcmc
+CAU_TAN_THAI_THAI_MY,Cầu Tân Thái Thái Mỹ,Cầu Tân Thái Thái Mỹ,10.985374,106.365458,1,hcmc
+CAU_LO_GOM,Cầu Lò Gốm,Cầu Lò Gốm,10.734599,106.634867,0,hcmc
+DAI_LO_VO_VAN_KIET,Đại lộ Võ Văn Kiệt,Đại lộ Võ Văn Kiệt,10.732478,106.630869,0,hcmc
+BENH_VIEN_NHI_DONG_THANH_PHO,Bệnh viện Nhi đồng Thành phố,Bệnh viện Nhi đồng Thành phố,10.710098,106.574578,0,hcmc
+CHO_TAN_NHUT_BINH_CHANH,Chợ Tân Nhựt Bình Chánh,Chợ Tân Nhựt Bình Chánh,10.689776,106.583558,1,hcmc
+CANG_SAI_GON,Cảng Sài Gòn,Cảng Sài Gòn,10.599947,107.025305,0,hcmc
+DH_RMIT,ĐH RMIT,ĐH RMIT,10.729755,106.694012,0,hcmc
+DH_TON_DUC_THANG,ĐH Tôn Đức Thắng,ĐH Tôn Đức Thắng,10.785073,106.702175,1,hcmc
+VIVOCITY,VivoCity,VivoCity,10.729942,106.703388,0,hcmc
+CRESCENT_MALL,Crescent Mall,Crescent Mall,10.728872,106.719736,0,hcmc
+CHO_DAU_MOI_BINH_DIEN,Chợ Đầu mối Bình Điền,Chợ Đầu mối Bình Điền,10.702768,106.610319,0,hcmc
+DH_BACH_KHOA,ĐH Bách Khoa,ĐH Bách Khoa,10.881986,106.806134,1,hcmc
+SAN_BAY_TAN_SON_NHAT_GA_T1_T2,Sân bay Tân Sơn Nhất (Ga T1/T2),Sân bay Tân Sơn Nhất (Ga T1/T2),10.813892,106.662598,0,hcmc
+CHO_HANH_THONG_TAY,Chợ Hạnh Thông Tây,Chợ Hạnh Thông Tây,10.835642,106.658679,1,hcmc
+BEN_XE_NGA_TU_GA,Bến xe Ngã Tư Ga,Bến xe Ngã Tư Ga,10.861686,106.679365,1,hcmc
+KCN_TAN_BINH,KCN Tân Bình,KCN Tân Bình,10.805496,106.609271,0,hcmc
+PICO_PLAZA,Pico Plaza,Pico Plaza,10.801306,106.653577,1,hcmc
+NGA_TU_PHU_NHUAN,Ngã tư Phú Nhuận,Ngã tư Phú Nhuận,10.799235,106.680257,0,hcmc
+DH_HUTECH,ĐH HUTECH,ĐH HUTECH,10.841416,106.808705,1,hcmc
+GA_VAN_THANH,Ga Văn Thánh,Ga Văn Thánh,10.797449,106.717431,1,hcmc
+NGA_TU_PHUOC_THANH,Ngã tư Phước Thạnh,Ngã tư Phước Thạnh,11.005808,106.428239,0,hcmc
+UBND_XA_TRUNG_LAP_HA,UBND Xã Trung Lập Hạ,UBND Xã Trung Lập Hạ,11.009113,106.47121,0,hcmc
+BEN_DO_BO_HEO,Bến đò Bố Heo,Bến đò Bố Heo,10.802594,106.744579,1,hcmc
+DINH_DOC_LAP,Dinh Độc Lập,Dinh Độc Lập,10.777035,106.695488,1,hcmc
+VIEN_PASTUER,Viện Pastuer,Viện Pastuer,10.862915,106.812493,0,hcmc
+SAN_BAY_TAN_SON_NHAT_NHA_GA_T3,Sân bay Tân Sơn Nhất (Nhà ga T3),Sân bay Tân Sơn Nhất (Nhà ga T3),10.811206,106.653567,1,hcmc
+BEN_XE_KENH_LO,Bến xe Kênh Lộ,Bến xe Kênh Lộ,10.879569,106.81417,1,hcmc
+KCN_LONG_HAU_HIEP_PHUOC,KCN Long Hậu Hiệp Phước,KCN Long Hậu Hiệp Phước,10.624151,106.752411,0,hcmc
+CAU_RACH_TOM,Cầu Rạch Tôm,Cầu Rạch Tôm,10.67267,106.698067,0,hcmc
+CAU_LONG_KIENG,Cầu Long Kiểng,Cầu Long Kiểng,10.688738,106.702512,0,hcmc
+BEN_DO_BAY_BE_PHUOC_LOC_NHA_BE,Bến đò Bảy Bé Phước Lộc Nhà Bè,Bến đò Bảy Bé Phước Lộc Nhà Bè,10.766661,106.692193,1,hcmc
+CHO_HOC_MON,Chợ Hóc Môn,Chợ Hóc Môn,10.888319,106.598393,1,hcmc
+CHUA_HOANG_PHAP,Chùa Hoằng Pháp,Chùa Hoằng Pháp,10.900271,106.581793,0,hcmc
+NGA_3_TAN_QUY,Ngã 3 Tân Quy,Ngã 3 Tân Quy,10.751337,106.705066,0,hcmc
+BEN_XE_TAN_QUY_CU_CHI,Bến xe Tân Quy Củ Chi,Bến xe Tân Quy Củ Chi,10.984041,106.578186,1,hcmc
+CHO_TAN_QUY,Chợ Tân Quy,Chợ Tân Quy,10.745441,106.706626,0,hcmc
+KCN_DONG_NAM,KCN Đông Nam,KCN Đông Nam,10.400093,107.118033,0,hcmc
+BEN_DO_BINH_MY_THU_DAU_MOT,Bến đò Bình Mỹ Thủ Dầu Một,Bến đò Bình Mỹ Thủ Dầu Một,10.831139,106.714319,1,hcmc
+BEN_DO_AN_THOI_DONG,Bến đò An Thới Đông,Bến đò An Thới Đông,10.571384,106.828411,1,hcmc
+RUNG_NGAP_MAN_CAN_GIO,Rừng Ngập mặn Cần Giờ,Rừng Ngập mặn Cần Giờ,10.52796,106.899276,0,hcmc
+TAM_THON_HIEP,Tam Thôn Hiệp,Tam Thôn Hiệp,10.598349,106.859878,0,hcmc
+NGA_BA_BA_XAN,Ngã ba Bà Xán,Ngã ba Bà Xán,10.61659,106.818874,1,hcmc
+TRAM_Y_TE_TAN_DIEN,Trạm y tế Tân Điền,Trạm y tế Tân Điền,10.755634,106.586637,1,hcmc
+KHU_DU_LICH_SINH_THAI_VAM_SAT,Khu du lịch sinh thái Vàm Sát,Khu du lịch sinh thái Vàm Sát,10.768347,106.69353,0,hcmc
+CAU_VAM_SAT_2,Cầu Vàm Sát 2,Cầu Vàm Sát 2,10.536881,106.766877,0,hcmc
+THPT_AN_NGHIA_CAN_GIO,THPT An Nghĩa Cần Giờ,THPT An Nghĩa Cần Giờ,10.7552,106.674515,1,hcmc
+CONG_VIEN_TAO_DAN,Công viên Tao Đàn,Công viên Tao Đàn,10.774831,106.693272,0,hcmc
+NGA_4_BAY_HIEN,Ngã 4 Bảy Hiền,Ngã 4 Bảy Hiền,10.792898,106.653385,1,hcmc
+CAU_AN_HA,Cầu An Hạ,Cầu An Hạ,10.916243,106.564227,0,hcmc
+TT_CU_CHI,TT Củ Chi,TT Củ Chi,10.354011,107.082953,0,hcmc
+DH_CANH_SAT_NHAN_DAN,ĐH Cảnh Sát Nhân Dân,ĐH Cảnh Sát Nhân Dân,10.858973,106.755364,0,hcmc
+LOTTE_MART_QUAN_7,Lotte Mart Quận 7,Lotte Mart Quận 7,10.740918,106.702097,1,hcmc
+KDC_KY_NGUYEN_PHU_MY,KDC Kỷ Nguyên Phú Mỹ,KDC Kỷ Nguyên Phú Mỹ,10.743793,106.634062,1,hcmc
+BEN_XE_MIEN_DONG,Bến xe Miền Đông,Bến xe Miền Đông,10.814875,106.711471,1,hcmc
+HANG_XANH,Hàng Xanh,Hàng Xanh,10.801467,106.712647,0,hcmc
+THAO_CAM_VIEN,Thảo Cầm Viên,Thảo Cầm Viên,10.789606,106.70459,1,hcmc
+DH_Y_DUOC_TP_HCM,ĐH Y Dược TP.HCM,ĐH Y Dược TP.HCM,10.749599,106.679293,0,hcmc
+BENH_VIEN_HUNG_VUONG,Bệnh viện Hùng Vương,Bệnh viện Hùng Vương,10.756128,106.661663,0,hcmc
+CHO_PHU_LAM,Chợ Phú Lâm,Chợ Phú Lâm,10.754632,106.631072,0,hcmc
+CHO_XOM_CUI,Chợ Xóm Củi,Chợ Xóm Củi,10.745955,106.660774,0,hcmc
+BENH_VIEN_QUAN_8,Bệnh viện Quận 8,Bệnh viện Quận 8,10.75246,106.678289,0,hcmc
+DAI_HOC_VAN_HIEN,Đại học Văn Hiến,Đại học Văn Hiến,10.709239,106.643924,0,hcmc
+KDC_PHU_LOI,KDC Phú Lợi,KDC Phú Lợi,11.003877,106.667469,1,hcmc
+KDL_THE_BCR,KDL The BCR,KDL The BCR,10.33874,107.092455,1,hcmc
+DH_GIAO_THONG_VAN_TAI_CO_SO_2,ĐH Giao thông Vận tải (Cơ sở 2),ĐH Giao thông Vận tải (Cơ sở 2),10.865743,106.618713,0,hcmc
+VINCOM_PLAZA_LE_VAN_VIET,Vincom Plaza Lê Văn Việt,Vincom Plaza Lê Văn Việt,10.844824,106.780288,0,hcmc
+GA_THU_DUC,Ga Thủ Đức,Ga Thủ Đức,10.846431,106.771666,0,hcmc
+NGA_TU_THU_DUC,Ngã tư Thủ Đức,Ngã tư Thủ Đức,10.847313,106.772975,0,hcmc
+KCX_LINH_TRUNG_2,KCX Linh Trung 2,KCX Linh Trung 2,10.875927,106.797776,1,hcmc
+CHO_TRUNG_CHANH,Chợ Trung Chánh,Chợ Trung Chánh,10.86035,106.609933,0,hcmc
+BEN_XE_HIEP_THANH,Bến xe Hiệp Thành,Bến xe Hiệp Thành,10.877632,106.641886,1,hcmc
+BENH_VIEN_UNG_BUOU,Bệnh viện Ung Bướu,Bệnh viện Ung Bướu,10.805441,106.695747,1,hcmc
+CHO_GO_VAP,Chợ Gò Vấp,Chợ Gò Vấp,10.826415,106.680025,0,hcmc
+CHO_CAU,Chợ Cầu,Chợ Cầu,10.691197,106.568628,1,hcmc
+DAM_SEN,Đầm Sen,Đầm Sen,10.764325,106.638719,1,hcmc
+SAN_BAY_TAN_SON_NHAT,Sân bay Tân Sơn Nhất,Sân bay Tân Sơn Nhất,10.817979,106.656265,1,hcmc
+BAI_HAU_CAN_GO_VAP,Bãi hậu cần Gò Vấp,Bãi hậu cần Gò Vấp,10.815869,106.684675,1,hcmc
+CHO_PHU_DINH,Chợ Phú Định,Chợ Phú Định,10.719803,106.623213,1,hcmc
+THPT_CHUYEN_NK_TTDTT_NGUYEN_THI_DINH,THPT Chuyên NK TTDTT Nguyễn Thị Định,THPT Chuyên NK TTDTT Nguyễn Thị Định,10.741874,106.613695,0,hcmc
+BENH_VIEN_BINH_TAN,Bệnh viện Bình Tân,Bệnh viện Bình Tân,10.763945,106.604177,1,hcmc
+CVVH_DAM_SEN,CVVH Đầm Sen,CVVH Đầm Sen,10.764325,106.638719,1,hcmc
+DH_SU_PHAM,ĐH Sư Phạm,ĐH Sư Phạm,10.76144,106.682154,0,hcmc
+GA_THAO_DIEN,Ga Thảo Điền,Ga Thảo Điền,10.800497,106.733645,1,hcmc
+GA_BINH_THAI,Ga Bình Thái,Ga Bình Thái,10.831961,106.764818,1,hcmc
+GA_SUOI_TIEN,Ga Suối Tiên,Ga Suối Tiên,10.879499,106.81404,0,hcmc
+BEN_XE_MIEN_DONG_MOI,Bến xe Miền Đông mới,Bến xe Miền Đông mới,10.878568,106.814983,1,hcmc
+BENH_VIEN_TRIEU_AN,Bệnh viện Triều An,Bệnh viện Triều An,10.739671,106.616866,0,hcmc
+KCN_TAN_TAO,KCN Tân Tạo,KCN Tân Tạo,10.735677,106.581877,0,hcmc
+KDC_TRUNG_SON,KDC Trung Sơn,KDC Trung Sơn,10.73087,106.688904,1,hcmc
+VIEN_PASTEUR,Viện Pasteur,Viện Pasteur,10.786106,106.688874,0,hcmc
+BENH_VIEN_MEKONG,Bệnh viện Mêkông,Bệnh viện Mêkông,10.799848,106.667523,0,hcmc
+BEN_TAU_THUY_BINH_AN,Bến tàu thủy Bình An,Bến tàu thủy Bình An,10.79728,106.728786,1,hcmc
+MASTERI_AN_PHU,Masteri An Phú,Masteri An Phú,10.803709,106.747394,0,hcmc
+CHUNG_CU_THE_SUN_AVENUE,Chung cư The Sun Avenue,Chung cư The Sun Avenue,10.717664,106.729055,0,hcmc
+GLOBAL_CITY,Global City,Global City,10.733865,106.70675,0,hcmc
+DUONG_LIEN_PHUONG,Đường Liên Phường,Đường Liên Phường,10.832697,106.774127,1,hcmc
+DH_UMT,ĐH UMT,ĐH UMT,10.749599,106.679293,1,hcmc
+TTHC_TP_THU_DUC,TTHC TP Thủ Đức,TTHC TP Thủ Đức,10.828334,106.761474,1,hcmc
+KDC_VAN_MINH,KDC Văn Minh,KDC Văn Minh,10.684248,106.615155,0,hcmc
+THE_SUN_AVENUE,The Sun Avenue,The Sun Avenue,10.784174,106.746177,0,hcmc
+GA_AN_PHU,Ga An Phú,Ga An Phú,10.801834,106.74162,1,hcmc
+BEN_VAN_DON,Bến Vân Đồn,Bến Vân Đồn,10.758548,106.693783,0,hcmc
+BEN_BACH_DANG,Bến Bạch Đằng,Bến Bạch Đằng,10.772275,106.706617,1,hcmc
+GA_NHA_HAT_THANH_PHO,Ga Nhà hát Thành phố,Ga Nhà hát Thành phố,10.775295,106.701839,0,hcmc
+PHO_DI_BO_NGUYEN_HUE,Phố đi bộ Nguyễn Huệ,Phố đi bộ Nguyễn Huệ,10.775414,106.700138,1,hcmc
+GA_SAI_GON_HOA_HUNG,Ga Sài Gòn (Hòa Hưng),Ga Sài Gòn (Hòa Hưng),10.782417,106.677177,0,hcmc
+DH_SAI_GON_CO_SO_3,ĐH Sài Gòn Cơ sở 3,ĐH Sài Gòn Cơ sở 3,10.759703,106.681759,0,hcmc
+CHO_VUON_CHUOI,Chợ Vườn Chuối,Chợ Vườn Chuối,10.77353,106.684263,1,hcmc
+BEN_XE_VAN_THANH,Bến xe Văn Thánh,Bến xe Văn Thánh,10.801317,106.717531,1,hcmc
+DAO_KIM_CUONG,Đảo Kim Cương,Đảo Kim Cương,10.776522,106.751594,0,hcmc
+KDC_THANH_MY_LOI,KDC Thạnh Mỹ Lợi,KDC Thạnh Mỹ Lợi,10.777982,106.761297,1,hcmc
+GA_TAN_CANG,Ga Tân Cảng,Ga Tân Cảng,10.798591,106.723243,1,hcmc
+DH_NGOAI_THUONG_CS2,ĐH Ngoại Thương CS2,ĐH Ngoại Thương CS2,10.753141,106.730373,0,hcmc
+GA_METRO_VAN_THANH,Ga Metro Văn Thánh,Ga Metro Văn Thánh,10.802594,106.744579,1,hcmc
+GA_METRO_TAN_CANG,Ga Metro Tân Cảng,Ga Metro Tân Cảng,10.798617,106.723319,0,hcmc
+LANDMARK_81_VINHOMES_CENTRAL_PARK,Landmark 81 Vinhomes Central Park,Landmark 81 Vinhomes Central Park,10.795827,106.72259,1,hcmc
+CHO_BINH_TRI_DONG,Chợ Bình Trị Đông,Chợ Bình Trị Đông,10.756031,106.593727,0,hcmc
+DH_CONG_THUONG_TP_HCM,ĐH Công Thương TP.HCM,ĐH Công Thương TP.HCM,10.787145,106.700023,0,hcmc
+BEN_XE_TAN_PHU,Bến xe Tân Phú,Bến xe Tân Phú,10.80931,106.633503,1,hcmc
+BENH_VIEN_DA_KHOA_QUOC_TE_VINMEC,Bệnh viện Đa khoa Quốc tế Vinmec,Bệnh viện Đa khoa Quốc tế Vinmec,10.835919,106.845657,1,hcmc
+BEN_XE_MIEN_DONG_CU,Bến xe Miền Đông cũ,Bến xe Miền Đông cũ,10.814875,106.711471,1,hcmc
+EMART_GO_VAP,Emart Gò Vấp,Emart Gò Vấp,10.823493,106.693641,1,hcmc
+CHO_AN_NHON,Chợ An Nhơn,Chợ An Nhơn,10.841102,106.678105,0,hcmc
+BEN_XE_NGA_TU_GA_2,Bến xe Ngã tư Ga,Bến xe Ngã tư Ga,10.861686,106.679365,1,hcmc
+GA_METRO_THU_DUC,Ga Metro Thủ Đức,Ga Metro Thủ Đức,10.84603,106.772386,1,hcmc
+HOC_VIEN_CONG_NGHE_BCVT,Học viện Công nghệ BCVT,Học viện Công nghệ BCVT,10.782352,106.701411,0,hcmc
+CHUNG_CU_MAN_THIEN,Chung cư Man Thiện,Chung cư Man Thiện,10.847381,106.799528,0,hcmc
+BENH_VIEN_LE_VAN_VIET,Bệnh viện Lê Văn Việt,Bệnh viện Lê Văn Việt,10.844884,106.790204,0,hcmc
+GA_METRO_BINH_THAI,Ga Metro Bình Thái,Ga Metro Bình Thái,10.832121,106.764756,1,hcmc
+CHO_PHUOC_BINH,Chợ Phước Bình,Chợ Phước Bình,10.812649,106.771062,0,hcmc
+THCS_PHUOC_BINH,THCS Phước Bình,THCS Phước Bình,10.838707,106.714716,0,hcmc
+CAO_DANG_CONG_THUONG_TP_HCM,Cao đẳng Công Thương TP.HCM,Cao đẳng Công Thương TP.HCM,10.774725,106.634389,1,hcmc
+BEN_XE_DH_NONG_LAM,Bến xe ĐH Nông Lâm,Bến xe ĐH Nông Lâm,10.86833,106.787407,1,hcmc
+GA_METRO_KCNC,Ga Metro KCNC,Ga Metro KCNC,10.802594,106.744579,1,hcmc
+GA_DH_QUOC_GIA,Ga ĐH Quốc Gia,Ga ĐH Quốc Gia,10.77335,106.659632,0,hcmc
+KY_TUC_XA_KHU_B_DHQG,Ký túc xá Khu B ĐHQG,Ký túc xá Khu B ĐHQG,10.883677,106.781144,0,hcmc
+CHUNG_CU_TOPAZ,Chung cư Topaz,Chung cư Topaz,10.865224,106.810515,1,hcmc
+SAMSUNG_CE_COMPLEX,Samsung CE Complex,Samsung CE Complex,10.827191,106.794579,0,hcmc
+DH_FPT_SAI_GON,ĐH FPT Sài Gòn,ĐH FPT Sài Gòn,10.777991,106.704761,1,hcmc
+GA_METRO_DH_QUOC_GIA,Ga Metro ĐH Quốc Gia,Ga Metro ĐH Quốc Gia,10.866031,106.800393,1,hcmc
+QUANG_TRUONG_SANG_TAO,Quảng trường Sáng tạo,Quảng trường Sáng tạo,10.874054,106.800545,0,hcmc
+TRUONG_DH_QUOC_TE_DHQG,Trường ĐH Quốc Tế ĐHQG,Trường ĐH Quốc Tế ĐHQG,10.762584,106.681695,0,hcmc
+DH_HUTECH_KCNC,ĐH HUTECH KCNC,ĐH HUTECH KCNC,10.841416,106.808705,1,hcmc
+TRUONG_DH_KINH_TE_LUAT,Trường ĐH Kinh tế Luật,Trường ĐH Kinh tế Luật,10.848062,106.752017,0,hcmc
+CHO_LINH_XUAN,Chợ Linh Xuân,Chợ Linh Xuân,10.877414,106.766595,0,hcmc
+KCX_LINH_TRUNG_1,KCX Linh Trung 1,KCX Linh Trung 1,10.875927,106.797776,1,hcmc
+DH_NGAN_HANG_TP_HCM,ĐH Ngân Hàng TP.HCM,ĐH Ngân Hàng TP.HCM,10.856395,106.762397,1,hcmc
+NHA_THIEU_NHI_TP_THU_DUC,Nhà Thiếu nhi TP Thủ Đức,Nhà Thiếu nhi TP Thủ Đức,10.787363,106.761925,1,hcmc
+CHO_BAC_NINH,Chợ Bắc Ninh,Chợ Bắc Ninh,10.759703,106.681759,0,hcmc
+CANG_PHUC_LONG_ICD_TRUONG_THO,Cảng Phúc Long ICD Trường Thọ,Cảng Phúc Long ICD Trường Thọ,10.834325,106.749484,1,hcmc
+BEN_XE_KHU_A_DHQG,Bến xe Khu A ĐHQG,Bến xe Khu A ĐHQG,10.879795,106.808591,1,hcmc
+GA_METRO_DH_QUOC_GIA_2,Ga Metro ĐH Quốc gia,Ga Metro ĐH Quốc gia,10.866031,106.800393,0,hcmc
+KY_TUC_XA_KHU_A,Ký túc xá Khu A,Ký túc xá Khu A,10.879795,106.808591,0,hcmc
+TRUNG_TAM_GIAO_DUC_QUOC_PHONG,Trung tâm Giáo dục Quốc phòng,Trung tâm Giáo dục Quốc phòng,10.887642,106.804689,0,hcmc
+BEN_XE_KHU_B_DHQG,Bến xe Khu B ĐHQG,Bến xe Khu B ĐHQG,10.883677,106.781144,1,hcmc
+BEN_XE_PHU_CHANH,Bến xe Phú Chánh,Bến xe Phú Chánh,11.076035,106.692858,1,hcmc
+TTHC_TINH_BINH_DUONG,TTHC Tỉnh Bình Dương,TTHC Tỉnh Bình Dương,10.879152,106.761798,0,hcmc
+TOA_NHA_WTC_BECAMEX,Tòa nhà WTC Becamex,Tòa nhà WTC Becamex,10.976273,106.669472,0,hcmc
+BEN_XE_VUNG_TAU,Bến xe Vũng Tàu,Bến xe Vũng Tàu,10.350356,107.087152,1,hcmc
+BAI_SAU,Bãi Sau,Bãi Sau,10.342558,107.095894,0,hcmc
+TTHC_TINH_BA_RIA_VUNG_TAU,TTHC Tỉnh Bà Rịa Vũng Tàu,TTHC Tỉnh Bà Rịa Vũng Tàu,10.364353,107.08333,0,hcmc
+HAM_THU_THIEM,Hầm Thủ Thiêm,Hầm Thủ Thiêm,10.769702,106.707918,0,hcmc
+CHO_CON_DAO,Chợ Côn Đảo,Chợ Côn Đảo,10.755448,106.683506,1,hcmc
+NGHIA_TRANG_HANG_DUONG,Nghĩa trang Hàng Dương,Nghĩa trang Hàng Dương,8.692651,106.614199,0,hcmc
+BAI_DAM_TRAU,Bãi Đầm Trầu,Bãi Đầm Trầu,8.734321,106.623524,0,hcmc
+SAN_BAY_CON_DAO,Sân bay Côn Đảo,Sân bay Côn Đảo,8.731872,106.632289,1,hcmc
+DH_KHXH_NV,ĐH KHXH&NV,ĐH KHXH&NV,10.87069,106.801262,0,hcmc
+DH_NONG_LAM,ĐH Nông Lâm,ĐH Nông Lâm,10.872325,106.788978,1,hcmc
+BEN_XE_KHU_A_DH_QUOC_GIA_TP_HCM,Bến xe Khu A ĐH Quốc Gia TP.HCM,Bến xe Khu A ĐH Quốc Gia TP.HCM,10.881767,106.806157,1,hcmc
+BEN_NHA_RONG,Bến Nhà Rồng,Bến Nhà Rồng,10.768284,106.706644,0,hcmc
+DH_NGUYEN_TAT_THANH,ĐH Nguyễn Tất Thành,ĐH Nguyễn Tất Thành,10.585416,107.061521,0,hcmc
+KCX_TAN_THUAN,KCX Tân Thuận,KCX Tân Thuận,10.752585,106.740225,0,hcmc
+CAU_PHU_MY,Cầu Phú Mỹ,Cầu Phú Mỹ,10.736996,106.729945,0,hcmc
+BEN_PHA_BINH_KHANH_NHA_BE,Bến phà Bình Khánh Nhà Bè,Bến phà Bình Khánh Nhà Bè,10.674356,106.766141,1,hcmc
+CHO_DAU_MOI_BINH_DIEN_2,Chợ đầu mối Bình Điền,Chợ đầu mối Bình Điền,10.702768,106.610319,0,hcmc
+CAU_CHO_DEM,Cầu Chợ Đệm,Cầu Chợ Đệm,10.691197,106.568628,0,hcmc
+KCN_LE_MINH_XUAN,KCN Lê Minh Xuân,KCN Lê Minh Xuân,10.783014,106.694893,0,hcmc
+BEN_XE_BUYT_LE_MINH_XUAN,Bến xe buýt Lê Minh Xuân,Bến xe buýt Lê Minh Xuân,10.758137,106.543715,1,hcmc
+CHO_BA_QUEO,Chợ Bà Quẹo,Chợ Bà Quẹo,10.800423,106.637844,0,hcmc
+NGA_BA_GIONG_DI_TICH_LICH_SU,Ngã ba Giồng di tích lịch sử,Ngã ba Giồng di tích lịch sử,10.721374,106.536306,0,hcmc
+CHO_XUAN_THOI_THUONG,Chợ Xuân Thới Thượng,Chợ Xuân Thới Thượng,10.863281,106.568953,0,hcmc
+CAU_LON_HOC_MON,Cầu Lớn Hóc Môn,Cầu Lớn Hóc Môn,10.801473,106.838893,1,hcmc
+CVPM_QUANG_TRUNG,CVPM Quang Trung,CVPM Quang Trung,10.772887,106.666188,0,hcmc
+BEN_XE_HOC_MON,Bến xe Hóc Môn,Bến xe Hóc Môn,10.913158,106.565167,1,hcmc
+CHO_LON,Chợ Lớn,Chợ Lớn,10.751817,106.658971,0,hcmc
+TTTM_AEON_MALL_BINH_TAN,TTTM Aeon Mall Bình Tân,TTTM Aeon Mall Bình Tân,10.744064,106.613158,0,hcmc
+CHO_BA_HOM,Chợ Bà Hom,Chợ Bà Hom,10.753329,106.590923,0,hcmc
+KDC_VINH_LOC_A_BINH_CHANH,KDC Vĩnh Lộc A Bình Chánh,KDC Vĩnh Lộc A Bình Chánh,10.804391,106.593187,1,hcmc
+RAP_HAT_HOA_BINH,Rạp hát Hòa Bình,Rạp hát Hòa Bình,10.771928,106.674836,0,hcmc
+CHO_TAN_BINH,Chợ Tân Bình,Chợ Tân Bình,10.786201,106.653771,0,hcmc
+DH_SU_PHAM_CS2,ĐH Sư Phạm CS2,ĐH Sư Phạm CS2,10.76144,106.682154,0,hcmc
+CHO_XUAN_THOI_THUONG_HOC_MON,Chợ Xuân Thới Thượng Hóc Môn,Chợ Xuân Thới Thượng Hóc Môn,10.85847,106.581897,1,hcmc
+PHA_CAT_LAI,Phà Cát Lái,Phà Cát Lái,10.757085,106.788609,1,hcmc
+CANG_CAT_LAI,Cảng Cát Lái,Cảng Cát Lái,10.766797,106.795477,0,hcmc
+CAO_DANG_CONG_THUONG,Cao đẳng Công Thương,Cao đẳng Công Thương,10.830272,106.775294,0,hcmc
+CHO_DAU_MOI_NONG_SAN_THU_DUC,Chợ đầu mối Nông sản Thủ Đức,Chợ đầu mối Nông sản Thủ Đức,10.868246,106.730074,1,hcmc
+CHO_TAN_HUONG,Chợ Tân Hương,Chợ Tân Hương,10.790168,106.621347,1,hcmc
+HO_CON_RUA,Hồ Con Rùa,Hồ Con Rùa,10.782637,106.695946,0,hcmc
+NHA_VAN_HOA_THANH_NIEN,Nhà Văn hóa Thanh Niên,Nhà Văn hóa Thanh Niên,10.781406,106.697177,0,hcmc
+DH_KINH_TE,ĐH Kinh Tế,ĐH Kinh Tế,10.796928,106.703288,0,hcmc
+LOTTE_MART_Q7,Lotte Mart Q7,Lotte Mart Q7,10.739907,106.703975,0,hcmc
+TRUONG_DH_VAN_LANG_CS3,Trường ĐH Văn Lang CS3,Trường ĐH Văn Lang CS3,10.792911,106.687849,1,hcmc
+NGA_BA_CHO_CAU,Ngã ba Chợ Cầu,Ngã ba Chợ Cầu,10.761743,106.696262,0,hcmc
+BENH_VIEN_GO_VAP,Bệnh viện Gò Vấp,Bệnh viện Gò Vấp,10.845083,106.67203,0,hcmc
+NGA_TU_GA,Ngã tư Ga,Ngã tư Ga,10.857329,106.679825,0,hcmc
+NGA_4_GA,Ngã 4 Ga,Ngã 4 Ga,10.862307,106.678723,0,hcmc
+CHO_DAU_MOI_THU_DUC,Chợ đầu mối Thủ Đức,Chợ đầu mối Thủ Đức,10.868246,106.730074,0,hcmc
+BEN_XE_KHU_A_DH_QUOC_GIA_2,Bến xe Khu A ĐH Quốc Gia,Bến xe Khu A ĐH Quốc Gia,10.87483,106.80779,1,hcmc
+CAU_ONG_LANH,Cầu Ông Lãnh,Cầu Ông Lãnh,10.762975,106.69109,0,hcmc
+BENH_VIEN_QUAN_7,Bệnh viện Quận 7,Bệnh viện Quận 7,10.778661,106.684937,0,hcmc
+KDC_HIM_LAM,KDC Him Lam,KDC Him Lam,10.832526,106.754774,0,hcmc

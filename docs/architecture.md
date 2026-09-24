@@ -105,23 +105,27 @@ Xem chi tiết bảng/khoá tại [`er_diagram.md`](er_diagram.md) và schema th
 
 ## 7. Giới hạn hiện tại (Limitations)
 
-1. Dữ liệu tuyến/trạm là **bộ mẫu biên soạn thủ công** theo cấu trúc GTFS (không phải dữ liệu GTFS chính thức của Sở GTVT/Trung tâm Quản lý GTCC TP.HCM).
+1. Dữ liệu tuyến (giá vé, giờ chạy, giãn cách, quãng đường) là dữ liệu THẬT (TP.HCM
+   2026, xem `DATA BUS HCM/`), nhưng **toạ độ trạm là ước lượng** - định vị theo tên
+   điểm mốc qua OpenStreetMap (`dataset/build_hcm_dataset.py`), không phải toạ độ GPS
+   trạm dừng chính thức của Sở GTVT/Trung tâm Quản lý GTCC TP.HCM.
 2. Giờ xe đến trạm là **ước tính theo biểu đồ chạy chuẩn** (first/last departure + headway), chưa tích hợp GPS thời gian thực.
 3. Thuật toán tìm tuyến giới hạn **tối đa 1 lần chuyển tuyến** để giữ đơn giản và dễ giải thích; mạng lưới thực tế lớn hơn có thể cần thuật toán Dijkstra/A* trên đồ thị thời gian đầy đủ.
 4. Chưa có xác thực người dùng (authentication) vì bài toán không yêu cầu tài khoản cá nhân.
 
-## 8b. Tính năng mở rộng (v2): bản đồ trực tiếp, đa thành phố, đa ngôn ngữ
+## 8b. Tính năng mở rộng (v2): bản đồ trực tiếp, dữ liệu thực tế, đa ngôn ngữ
 
-- **Phạm vi 2 thành phố**: dữ liệu bao phủ cả TP.HCM (10 tuyến) và Biên Hòa - Đồng Nai
-  (5 tuyến), phân biệt qua cột `city_id` trên `stops`/`routes`, người dùng lọc theo
-  thành phố ở sidebar.
+- **Phạm vi TP.HCM (2026)**: 74 tuyến xe buýt & Metro, dữ liệu thực tế sau khi TP.HCM
+  sáp nhập Bình Dương và Bà Rịa - Vũng Tàu; cột `city_id` trên `stops`/`routes` giữ
+  lại cho khả năng mở rộng đa thành phố sau này nhưng hiện luôn là `hcmc`.
 - **Tìm kiếm theo địa chỉ 2 lớp**: lớp 1 (chính, luôn hoạt động kể cả offline) là so
   khớp cục bộ không phân biệt dấu/hoa-thường với tên trạm (`backend/search.py`); lớp 2
   (bổ sung) là geocoding qua OpenStreetMap Nominatim miễn phí, không cần API key
   (`backend/geocoding.py`), dùng khi địa chỉ không khớp trực tiếp tên trạm nào.
-- **Bản đồ trực tiếp kiểu BusMap**: toàn bộ trạm hiển thị dạng marker trên 1 bản đồ
-  Folium lớn, tô màu theo thành phố; khi chọn 1 phương án di chuyển hoặc duyệt 1 tuyến,
-  bản đồ vẽ polyline lộ trình + marker điểm đi/đến.
+- **Bản đồ trực tiếp kiểu BusMap** (Folium): khi chọn 1 phương án di chuyển hoặc
+  duyệt 1 tuyến, bản đồ chỉ hiện 2 marker điểm đi/điểm đến (hiệu ứng nhấp nháy) -
+  cố tình giữ tối giản, không vẽ polyline lộ trình, để bản đồ gọn và dễ nhìn; danh
+  sách đầy đủ trạm trên tuyến xem ở phần "Danh sách trạm trên tuyến" dạng văn bản.
 - **Mô phỏng xe chạy thời gian thực**: bật công tắc "Tự động cập nhật vị trí xe" để
   bản đồ tự làm mới mỗi 8 giây (`streamlit-autorefresh`), tính lại vị trí các "chuyến
   xe" đang chạy dựa trên biểu đồ chạy chuẩn (`backend/tracking.py`) và vẽ icon 🚌 di

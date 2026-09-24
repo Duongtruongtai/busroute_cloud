@@ -1,0 +1,98 @@
+CẨM NANG KIẾN TRÚC CƠ SỞ DỮ LIỆU & THUẬT TOÁN TÌM ĐƯỜNG CLOUD WEB APP (HCMC TRANSIT ENGINE),,,,,,
+"Tài liệu đặc tả kỹ thuật kiến trúc hệ thống đa tầng, lược đồ CSDL SQL/PostGIS, chỉ mục tìm kiếm GIN, thuật toán tìm đường RAPTOR/A* và đặc tả RESTful API.",,,,,,
+Module / Phân hệ,Tầng kiến trúc,Công nghệ / Engine,Chức năng & Nhiệm vụ chính,Thông lượng / SLA latency,Khả năng mở rộng (Scale),Nguyên lý thiết kế chủ đạo
+Frontend Client,Client Layer,Next.js 14 / React / TailwindCSS / MapLibre GL,"Giao diện người dùng Web/Mobile tra cứu trực quan bản đồ số, input A-B autocomplete, hiển thị lộ trình chi tiết.","FCP < 1.0s, TTFB < 200ms",Vercel Edge Network / Cloudflare CDN,SSR + Client-side Map Vector Rendering
+API Gateway & Auth,Gateway Layer,FastAPI / Envoy / Traefik / Kong,"Định tuyến vi dịch vụ, Rate limiting (100 req/min/IP), xác thực JWT, nén phản hồi Brotli/Gzip.",< 15ms routing overhead,Horizontal Pod Autoscaler (K8s),"Stateless API Gateway, Zero-trust"
+Search & Autocomplete,Microservice,Node.js + PostgreSQL pg_trgm + Meilisearch,"Nhận chuỗi ký tự tự do người dùng gõ, đối soát Trigram index điểm mốc & trạm xe bus, trả về top 10 gợi ý.",< 35ms response time,Read Replicas + In-memory prefix tree,"Fuzzy matching, bỏ dấu tiếng Việt, scoring trọng số"
+Routing Core Engine,Compute Engine,Rust Routing Service (RAPTOR & A*),"Thực thi thuật toán tìm đường đa tiêu chí (ít chuyển tuyến nhất, nhanh nhất, rẻ nhất, đi bộ ít nhất).",< 80ms cho lộ trình 2 lần chuyển,Multi-threaded in-memory transit graph,Round-based Public Transit Routing (RAPTOR)
+Spatial & Master DB,Storage Layer,PostgreSQL 16 + PostGIS Spatial Extension,"Lưu trữ toàn bộ Master routes, stops, coordinates (WGS84 EPSG:4326), spatial index GiST R-Tree.",< 10ms cho spatial KNN query,AWS Aurora PostgreSQL Multi-AZ,"ACID Compliance, GeoJSON serialization"
+Cache & Live Transit,Cache Layer,Redis Cluster 7.2 (Memory Cache),"Lưu cache kết quả tìm đường phổ biến (TTL 30p), vị trí xe bus thời gian thực (GPS live stream).",< 3ms read latency,Redis Sharding + Read replicas,"Cache-Aside pattern, GeoSet spatial indexing"
+PHẦN 1: BẢN VẼ LƯỢC ĐỒ CSDL QUAN HỆ & KHÔNG GIAN CHUẨN SQL DDL (POSTGRESQL + POSTGIS),,,,,,
+Tên bảng CSDL,Khóa chính & Khóa ngoại,Thuộc tính dữ liệu cốt lõi,Chiến lược chỉ mục không gian & tối ưu,Chỉ mục tìm kiếm văn bản (Full-Text),Quy tắc toàn vẹn dữ liệu,Mô tả mục đích trong Web App
+routes,"route_id (PK, VARCHAR(10))","route_name, operator_name, operator_phone, operation_type, is_subsidized, distance_km, headway_min, fare_regular_vnd","B-Tree index trên is_subsidized, operation_type",GIN index trên lower(route_name),"distance_km > 0, fare_regular_vnd >= 0","Lưu trữ danh mục tuyến chính, đơn vị vận hành và thông số vận tải"
+stops,"stop_id (PK, SERIAL/UUID)","stop_name, street_name, ward_district, geom (GEOMETRY(Point, 4326)), has_shelter, is_metro_station",SPATIAL GiST Index trên geom: CREATE INDEX idx_stops_geom ON stops USING GIST(geom);,GIN (stop_name gin_trgm_ops) phục vụ tìm kiếm trạm gõ mờ,"ST_IsValid(geom), Tọa độ chuẩn vĩ độ (10.x) kinh độ (106.x)","Lưu danh sách trạm dừng, nhà chờ, ga metro phục vụ định vị GPS"
+route_stops,"(route_id, stop_id, direction_id, stop_sequence) PK","route_id (FK), stop_id (FK), direction_id (SMALLINT: 1=Đi, 2=Về), stop_sequence (INT), travel_time_from_origin_min","Composite B-Tree index (route_id, direction_id, stop_sequence)",BTREE (stop_id) để tra ngược tất cả các tuyến đi qua 1 trạm,"stop_sequence > 0, UNIQUE(route_id, direction_id, stop_sequence)","Bảng liên kết thứ tự trạm của từng tuyến, dựng nên hình học lộ trình tuyến xe"
+landmarks,"landmark_id (PK, SERIAL)","name, category (Đại học, Bệnh viện, Ga Metro, Bến xe, Sân bay, Chợ), address, geom (GEOMETRY(Point, 4326)), popularity_score",SPATIAL GiST Index trên geom: ST_DWithin tìm trạm bus gần nhất trong 400m,GIN Trigram Index: CREATE INDEX idx_landmarks_trgm ON landmarks USING GIN (name gin_trgm_ops);,"category IN ('Đại học','Bệnh viện','Ga Metro','Bến xe','Sân bay','Chợ','TTTM')",Cơ sở dữ liệu từ khóa điểm mốc cho tính năng Autocomplete A-B
+trips_schedule,"trip_id (PK, VARCHAR(30))","route_id (FK), direction_id, departure_time (TIME), arrival_time (TIME), day_of_week (BIT(7))","B-Tree index trên (route_id, departure_time)",Không áp dụng,departure_time < arrival_time,Lịch xuất bến phục vụ thuật toán tìm đường chính xác theo thời gian thực
+ĐOẠN MÃ LỆNH SQL DDL MẪU CẤU HÌNH CSDL VÀ CHỈ MỤC TÌM KIẾM TỐC ĐỘ CAO (POSTGIS & PG_TRGM),,,,,,
+"-- 1. Kích hoạt tiện ích mở rộng PostGIS & pg_trgm (Full-text Trigram Search)
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;",,,,,,
+"-- 2. DDL Bảng địa danh Landmarks phục vụ tìm kiếm Autocomplete & Geocoding
+CREATE TABLE landmarks (
+    landmark_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(50) NOT NULL, -- 'Đại học', 'Bệnh viện', 'Ga Metro', 'Bến xe', 'Sân bay', 'Chợ', 'TTTM'
+    address TEXT,
+    geom GEOMETRY(Point, 4326) NOT NULL,
+    popularity_score INT DEFAULT 100
+);
+CREATE INDEX idx_lm_geom ON landmarks USING GIST (geom);
+CREATE INDEX idx_lm_search ON landmarks USING GIN (name gin_trgm_ops);",,,,,,
+"-- 3. DDL Bảng liên kết trạm dừng theo lộ trình Route Stops
+CREATE TABLE route_stops (
+    route_id VARCHAR(10) REFERENCES routes(route_id),
+    stop_id INT REFERENCES stops(stop_id),
+    direction_id SMALLINT NOT NULL, -- 1: Lượt đi, 2: Lượt về
+    stop_sequence INT NOT NULL,
+    travel_time_from_origin_min NUMERIC(5,2),
+    PRIMARY KEY (route_id, direction_id, stop_sequence)
+);
+CREATE INDEX idx_rs_lookup ON route_stops (route_id, direction_id, stop_sequence);
+CREATE INDEX idx_rs_stop_transfer ON route_stops (stop_id);",,,,,,
+"-- 4. Spatial Query: Tìm trạm xe bus gần điểm mốc A trong bán kính 400m (KNN Index)
+SELECT s.stop_id, s.stop_name, ST_DistanceSphere(s.geom, l.geom) AS distance_meters
+FROM stops s, landmarks l
+WHERE l.name ILIKE '%Đại học Nông Lâm%'
+  AND ST_DWithin(s.geom::geography, l.geom::geography, 400)
+ORDER BY distance_meters ASC LIMIT 5;",,,,,,
+"-- 5. Autocomplete Query: Tìm kiếm mờ địa danh với chỉ mục GIN Trigram (Latency < 20ms)
+SELECT landmark_id, name, category, similarity(name, 'Ben Thanh') AS match_score
+FROM landmarks
+WHERE name % 'Ben Thanh' OR name ILIKE '%Ben Thanh%'
+ORDER BY match_score DESC, popularity_score DESC LIMIT 10;",,,,,,
+,,,,,,
+,,,,,,
+PHẦN 2: MÔ HÌNH ĐỒ THỊ MẠNG LƯỚI & THUẬT TOÁN TÌM ĐƯỜNG TỐI ƯU (TRANSIT GRAPH & ROUTING ALGORITHMS),,,,,,
+Thuật toán / Mô hình,Cấu trúc Node & Edge trên đồ thị,Mục tiêu tối ưu hóa,Độ phức tạp thuật toán,Chi phí đổi tuyến (Transfer Penalty),Ưu điểm vượt trội,Kịch bản áp dụng thực tế
+Thuật toán RAPTOR,"Không dùng ma trận cạnh truyền thống, duyệt theo Rounds và Routes",Tìm tập nghiệm tối ưu Pareto: Thời gian đi nhanh nhất VÀ Số lần đổi tuyến ít nhất,"O(K * (|R| + |S|)) - K: số lần chuyển tuyến, R: tuyến, S: trạm",Mỗi lần tăng 1 Round tương ứng tăng 1 lần đổi xe. Không cần phạt ảo.,Nhanh hơn Dijkstra 100 lần trên mạng lưới giao thông công cộng quy mô lớn,Thuật toán cốt lõi cho Web App tìm đường xe bus hiện đại (như Google Maps transit)
+Thuật toán A* (Multi-Criteria),"Node = (Trạm dừng, Thời gian); Edge = Chuyến xe hoặc đoạn đi bộ",Tối thiểu hóa hàm chi phí f(n) = g(n) + h(n) với heuristic khoảng cách Euclidean,O(E + V log V) với Fibonacci Heap,"Cộng thêm hệ số phạt 10 - 15 phút thời gian chờ và 3,000đ chi phí cho mỗi lần đổi bus",Dễ dàng tích hợp đi bộ chặng đầu (first-mile) và chặng cuối (last-mile),Phù hợp tìm đường kết hợp đi bộ chuyển giữa trạm xe bus và ga metro
+Thuật toán Dijkstra có trọng số,Node = Trạm dừng (Stop); Edge = Thời gian di chuyển giữa 2 trạm liên tiếp,Đường đi ngắn nhất đơn tiêu chí (Thời gian di chuyển thuần túy),O(V^2) hoặc O(E + V log V),Phạt thời gian cố định tại các node trung chuyển (Transfer Node),"Đơn giản, dễ cài đặt bằng thư viện pgRouting trực tiếp trên PostgreSQL",Dùng làm thuật toán đối soát kiểm thử (Benchmark Baseline)
+HÀM MỤC TIÊU ĐA TIÊU CHÍ (MULTI-OBJECTIVE COST FUNCTION) CHO BỘ ĐỊNH TUYẾN A-B,,,,,,
+"Hàm mục tiêu tổng chi phí hành trình (Multi-Objective Cost Function):
+F(Journey) = w1 * T_ride + w2 * T_wait + w3 * T_walk + w4 * C_fare + w5 * N_transfer
+- w1 = 1.0 (Trọng số thời gian ngồi trên xe)
+- w2 = 1.8 (Trọng số thời gian chờ xe tại trạm - phản ánh tâm lý căng thẳng khi phải chờ đợi)
+- w3 = 2.0 (Trọng số thời gian đi bộ chặng đầu / chặng cuối - ưu tiên người đi bộ ít nhất)
+- w4 = 0.001 (Hệ số quy đổi chi phí vé VND tương đương điểm thời gian)
+- w5 = 600 (Hệ số phạt đổi tuyến: 600 điểm phạt ~ tương đương 10 phút chờ phát sinh cho mỗi lần đổi bus)",,,,,,
+"Nguyên lý tối ưu hóa Pareto & Lọc kết quả tìm đường:
+Loại bỏ lộ trình B nếu tồn tại lộ trình A có: Thời gian(A) <= Thời gian(B) VÀ Chi phí(A) <= Chi phí(B) VÀ Số lần đổi xe(A) <= Số lần đổi xe(B).
+Hệ thống trả về 3 phương án tốt nhất trên giao diện:
+1. Nhanh nhất (Fastest Route): Tối thiểu hóa tổng thời gian di chuyển.
+2. Ít chuyển tuyến nhất (Least Transfers): Ưu tiên tuyến xe bus chạy thẳng từ A đến B.
+3. Tiết kiệm nhất (Lowest Fare): Tối ưu hóa chi phí vé cho học sinh/sinh viên.",,,,,,
+PHẦN 3: ĐẶC TẢ GIAO DIỆN LẬP TRÌNH ỨNG DỤNG RESTFUL API & CẤU TRÚC JSON (WEB APP INTEGRATION),,,,,,
+Tên API Endpoint,Phương thức HTTP,Tham số đầu vào (Request Params),Cấu trúc dữ liệu phản hồi (Response Payload),Chiến lược bộ nhớ đệm (Cache),Mục tiêu SLA độ trễ,Giao diện Web App tương ứng
+/api/v1/places/autocomplete,GET,"q=string (từ khóa gõ tự do), lat, lon (tùy chọn định vị người dùng), limit=10","Array các địa danh khớp: { landmark_id, name, category, address, distance_m, lat, lon }",Redis Cache TTL 12 giờ theo từ khóa normalize,< 25ms,Ô nhập liệu tự động gợi ý điểm xuất phát A và điểm đến B
+/api/v1/routing/plan,POST,"{ origin: {lat, lon}, destination: {lat, lon}, time_mode: ""NOW"", priority: ""FASTEST""|""LEAST_TRANSFERS"" }","Object lộ trình tối ưu: { journeys: [ { total_duration_min, total_fare_vnd, transfers_count, walking_distance_m, legs: [...] } ] }",Redis Cache TTL 15 phút theo cặp tọa độ geohash,< 90ms,"Khung kết quả gợi ý tuyến xe bus, vẽ đường đi Polyline trên bản đồ số"
+/api/v1/routes/:route_id,GET,"route_id (e.g. '01', 'MRT1'), direction (1|2)","{ route_id, route_name, bounds, stops: [ { stop_id, name, lat, lon, order } ], path_geojson }",Cloudflare CDN Cache TTL 24 giờ,< 15ms,"Trang chi tiết lộ trình tuyến xe bus, danh sách trạm đón/trả"
+/api/v1/stops/nearby,GET,"lat=float, lon=float, radius_meters=500 (bán kính trạm)",Array các trạm dừng lân cận kèm danh sách các tuyến xe bus đi qua trạm đó,Redis GeoRadius Cache TTL 1 giờ,< 20ms,Tính năng 'Trạm dừng quanh đây' hiển thị biểu tượng pin trên bản đồ
+VÍ DỤ CẤU TRÚC DỮ LIỆU JSON PHẢN HỒI CHO TÍNH NĂNG TÌM ĐƯỜNG A-B (POST /api/v1/routing/plan),,,,,,
+"{
+  ""status"": ""success"",
+  ""data"": {
+    ""summary"": {
+      ""total_duration_min"": 42,
+      ""total_fare_vnd"": 6000,
+      ""transfers_count"": 0,
+      ""walking_distance_m"": 320
+    },
+    ""legs"": [
+      { ""type"": ""WALK"", ""duration_min"": 4, ""distance_m"": 250, ""instruction"": ""Đi bộ từ Vị trí A đến Ga Bến Thành"" },
+      { ""type"": ""TRANSIT"", ""route_id"": ""MRT1"", ""route_name"": ""Tuyến Metro số 1 Bến Thành - Suối Tiên"", ""from_stop"": ""Ga Bến Thành"", ""to_stop"": ""Ga Ba Son"", ""duration_min"": 6, ""fare_vnd"": 6000 },
+      { ""type"": ""TRANSIT"", ""route_id"": ""01"", ""route_name"": ""Ga Ba Son - Bến xe buýt Chợ Lớn"", ""from_stop"": ""Ga Ba Son"", ""to_stop"": ""Chợ An Đông"", ""duration_min"": 28, ""fare_vnd"": 5000 },
+      { ""type"": ""WALK"", ""duration_min"": 4, ""distance_m"": 70, ""instruction"": ""Đi bộ từ trạm Chợ An Đông đến Điểm đến B"" }
+    ]
+  }
+}",,,,,,

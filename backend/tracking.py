@@ -52,7 +52,7 @@ def _interpolate(ordered_stops: List[dict], elapsed_min: float):
 
 
 def active_buses(route_id: str, route_short_name: str, first_departure: str, last_departure: str,
-                  headway_min: int, ordered_stops: List[dict], now: Optional[datetime] = None,
+                  headway_min: float, ordered_stops: List[dict], now: Optional[datetime] = None,
                   max_trips: int = 500) -> List[BusPosition]:
     """Danh sach vi tri uoc tinh cua tat ca 'chuyen xe' dang chay tren 1 tuyen tai thoi diem now."""
     if not ordered_stops or headway_min <= 0:

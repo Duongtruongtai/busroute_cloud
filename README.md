@@ -13,9 +13,16 @@ phí vé (có ưu đãi sinh viên).
 
 ### Tính năng chính (v2)
 
-- 🗺️ **Bản đồ trực tiếp kiểu BusMap**: toàn bộ trạm hiển thị trên 1 bản đồ, chọn tuyến/phương án để xem lộ trình.
-- 🔎 **Tìm theo địa chỉ tự do**: gõ "Trường Nguyễn Tri Phương, đường Nguyễn Ái Quốc" vẫn ra đúng trạm gần nhất (so khớp cục bộ + geocoding OpenStreetMap dự phòng).
-- 🏙️ **2 khu vực**: TP. Hồ Chí Minh (10 tuyến) và Biên Hòa - Đồng Nai (5 tuyến).
+- 🏙️ **74 tuyến xe buýt & Metro TP.HCM — dữ liệu thực tế 2026** (TP.HCM sau khi sáp
+  nhập Bình Dương và Bà Rịa - Vũng Tàu): giá vé, giờ chạy, giãn cách, quãng đường,
+  đơn vị vận hành cho từng tuyến.
+- 🗺️ **Bản đồ trực tiếp kiểu BusMap**: chọn tuyến/phương án để xem lộ trình.
+- 🔎 **Tìm theo địa chỉ tự do**: gõ "Đại học Bách Khoa" hay "Bến Thành" vẫn ra đúng
+  trạm gần nhất (so khớp cục bộ + geocoding OpenStreetMap dự phòng).
+- 💰 **Tối ưu chi phí**: so sánh vé sinh viên/phổ thông giữa các phương án, kèm nhãn
+  "có trợ giá HSSV" / "không trợ giá" giải thích vì sao vé một số tuyến cao hơn.
+- 🔁 **Gợi ý điểm chuyển tuyến**: tìm tuyến trực tiếp hoặc tối đa 1 lần chuyển tuyến
+  giữa 2 điểm bất kỳ.
 - 🚌 **Mô phỏng xe chạy thời gian thực** trên bản đồ (tự làm mới mỗi 8s) — xem giải thích giới hạn ở mục 12.
 - 🟢/⚪ **Trạng thái hoạt động của tuyến** theo giờ hiện tại.
 - 🇻🇳/🇬🇧 **Song ngữ Việt - Anh**, đầy đủ dấu tiếng Việt.
@@ -53,8 +60,10 @@ PROJECT/
 ├── database/
 │   ├── schema.sql               # Script tạo bảng + RLS cho Supabase
 │   └── seed_supabase.py         # Script nạp dataset lên Supabase
+├── DATA BUS HCM/                # Dữ liệu gốc THẬT (74 tuyến TP.HCM, 2026) - xem mục 14
 ├── dataset/
-│   ├── generate_dataset.py      # Script sinh dataset mẫu (đã chạy sẵn)
+│   ├── build_hcm_dataset.py     # Script chuyển dữ liệu gốc -> stops/routes/route_stops.csv
+│   ├── geocode_cache.json       # Cache toạ độ điểm mốc (Photon/OSM) - commit kèm để tái tạo offline
 │   ├── stops.csv
 │   ├── routes.csv
 │   └── route_stops.csv
@@ -210,8 +219,6 @@ git push
    giá vé, và bản đồ hành trình.
 3. Tab **📊 Thống kê**: xem top trạm trung chuyển nhiều tuyến, danh sách toàn bộ tuyến,
    và (khi đã kết nối Cloud) thống kê lượt tìm kiếm thực tế của người dùng.
-4. Tab **ℹ️ Giới thiệu**: tóm tắt vấn đề, giải pháp, kiến trúc Cloud — dùng lại nội dung
-   này cho báo cáo/slide.
 
 ## 9. Kiểm thử
 
@@ -223,9 +230,20 @@ Xem mục 7–8 trong [`docs/architecture.md`](docs/architecture.md).
 
 ## 11. Nguồn dữ liệu
 
-Bộ dữ liệu mẫu (`dataset/`) được biên soạn thủ công theo cấu trúc chuẩn GTFS
-(`stops.txt`, `routes.txt`, `stop_times.txt` rút gọn thành 3 file CSV), dựa trên số hiệu
-tuyến và các điểm đầu-cuối (bến xe, trường học, sân bay) công khai tại TP.HCM; toạ độ các
-trạm trung gian được nội suy tuyến tính để phục vụ minh hoạ cho đồ án học phần — **không**
-phải trích xuất trực tiếp từ GTFS chính thức. Script sinh dữ liệu:
-[`dataset/generate_dataset.py`](dataset/generate_dataset.py).
+Dữ liệu gốc trong [`DATA BUS HCM/`](DATA%20BUS%20HCM/) là dữ liệu THẬT: 74 tuyến xe
+buýt & Metro TP.HCM (2026, sau khi TP.HCM sáp nhập Bình Dương và Bà Rịa - Vũng Tàu) —
+tên tuyến, đơn vị vận hành, giá vé, giờ chạy, giãn cách, quãng đường, và danh sách
+điểm mốc (landmark) theo thứ tự dọc từng tuyến. Bộ dữ liệu gốc **không** có toạ độ
+từng trạm — script [`dataset/build_hcm_dataset.py`](dataset/build_hcm_dataset.py)
+định vị (geocode) từng điểm mốc qua Photon/OpenStreetMap (kết quả cache trong
+`dataset/geocode_cache.json`), dùng thứ tự điểm mốc làm thứ tự trạm trên tuyến, và
+quy đổi thời gian tích luỹ mỗi trạm theo đúng `trip_duration_min` thực tế của tuyến.
+Vì vậy toạ độ trạm là **ước lượng theo địa danh** (gần đúng vị trí thật, không phải
+toạ độ GPS trạm dừng chính thức) — đủ chính xác để minh hoạ tra cứu/bản đồ cho đồ án
+học phần. Điểm mốc không định vị được sẽ được nội suy vị trí tương đối trong tuyến;
+tuyến không định vị được tối thiểu 2 điểm mốc sẽ không xuất hiện trên bản đồ/tra cứu
+(vẫn hiển thị trong bảng thống kê tuyến). Chạy lại script này khi cần tái tạo dataset:
+
+```bash
+python dataset/build_hcm_dataset.py
+```

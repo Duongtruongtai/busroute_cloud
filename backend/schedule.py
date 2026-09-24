@@ -22,7 +22,7 @@ def is_route_active(first_departure: str, last_departure: str, now: Optional[dat
     return start <= now <= end
 
 
-def next_departures(first_departure: str, last_departure: str, headway_min: int,
+def next_departures(first_departure: str, last_departure: str, headway_min: float,
                      now: Optional[datetime] = None, count: int = 3) -> Tuple[List[datetime], Optional[str]]:
     """Trả về danh sách các giờ xe khởi hành tiếp theo từ ĐẦU TUYẾN, và thông báo nếu hết giờ chạy."""
     now = (now or datetime.now()).replace(second=0, microsecond=0)
@@ -48,7 +48,7 @@ def next_departures(first_departure: str, last_departure: str, headway_min: int,
     return departures, None
 
 
-def estimate_arrival_at_stop(first_departure: str, last_departure: str, headway_min: int,
+def estimate_arrival_at_stop(first_departure: str, last_departure: str, headway_min: float,
                               stop_offset_min: float, now: Optional[datetime] = None
                               ) -> Tuple[Optional[datetime], Optional[str]]:
     """Giờ xe (chuyến gần nhất) dự kiến đến 1 trạm cụ thể = giờ khởi hành đầu tuyến + offset của trạm."""
