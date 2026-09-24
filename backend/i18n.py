@@ -64,6 +64,10 @@ STRINGS = {
     "n_stops_short": {"vi": "trạm", "en": "stops"},
     "transfer_flow": {"vi": "Chuyển tuyến tại", "en": "Transfer at"},
     "popular_routes": {"vi": "🔥 Tuyến phổ biến", "en": "🔥 Popular routes"},
+    "map_empty_hint": {
+        "vi": "👋 Nhập điểm đi/điểm đến hoặc chọn một tuyến bên trái để xem trên bản đồ.",
+        "en": "👋 Enter an origin/destination or pick a route on the left to see it on the map.",
+    },
     "operating_hours": {"vi": "Giờ hoạt động", "en": "Operating hours"},
     "route_info": {"vi": "Thông tin tuyến", "en": "Route info"},
     "stop_list": {"vi": "Danh sách trạm trên tuyến", "en": "Stops on this route"},

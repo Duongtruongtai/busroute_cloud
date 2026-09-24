@@ -571,55 +571,58 @@ with tab_map:
                         st.caption(f"⇩ {t('transfer_at', lang)} **{alight_name}** ⇩")
 
         st.divider()
-        st.markdown(f"#### {t('browse_by_route', lang)}")
-        route_opts = [MANUAL_SENTINEL] + routes_view["route_id"].tolist()
+        with st.expander(f"🚍 {t('browse_by_route', lang)}", expanded=False):
+            route_opts = [MANUAL_SENTINEL] + routes_view["route_id"].tolist()
 
-        def _route_label(rid):
-            if rid == MANUAL_SENTINEL:
-                return "—"
-            row = routes_view[routes_view.route_id == rid].iloc[0]
-            active = is_route_active(row["first_departure"], row["last_departure"])
-            dot = "🟢" if active else "⚪"
-            name = row["route_long_name"] if lang == "vi" else row["route_long_name_en"]
-            return f"{dot} {row['route_short_name']} — {name}"
+            def _route_label(rid):
+                if rid == MANUAL_SENTINEL:
+                    return "—"
+                row = routes_view[routes_view.route_id == rid].iloc[0]
+                active = is_route_active(row["first_departure"], row["last_departure"])
+                dot = "🟢" if active else "⚪"
+                name = row["route_long_name"] if lang == "vi" else row["route_long_name_en"]
+                return f"{dot} {row['route_short_name']} — {name}"
 
-        st.selectbox(t("preview_on_map", lang), options=route_opts, format_func=_route_label, key="browse_route_id")
-        browsed_rid = st.session_state.browse_route_id
-        if browsed_rid != MANUAL_SENTINEL:
-            if map_focus is None:
-                map_focus = ("route", browsed_rid)
-            r = routes_view[routes_view.route_id == browsed_rid].iloc[0]
-            r_name = r["route_long_name"] if lang == "vi" else r["route_long_name_en"]
-            n_stops = int((route_stops_df.route_id == browsed_rid).sum())
-            dist_km = route_distance_km(browsed_rid)
-            active = is_route_active(r["first_departure"], r["last_departure"])
-            status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
-                           else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
-            st.markdown(f"""
-            <div class="bus-card">
-                <span class="route-number">{r['route_short_name']}</span> {status_html}
-                <div class="route-name">{r_name}</div>
-                <div class="metric-row">
-                    <span>🚏 {n_stops} {t('n_stops_on_route', lang)}</span>
-                    <span>📏 {dist_km:.1f} km</span>
-                    <span>🕐 {r['first_departure']}–{r['last_departure']}</span>
+            st.selectbox(t("preview_on_map", lang), options=route_opts, format_func=_route_label,
+                         key="browse_route_id")
+            browsed_rid = st.session_state.browse_route_id
+            if browsed_rid != MANUAL_SENTINEL:
+                if map_focus is None:
+                    map_focus = ("route", browsed_rid)
+                r = routes_view[routes_view.route_id == browsed_rid].iloc[0]
+                r_name = r["route_long_name"] if lang == "vi" else r["route_long_name_en"]
+                n_stops = int((route_stops_df.route_id == browsed_rid).sum())
+                dist_km = route_distance_km(browsed_rid)
+                active = is_route_active(r["first_departure"], r["last_departure"])
+                status_html = (f"<span class='bus-badge-active'>{t('route_active', lang)}</span>" if active
+                               else f"<span class='bus-badge-inactive'>{t('route_inactive', lang)}</span>")
+                st.markdown(f"""
+                <div class="bus-card">
+                    <span class="route-number">{r['route_short_name']}</span> {status_html}
+                    <div class="route-name">{r_name}</div>
+                    <div class="metric-row">
+                        <span>🚏 {n_stops} {t('n_stops_on_route', lang)}</span>
+                        <span>📏 {dist_km:.1f} km</span>
+                        <span>🕐 {r['first_departure']}–{r['last_departure']}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>{t('fare_regular', lang)}: <b>{format_vnd(int(r['fare_regular']))}</b></span>
+                        <span>{t('fare_student', lang)}: <b>{format_vnd(int(r['fare_student']))}</b></span>
+                    </div>
                 </div>
-                <div class="metric-row">
-                    <span>{t('fare_regular', lang)}: <b>{format_vnd(int(r['fare_regular']))}</b></span>
-                    <span>{t('fare_student', lang)}: <b>{format_vnd(int(r['fare_student']))}</b></span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            with st.expander(t("stop_list", lang)):
-                ordered = finder.ordered_stops(browsed_rid)
-                for s in ordered:
-                    nm = s["stop_name"] if lang == "vi" else s["stop_name_en"]
-                    st.caption(f"→ {nm}")
+                """, unsafe_allow_html=True)
+                with st.expander(t("stop_list", lang)):
+                    ordered = finder.ordered_stops(browsed_rid)
+                    for s in ordered:
+                        nm = s["stop_name"] if lang == "vi" else s["stop_name_en"]
+                        st.caption(f"→ {nm}")
 
     # ----------------------------------------------------------------- #
     # Bản đồ (cột phải)
     # ----------------------------------------------------------------- #
     with col_right:
+        if map_focus is None:
+            st.info(t("map_empty_hint", lang))
         try:
             import folium
             from streamlit_folium import st_folium
@@ -673,27 +676,18 @@ with tab_map:
             all_bounds = []
 
             if map_focus and map_focus[0] == "itinerary":
-                # Ve duong di THEO HINH DANG DUONG XA THAT (OSRM) cho tung chang, cong
-                # them 2 marker nhap nhay o diem di/den. Neu OSRM loi/timeout (mat mang,
-                # qua tai may chu demo...) tu dong fallback ve noi thang - khong bao gio
-                # de trang trong hay crash.
+                # Chi hien 2 diem di/den (hieu ung nhap nhay), KHONG ve duong noi - thong
+                # tin hanh trinh chi tiet (tung chang, tram chuyen tuyen) da co san o the
+                # hero-card va cac the chang ben trai roi, ban do chi can dinh vi 2 dau.
                 chosen = map_focus[1]
                 stops_idx = stops_df.set_index("stop_id")
-                for i, leg in enumerate(chosen.legs):
+                for leg in chosen.legs:
                     tracked_route_ids.append(leg.route_id)
-                    b_row = stops_idx.loc[leg.board_stop_id]
-                    a_row = stops_idx.loc[leg.alight_stop_id]
-                    b_ll = (float(b_row["lat"]), float(b_row["lon"]))
-                    a_ll = (float(a_row["lat"]), float(a_row["lon"]))
-                    all_bounds.extend([b_ll, a_ll])
-                    path = road_path([b_ll, a_ll])
-                    color = LEG_COLORS[i % len(LEG_COLORS)]
-                    folium.PolyLine(path if path else [b_ll, a_ll], color=color, weight=5,
-                                     opacity=0.85, tooltip=f"Tuyến {leg.route_short_name}").add_to(fmap)
                 o_row = stops_idx.loc[chosen.legs[0].board_stop_id]
                 d_row = stops_idx.loc[chosen.legs[-1].alight_stop_id]
                 o_latlon = (float(o_row["lat"]), float(o_row["lon"]))
                 d_latlon = (float(d_row["lat"]), float(d_row["lon"]))
+                all_bounds.extend([o_latlon, d_latlon])
                 _pulse_marker(o_latlon, "#16a34a", "🚏", t("origin", lang))
                 _pulse_marker(d_latlon, "#dc2626", "🏁", t("destination", lang))
 
