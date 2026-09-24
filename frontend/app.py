@@ -83,19 +83,33 @@ finder = build_finder(stops_df, routes_df, route_stops_df)
 # Theme (CSS) injection
 # --------------------------------------------------------------------------- #
 def inject_theme_css(dark: bool):
-    # Ban do dung tile OpenStreetMap chuan (mau sac day du: song ngoi, duong, nhan dia
-    # danh...) thay vi tile xam don dieu - mien phi, khong can API key. Voi giao dien
-    # toi, KHONG doi nguon tile (CartoDB dark can key) ma inject CSS filter dao mau
-    # ngay trong HTML cua ban do (xem render_dark_map_css) - giu nguyen chi tiet ban do.
-    tile = "OpenStreetMap"
+    # Ban do can mau sac day du (song ngoi, duong, nhan dia danh) thay vi tile xam don
+    # dieu. Tung dung tile "OpenStreetMap" mac dinh cua Folium nhung tile.openstreetmap.org
+    # co the bi chan/khong on dinh tren mot so mang (gay ra man hinh xam trong, chi thay
+    # duong ve ma khong thay ban do). Doi sang Esri World Street Map - cung ha tang
+    # ArcGIS Online da kiem chung on dinh (dung cho tile xam truoc do), van co day du mau
+    # sac duong/song/nhan dia danh, mien phi khong can API key. Giao dien toi KHONG doi
+    # nguon tile (CartoDB dark can key) ma inject CSS filter dao mau ngay trong HTML cua
+    # ban do (xem duoi) - giu nguyen chi tiet ban do.
+    tile = ("https://server.arcgisonline.com/ArcGIS/rest/services/"
+            "World_Street_Map/MapServer/tile/{z}/{y}/{x}")
+    tile_attr = "Tiles &copy; Esri &mdash; Source: Esri, HERE, Garmin, OpenStreetMap contributors"
     st.session_state["_map_tile"] = tile
-    st.session_state["_map_tile_attr"] = None
+    st.session_state["_map_tile_attr"] = tile_attr
     if dark:
         bg, bg2, text, subtext, card, border, accent = (
             "#0f172a", "#1e293b", "#f1f5f9", "#94a3b8", "#1e293b", "#334155", "#38bdf8")
     else:
         bg, bg2, text, subtext, card, border, accent = (
             "#ffffff", "#f8fafc", "#0f172a", "#64748b", "#ffffff", "#e2e8f0", "#2563eb")
+
+    def _rgba(hex_color: str, alpha: float) -> str:
+        h = hex_color.lstrip("#")
+        r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+        return f"rgba({r},{g},{b},{alpha})"
+
+    accent_soft = _rgba(accent, 0.06)
+    accent_soft2 = _rgba(accent, 0.14)
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -181,6 +195,23 @@ def inject_theme_css(dark: bool):
     }}
     div[data-testid="stSegmentedControl"] label[data-checked="true"] {{
         background-color: {accent} !important; border-color: {accent} !important;
+    }}
+
+    /* ---- Diem xuyet visual: gradient nhe, hover-lift, bo nut mac dinh - tranh cam giac
+       giao dien phang/don dieu ---- */
+    .stApp {{ background-image: linear-gradient(180deg, {accent_soft} 0%, {bg} 320px); }}
+    .search-card {{ background-image: linear-gradient(135deg, {accent_soft2} 0%, {card} 55%); }}
+    .hero-card, .bus-card, .compare-card {{ transition: box-shadow 180ms ease, transform 180ms ease; }}
+    .hero-card:hover, .bus-card:hover {{
+        box-shadow: 0 6px 16px {accent_soft2}; transform: translateY(-1px);
+    }}
+    .compare-card:hover {{ box-shadow: 0 4px 10px {accent_soft2}; }}
+    div[data-testid="stButton"] > button:not([kind="primary"]) {{
+        border-radius: 999px !important; border-color: {border} !important;
+        font-weight: 600; transition: all 150ms ease;
+    }}
+    div[data-testid="stButton"] > button:not([kind="primary"]):hover {{
+        border-color: {accent} !important; color: {accent} !important; background: {accent_soft} !important;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -593,11 +624,13 @@ with tab_map:
             import folium
             from streamlit_folium import st_folium
 
-            tile = st.session_state.get("_map_tile", "OpenStreetMap")
+            tile = st.session_state.get("_map_tile")
+            tile_attr = st.session_state.get("_map_tile_attr")
             centers = {"hcmc": (10.78, 106.70), "bienhoa": (10.95, 106.83),
                        "kiengiang": (10.02, 105.08), "all": (10.2, 105.5)}
             zoom = 12 if city_filter != "all" else 8
-            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom, tiles=tile)
+            fmap = folium.Map(location=centers.get(city_filter, centers["all"]), zoom_start=zoom,
+                               tiles=tile, attr=tile_attr)
 
             # CSS hieu ung "pulse" (to nho lien tuc) cho marker diem di/den - ve ngay trong
             # tai lieu HTML cua ban do (giong cach lam voi filter dark mode o duoi).
